@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import InputStyle from "@/components/InputStyle";
 import HeartVote from "@/components/HeartVote";
 import Switch from "@/components/Switch";
+import FormatChoice from "@/components/FormatChoice";
 
 export default function Home() {
 	return (
@@ -28,8 +29,8 @@ export default function Home() {
 					></textarea>
 				</div>
 					<HeartVote />
-				
 					<Switch />
+					<FormatChoice/>
 				
 			</form>
 		</>
