@@ -29,11 +29,24 @@ const HeartVote = () => {
 		Array(5).fill(false)
 	);
 
+  const change = () => {
+    
+  }
+
 	const toggle = (index: number) => {
-		setToggleFillArray((prev) =>
-			prev.map((fill, i) => (i === index ? !fill : fill))
+    if (toggleFillArray[index] && index === 0) {
+      setToggleFillArray(Array(5).fill(false));
+    }else{setToggleFillArray((prev) =>
+			prev.map((fill, i) => (i <= index ?  true : false))
 		);
+
+    }
+
 	};
+
+
+ 
+   
 
 	return (
 		<>
