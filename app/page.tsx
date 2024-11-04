@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import Header from "../components/Header";
 import InputStyle from "@/components/InputStyle";
 import HeartVote from "@/components/HeartVote";
+import Switch from "@/components/Switch";
 
 export default function Home() {
 	return (
@@ -26,9 +27,10 @@ export default function Home() {
 						placeholder="Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum provident commodi in perspiciatis. Error laudantium ut minus architecto corrupti aut illum reiciendis velit, perferendis officia vero vel fuga nemo atque."
 					></textarea>
 				</div>
-				<div className="flex  mt-6 justify-center gap-2">
 					<HeartVote />
-				</div>
+				
+					<Switch />
+				
 			</form>
 		</>
 	);
