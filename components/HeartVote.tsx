@@ -1,4 +1,7 @@
+import { BookData } from "@/app/page";
+import { log } from "console";
 import { useState } from "react";
+import { UseFormRegister, UseFormSetValue } from "react-hook-form";
 
 const Heart = ({
 	isFilled,
@@ -28,7 +31,7 @@ const Heart = ({
 	);
 };
 
-const HeartVote = () => {
+const HeartVote = ({ onSetValue} : { onSetValue: UseFormSetValue<BookData>}) => {
 	const [toggleFillArray, setToggleFillArray] = useState<boolean[]>(
 		Array(5).fill(false)
 	);
@@ -38,6 +41,9 @@ const HeartVote = () => {
   }
 
 	const toggle = (index: number) => {
+		onSetValue( "rating", index + 1);
+		console.log("rating", index + 1);
+		
     if (toggleFillArray[index] && index === 0) {
       setToggleFillArray(Array(5).fill(false));
     } else if (toggleFillArray[index] === true) {
@@ -60,7 +66,7 @@ const HeartVote = () => {
 	return (
 		<div className="flex  mt-6 justify-center gap-2">
 			{toggleFillArray.map((isFilled, index) => (
-				<Heart key={index} isFilled={isFilled} onToggle={() => toggle(index)} />
+				<Heart key={index} isFilled={isFilled} onToggle={() => toggle(index)}  />
 			))}
 		</div>
 	);
