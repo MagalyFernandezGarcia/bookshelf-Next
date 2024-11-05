@@ -1,9 +1,6 @@
 import { BookData } from "@/app/page";
-import { log } from "console";
 import { useEffect, useState } from "react";
 import {
-  UseFormRegister,
-  UseFormReset,
   UseFormSetValue,
 } from "react-hook-form";
 
