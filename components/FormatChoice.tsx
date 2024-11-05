@@ -1,11 +1,12 @@
 import { BookData } from "@/app/page";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { UseFormRegister } from "react-hook-form";
 
 const FormatChoice = ({
-  register,
+  register, onReset
 }: {
   register: UseFormRegister<BookData>;
+  onReset: boolean
 }) => {
   const [paperFormat, setPaperFormat] = useState(false);
   const [kindleFormat, setKindleFormat] = useState(false);
@@ -19,6 +20,11 @@ const FormatChoice = ({
     setKindleFormat(!kindleFormat);
     setPaperFormat(false);
   };
+
+  useEffect(() => {
+    setKindleFormat(false);
+    setPaperFormat(false);
+  }, [onReset]);
   return (
     <>
       <div className="flex  gap-4 mt-8">

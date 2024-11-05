@@ -7,6 +7,7 @@ import FormatChoice from "@/components/FormatChoice";
 import Image from "next/image";
 import check from "./images/check-solid.svg";
 import eraser from "./images/eraser-solid.svg";
+import { useState } from "react";
 
 export interface BookData {
   title: string;
@@ -39,6 +40,7 @@ export default function Home() {
     },
   });
 
+  const [resetState, setResetState] = useState(false)
   const onSubmit: SubmitHandler<BookData> = (data) => console.log(data);
   return (
     <>
@@ -89,13 +91,14 @@ export default function Home() {
             {...register("resume")}
           ></textarea>
         </div>
-        <HeartVote onSetValue={setValue} />
+        <HeartVote onSetValue={setValue} onReset={resetState} />
         <Switch register={register} />
-        <FormatChoice register={register} />
+        <FormatChoice register={register} onReset={resetState} />
         <div className="flex  mt-6 gap-5">
           <button
             type="reset"
             className="w-[150px] h-24 bg-[#E8CAA7] flex items-center justify-center mb-6"
+			onClick={() => setResetState(!resetState)}
           >
             {" "}
             <Image src={eraser} width={40} height={40} alt="eraser" />
