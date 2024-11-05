@@ -4,10 +4,18 @@ import InputStyle from "@/components/InputStyle";
 import HeartVote from "@/components/HeartVote";
 import Switch from "@/components/Switch";
 import FormatChoice from "@/components/FormatChoice";
-import Image from "next/image";
-import check from "./images/check-solid.svg";
-import eraser from "./images/eraser-solid.svg";
 import { useState } from "react";
+import Link from "next/link";
+
+
+
+import Image from "next/image";
+import check from "@/images/check-solid.svg";
+import eraser from "@/images/eraser-solid.svg";
+import arrow from "@/images/right-arrow.svg";
+import restCat from "@/images/restCat.png";
+import catBorder from "@/images/catBorder.png";
+
 
 export interface BookData {
   title: string;
@@ -44,9 +52,10 @@ export default function Home() {
   const onSubmit: SubmitHandler<BookData> = (data) => console.log(data);
   return (
     <>
-      <h1>Ajouter un livre</h1>
+	  <Link href="/bookshelf" className="flex gap-2 ml-[25ch] mt-4">Bibliothèque <Image src={arrow} alt="arrow" width={20} height={20} /></Link>
+      <h1 className="text-xl mt-4">Ajouter un livre</h1>
       <form
-        className="place-content-center }"
+        className="place-content-center relative"
         onSubmit={handleSubmit(onSubmit)}
       >
         <InputStyle
@@ -55,6 +64,7 @@ export default function Home() {
           register={register}
           registerName="title"
         />
+		<Image src={restCat} alt="restCat" width={60} height={60} className="absolute top-1 left-1"/>
         <InputStyle
           labelTxt="Volume"
           placeholder="1"
@@ -90,6 +100,7 @@ export default function Home() {
             placeholder="Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum provident commodi in perspiciatis. Error laudantium ut minus architecto corrupti aut illum reiciendis velit, perferendis officia vero vel fuga nemo atque."
             {...register("resume")}
           ></textarea>
+		  <Image src={catBorder} alt="catBorder" width={60} height={60} className="absolute rotate-90 left-[32.5ch] top-[42ch]"/>
         </div>
         <HeartVote onSetValue={setValue} onReset={resetState} />
         <Switch register={register} />
