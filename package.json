@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
+    "@next/env": "^15.0.2",
     "@types/sequelize": "^4.28.20",
     "next": "14.2.15",
     "pg": "^8.13.1",
@@ -24,6 +25,7 @@
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^9.14.0",
     "@types/node": "^20",
+    "@types/pg": "^8.11.10",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^9.14.0",

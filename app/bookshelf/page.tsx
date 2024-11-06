@@ -2,8 +2,10 @@ import Link from "next/link";
 import Image from "next/image";
 
 import add from "@/images/add.svg";
+import db from "../dbConfig/models/indexDb";
 
 const Page = () => {
+	db.Book.findAll();
 	return (
 		<>
 			<form className=" flex flex-col  place-content-center relative">
@@ -25,7 +27,7 @@ const Page = () => {
 				</select>
 				<Link
 					href="/"
-					className="flex gap-2 mt-6 bg-[#E4B781] w-6 h-6 flex justify-center items-center"
+					className="flex gap-2 mt-6 bg-[#E4B781] w-6 h-6  justify-center items-center"
 				>
 					<Image src={add} alt="plus" width={18} height={18} />
 				</Link>
