@@ -1,0 +1,78 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model Author {
+  id            String @id @default(cuid())
+  name          String
+}
+
+model Book {
+  id            String @id @default(cuid())
+  name          String
+}
+
+
+// export default (sequelize : Sequelize) =>{
+//     const Book = sequelize.define("book",{
+//         title :{
+//             type :DataTypes.STRING,
+//             allowNull: false
+//         },
+//         volume :{
+//             type :DataTypes.INTEGER,
+//             allowNull: false
+//         },
+//         serie :{
+//             type :DataTypes.STRING,
+//             allowNull: false
+//         },
+        
+//         author :{
+//             type :DataTypes.STRING,
+//             allowNull: false
+//         },
+//         genre: {
+//             type :DataTypes.STRING,
+//             allowNull: false
+//         },
+//         resume:{
+//             type :DataTypes.STRING,
+//             allowNull: false
+//         },
+//         rating:{
+//             type :DataTypes.INTEGER,
+//             allowNull: false
+//         },
+//         returned:{
+//             type :DataTypes.BOOLEAN,
+//             allowNull: false
+//         },
+//         format:{
+//             type :DataTypes.STRING,
+//             allowNull: false
+//         },
+//         borrower:{
+//             type :DataTypes.STRING,
+//             allowNull: true
+//         },
+//         date:{
+//             type :DataTypes.DATEONLY,
+//             allowNull: true
+//         },
+//         present :{
+//             type :DataTypes.BOOLEAN,
+//             allowNull: false
+//         }

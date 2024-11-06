@@ -2,10 +2,11 @@ import Link from "next/link";
 import Image from "next/image";
 
 import add from "@/images/add.svg";
-import db from "../dbConfig/models/indexDb";
+import prisma from "../dbConfig/prisma";
+
 
 const Page = () => {
-	db.Book.findAll();
+
 	return (
 		<>
 			<form className=" flex flex-col  place-content-center relative">
