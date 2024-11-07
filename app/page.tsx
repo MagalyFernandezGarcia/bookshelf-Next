@@ -13,7 +13,10 @@ import eraser from "@/images/eraser-solid.svg";
 import arrow from "@/images/right-arrow.svg";
 import restCat from "@/images/restCat.png";
 import catBorder from "@/images/catBorder.png";
-import { z } from "zod";
+
+import prisma from "./dbConfig/prisma";
+import { BookSchema } from "./types/Book";
+import { createBook } from "./dbConfig/controllers";
 
 export interface BookData {
 	title: string;
@@ -25,33 +28,20 @@ export interface BookData {
 	rating: number;
 	returned: boolean;
 	format: string;
-	borrower: string;
-	date: string;
+	borrower?: string ;
+	date?: string ;
 }
 
-const bookSchema = z.object({
-	title: z.string(),
-	volume: z.number(),
-	serie: z.string(),
-	author: z.string(),
-	genre: z.string(),
-	resume: z.string(),
-	rating: z.number(),
-	returned: z.boolean(),
-	format: z.string(),
-	borrower: z.string(),
-	date: z.string(),
-});
 
 export default function Home() {
 	const { register, handleSubmit, setValue } = useForm<BookData>({
 		defaultValues: {
-			title: "",
-			volume: 0,
-			serie: "",
-			author: "",
-			genre: "",
-			resume: "",
+			title: "hp",
+			volume: 1,
+			serie: "test",
+			author: "charlie",
+			genre: "fantasy",
+			resume: "njythj",
 			rating: 0,
 			returned: false,
 			format: "",
@@ -61,9 +51,32 @@ export default function Home() {
 	});
 
 	const [resetState, setResetState] = useState(false);
-	const onSubmit: SubmitHandler<BookData> = (data) => {
-		console.log(data);
+	const onSubmit: SubmitHandler<BookData> = async (data) => {
+		const {success, error, data: validatedBook} =BookSchema.safeParse(data)
+		
+		if (success) {
+			console.log("validatedBook", validatedBook);
+			try {
+				await createBook(data); // Appel de la Server Action
+				console.log('Book created successfully');
+				// Reset form or handle success
+			} catch (error) {
+				console.error('Failed to create book:', error);
+			}
+		;
+		}else{
+			console.log("error", error)
+			console.log(validatedBook);
+		}
+			
+		
+		
 	};
+
+
+
+
+
 	return (
 		<div className="flex flex-col items-center">
 			<Link href="/bookshelf" className="flex gap-2 ml-[25ch] mt-4  ">
