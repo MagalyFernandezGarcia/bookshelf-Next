@@ -49,7 +49,7 @@ const HeartVote = ({
 
   const toggle = (index: number) => {
     onSetValue("rating", index + 1);
-    console.log("rating", index + 1);
+    
 
     if (toggleFillArray[index] && index === 0) {
       setToggleFillArray(Array(5).fill(false));

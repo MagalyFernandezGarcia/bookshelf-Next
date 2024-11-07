@@ -94,7 +94,11 @@ const FormatChoice = ({
             }`}
             type="text"
             id="date"
-            placeholder="05/11/2024"
+            placeholder={new Date().toLocaleDateString("fr-FR", {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+              })}
             disabled={!paperFormat}
             {...register("date")}
           />

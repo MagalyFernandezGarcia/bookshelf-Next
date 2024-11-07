@@ -1,5 +1,10 @@
 import { date, z } from "zod";
 
+const parseLocalizedDate = (dateString: string) => {
+  const [day, month, year] = dateString.split("/").map(Number);
+  return new Date(year, month - 1, day); 
+};
+
 type CommonBook = { //tronc commun aux autres types
   title: string;
   serie: string;
