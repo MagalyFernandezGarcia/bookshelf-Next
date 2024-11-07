@@ -59,10 +59,10 @@ export default function Home() {
   const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState(false);
   const onSubmit: SubmitHandler<BookData> = async (data) => {
+
+    
     const { success, error, data: validatedBook } = BookSchema.safeParse(data);
 	
-	
-
     if (success) {
 		const sanitizedData = {
 			...validatedBook,
@@ -73,7 +73,7 @@ export default function Home() {
 		
       try {
         await createBook(sanitizedData);
-        console.log("Book created successfully");
+      
         setShowModal(true);
       } catch (error) {
         console.error("Failed to create book:", error);

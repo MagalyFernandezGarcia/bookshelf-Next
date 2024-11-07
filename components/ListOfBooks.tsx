@@ -1,9 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import DeleteBtn from "@/components/DeleteBtn";
+
 import UpdateBtn from "@/components/UpdateBtn";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getBooks } from "@/app/db.service";
 import { Book } from "@prisma/client";
 import { deleteBook } from "@/app/db.service";
@@ -11,6 +11,7 @@ import { deleteBook } from "@/app/db.service";
 import greenBook from "@/images/greenBook.svg";
 import redBook from "@/images/redBook.svg";
 import trash from "@/images/trash.svg";
+import Link from "next/link";
 
 const ListOfBooks = () => {
   const [books, setBooks] = useState<Book[]>([]);
@@ -41,7 +42,7 @@ const ListOfBooks = () => {
       {books.map((book) => {
         return (
           <div
-            className="flex items-center justify-around  h-20 bg-[#E4B781] "
+            className="flex items-center justify-around  h-20 bg-[#E4B781] text-lg rounded-sm"
             key={book.id}
           >
             <Image
@@ -50,7 +51,7 @@ const ListOfBooks = () => {
               width={20}
               height={20}
             />
-            {book.title}
+            <Link href={`/bookshelf/${book.id}`}>{book.title}</Link>
             <div className="flex gap-4">
               <UpdateBtn sizeIcon={sizeIcon} />
               <Image

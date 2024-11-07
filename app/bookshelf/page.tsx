@@ -1,21 +1,31 @@
-"use server";
-
 import Link from "next/link";
 import Image from "next/image";
 
 import SearchBar from "@/components/SearchBar";
 
-
 import add from "@/images/add.svg";
 import ListOfBooks from "@/components/ListOfBooks";
+import { getBooks } from "../db.service";
 
+const Page =  () => {
+  const value = "present";
 
-const Page = async () => {
+const filter =  async (value : string) => {
+  const allBooks = await getBooks();
 
   
-
+  switch (value){
+    case "present":
+      const test = allBooks.filter((book) => book.returned === false && book.borrower === "");
+      return test
+  default :
+    return allBooks
   
+    ;
+  }
+}
 
+filter(value).then((data) => console.log(data));
   return (
     <>
       <SearchBar />
@@ -32,7 +42,7 @@ const Page = async () => {
         </select>
         <Link
           href="/"
-          className="flex gap-2 mt-6 bg-[#E4B781] w-6 h-6  justify-center items-center"
+          className="flex gap-2 mt-6 bg-[#E4B781] p-2 rounded-sm justify-center items-center"
         >
           <Image src={add} alt="plus" width={18} height={18} />
         </Link>
