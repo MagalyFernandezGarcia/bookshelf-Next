@@ -7,26 +7,23 @@ const parseLocalizedDate = (dateString: string) => {
 
 type CommonBook = { //tronc commun aux autres types
   title: string;
-  serie: string;
   volume: number;
+  serie: string;
   author: string;
-  category: string;
-  summary: string;
+  genre: string;
+  resume: string;
   type: string;
   returned: boolean;
-  present: boolean;
-  borrower: string;
+  format: string;
+  borrower?: string;
+  date?: Date;
 };
 
 export type Book = CommonBook & { // type pour récupérer le livre de la db
-  _id: string;
-  finished: boolean;
-  opinion: number;
+  id: number;
+  rating: number;
 };
 
-export type FormBook = CommonBook & { // type pour le formulaire
-  opinion?: number;
-};
 
 
 export const BookSchema = z.object({ // schema zod pour envoyer le formulaire à la db
