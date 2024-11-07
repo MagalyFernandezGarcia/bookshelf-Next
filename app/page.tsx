@@ -15,9 +15,10 @@ import restCat from "@/images/restCat.png";
 import catBorder from "@/images/catBorder.png";
 
 import { BookSchema } from "./types/Book";
-import { createBook } from "./dbConfig/controllers";
+
 
 import Modal from "@/components/Modal";
+import { createBook } from "./db.service";
 
 export interface BookData {
   title: string;
