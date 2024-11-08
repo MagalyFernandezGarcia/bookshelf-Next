@@ -1,4 +1,4 @@
-import { BookData } from "@/app/page";
+import { BookData } from "../app/types/Book";
 import { useEffect, useState } from "react";
 import {
   UseFormSetValue,

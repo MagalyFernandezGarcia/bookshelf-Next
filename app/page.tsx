@@ -6,6 +6,8 @@ import Switch from "@/components/Switch";
 import FormatChoice from "@/components/FormatChoice";
 import { useState } from "react";
 import Link from "next/link";
+import { fromError } from 'zod-validation-error';
+import { z as zod } from 'zod';
 
 import Image from "next/image";
 import check from "@/images/check-solid.svg";
@@ -14,28 +16,19 @@ import arrow from "@/images/right-arrow.svg";
 import restCat from "@/images/restCat.png";
 import catBorder from "@/images/catBorder.png";
 
-import { BookSchema } from "./types/Book";
+import { BookData, BookSchema } from "./types/Book";
 
 
 import Modal from "@/components/Modal";
 import { createBook } from "./db.service";
+import { zodResolver } from '@hookform/resolvers/zod'
 
-export interface BookData {
-  title: string;
-  volume: number;
-  serie: string;
-  author: string;
-  genre: string;
-  resume: string;
-  rating: number;
-  returned: boolean;
-  format: string;
-  borrower?: string;
-  date?: string;
-}
+
+const resolver = zodResolver(BookSchema);
+
 
 export default function Home() {
-  const { register, handleSubmit, setValue, reset } = useForm<BookData>({
+  const { register, handleSubmit, setValue, reset, formState: { errors } } = useForm<BookData>({
     defaultValues: {
       title: "",
       volume: 1,
@@ -49,6 +42,7 @@ export default function Home() {
       borrower: "",
       date: ""
     },
+    resolver :zodResolver(BookSchema),
   });
 
   const [resetState, setResetState] = useState(false);
@@ -57,25 +51,28 @@ export default function Home() {
   const onSubmit: SubmitHandler<BookData> = async (data) => {
 
     const { success, error, data: validatedBook } = BookSchema.safeParse(data);
+    
+
+    
 	
     if (success) {
-		
-		  
 		
       try {
         await createBook(validatedBook);
       
         setShowModal(true);
       } catch (error) {
-        console.error("Failed to create book:", error);
+        // console.error("Failed to create book:", error);
         setShowModal(true);
         setError(true);
       }
     } else {
-      console.log("error", error);
-      console.log(validatedBook);
-    }
-  };
+      // console.error("Validation error:", error);
+      setShowModal(true);
+      setError(true);
+    }}
+    
+
 
   const handleModal = () => {
     setShowModal(false);
@@ -108,6 +105,7 @@ export default function Home() {
           placeholder="Titre d'un chouette livre"
           register={register}
           registerName="title"
+          error={errors}
         />
         <Image
           src={restCat}
@@ -116,59 +114,71 @@ export default function Home() {
           height={60}
           className="absolute top-1 left-1"
         />
+        
         <InputStyle
           labelTxt="Volume"
           placeholder="1"
           register={register}
           registerName="volume"
+          error={errors}
         />
         <InputStyle
           labelTxt="Série"
           placeholder="Une super série"
           register={register}
           registerName="serie"
+          error={errors}
         />
         <InputStyle
           labelTxt="Auteur"
           placeholder="Yvan Dailivre"
           register={register}
           registerName="author"
+          error={errors}
         />
         <InputStyle
           labelTxt="Genre"
           placeholder="Fantasy"
           register={register}
           registerName="genre"
+          error={errors}
         />
         <div className="flex flex-col mt-6">
           <label className="text-xs ps-16 " htmlFor="resume">
             Résumé
           </label>
+          <div className="relative">
+            <Image
+              src={catBorder}
+              alt="catBorder"
+              width={60}
+              height={60}
+              className="absolute rotate-90 left-[32.5ch] top-[-4.5ch] "
+            />
           <textarea
             className=" bg-[#E4B781] placeholder-[#311C0D] placeholder-opacity-50 w-80 overflow-x-auto text-sm rounded-md"
             rows={7}
             id="resume"
             placeholder="Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum provident commodi in perspiciatis. Error laudantium ut minus architecto corrupti aut illum reiciendis velit, perferendis officia vero vel fuga nemo atque."
             {...register("resume")}
+            
           ></textarea>
-          <Image
-            src={catBorder}
-            alt="catBorder"
-            width={60}
-            height={60}
-            className="absolute rotate-90 left-[32.5ch] top-[42ch]"
-          />
+          {errors.resume && <p  className="text-xs text-red-500">{errors.resume.message}</p>}
+          </div>
         </div>
+        <div>
         <HeartVote onSetValue={setValue} onReset={resetState} />
+        {errors.rating && <p  className="text-xs text-red-500">{errors.rating.message}</p>}
+        </div>
         <Switch register={register} />
-        <FormatChoice register={register} onReset={resetState} />
+        <FormatChoice register={register} onReset={resetState} error={errors} />
         <div className="flex  mt-6 gap-5">
           <button
             type="reset"
             className="w-[150px] h-24 bg-[#E8CAA7] flex items-center justify-center mb-6"
             onClick={() => setResetState(!resetState)}
           >
-            {" "}
+            
             <Image src={eraser} width={40} height={40} alt="eraser" />
           </button>
           <button

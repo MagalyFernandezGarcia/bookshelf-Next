@@ -2,8 +2,7 @@
 import { revalidatePath } from "next/cache";
 import prisma from "./dbConfig/prisma";
 import { BookSchema, CreateBook } from "./types/Book";
-import { BookData } from "./page";
-import { create } from "domain";
+
 
 export const getBooks = async () => prisma.book.findMany();
 
@@ -12,9 +11,7 @@ export async function createBook(data: CreateBook) {
 
   if (success) {
     const { author, genre, ...bookData } = validatedBook;
-    console.log("Author:", author);
-    console.log("Genre:", genre);
-    console.log("Book Data:", bookData);
+   
 
     const foundAuthor = await prisma.author.upsert({
       where: {

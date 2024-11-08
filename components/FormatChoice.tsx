@@ -1,12 +1,16 @@
-import { BookData } from "@/app/page";
+import { BookData } from "../app/types/Book";
+import { error } from "console";
 import { useEffect, useState } from "react";
-import { UseFormRegister } from "react-hook-form";
+import { FieldErrors, UseFormRegister } from "react-hook-form";
 
 const FormatChoice = ({
-  register, onReset
+  register,
+  onReset,
+  error,
 }: {
   register: UseFormRegister<BookData>;
-  onReset: boolean
+  onReset: boolean;
+  error: FieldErrors<BookData>;
 }) => {
   const [paperFormat, setPaperFormat] = useState(false);
   const [kindleFormat, setKindleFormat] = useState(false);
@@ -68,6 +72,7 @@ const FormatChoice = ({
           Papier
         </label>
       </div>
+        {error?.format && <p  className="text-xs text-red-500">{error?.format.message}</p>}
       <div className="flex mt-6 gap-5">
         <div className="flex flex-col">
           <label htmlFor="borrower" className="text-xs ps-8 ">
@@ -84,6 +89,7 @@ const FormatChoice = ({
             {...register("borrower")}
           />
         </div>
+        
         <div className="flex flex-col ">
           <label htmlFor="date" className="text-xs ps-8 ">
             Date
@@ -94,7 +100,6 @@ const FormatChoice = ({
             }`}
             type="date"
             id="date"
-            
             disabled={!paperFormat}
             {...register("date")}
           />
