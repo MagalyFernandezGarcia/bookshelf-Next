@@ -47,11 +47,7 @@ export default function Home() {
       returned: false,
       format: "",
       borrower: "",
-      date: new Date().toLocaleDateString("fr-FR", {
-		year: "numeric",
-		month: "2-digit",
-		day: "2-digit",
-		})
+      date: ""
     },
   });
 
@@ -60,19 +56,14 @@ export default function Home() {
   const [error, setError] = useState(false);
   const onSubmit: SubmitHandler<BookData> = async (data) => {
 
-    
     const { success, error, data: validatedBook } = BookSchema.safeParse(data);
 	
     if (success) {
-		const sanitizedData = {
-			...validatedBook,
-			date: validatedBook.date ? validatedBook.date.toISOString() : undefined, // Convertir en format ISO pour prisma
-		  };
-		  console.log(sanitizedData);
+		
 		  
 		
       try {
-        await createBook(sanitizedData);
+        await createBook(validatedBook);
       
         setShowModal(true);
       } catch (error) {

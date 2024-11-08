@@ -15,24 +15,34 @@ datasource db {
 }
 
 model Author {
-  id            String @id @default(cuid())
-  name          String
+  id   Int @id @default(autoincrement())
+  name String @unique
+  books Book[]
 }
 
-
-
 model Book {
-    id        Int      @id @default(autoincrement())
-    title     String
-    volume    Int
-    serie     String?
-    author    String
-    genre     String
-    resume    String
-    rating    Int
-    returned  Boolean
-    format    String
-    borrower  String? 
-    date      DateTime? 
-    
+  id       Int       @id @default(autoincrement())
+  title    String
+  volume   Int
+  serie    String?
+  // author   String
+  // genre    String
+  resume   String
+  rating   Int
+  returned Boolean
+  format   String
+  borrower String?
+  date     DateTime?
+
+  author   Author @relation(fields: [authorId], references: [id])
+  authorId Int
+
+  genre   Genre @relation(fields: [genreId], references: [id])
+  genreId Int
+}
+
+model Genre {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+  books Book[]
 }

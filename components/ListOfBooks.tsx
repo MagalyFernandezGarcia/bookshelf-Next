@@ -1,4 +1,4 @@
-"use client";
+"use server";
 
 import Image from "next/image";
 
@@ -12,30 +12,12 @@ import greenBook from "@/images/greenBook.svg";
 import redBook from "@/images/redBook.svg";
 import trash from "@/images/trash.svg";
 import Link from "next/link";
+import DeleteBtn from "./DeleteBtn";
 
-const ListOfBooks = () => {
-  const [books, setBooks] = useState<Book[]>([]);
-
-  useEffect(() => {
-    const fetchBooks = async () => {
-      const fetchedBooks = await getBooks();
-      setBooks(fetchedBooks);
-    };
-    fetchBooks();
-  }, []);
+const ListOfBooks = async () => {
+  const books = await getBooks();
 
   const sizeIcon = 16;
-
-  const handleDelete = async (id: number) => {
-    try {
-      await deleteBook(id);
-      console.log("Book deleted successfully");
-    } catch (error) {
-      console.error("Failed to delete book:", error);
-      console.log(error);
-    }
-    setBooks((prevBooks) => prevBooks.filter((book) => book.id !== id));
-  };
 
   return (
     <section className="flex flex-col gap-4 mt-8">
@@ -54,13 +36,7 @@ const ListOfBooks = () => {
             <Link href={`/bookshelf/${book.id}`}>{book.title}</Link>
             <div className="flex gap-4">
               <UpdateBtn sizeIcon={sizeIcon} />
-              <Image
-                src={trash}
-                alt="trash"
-                width={sizeIcon}
-                height={sizeIcon}
-                onClick={() => handleDelete(book.id)}
-              />
+              <DeleteBtn id={book.id} sizeIcon={sizeIcon} />
             </div>
           </div>
         );

@@ -1,28 +1,58 @@
-"use server"
+"use server";
+import { revalidatePath } from "next/cache";
 import prisma from "./dbConfig/prisma";
-import { BookSchema } from "./types/Book";
-
+import { BookSchema, CreateBook } from "./types/Book";
+import { BookData } from "./page";
+import { create } from "domain";
 
 export const getBooks = async () => prisma.book.findMany();
 
-export async function createBook(data: any) {
-    const { success, error, data: validatedBook } = BookSchema.safeParse(data);
+export async function createBook(data: CreateBook) {
+  const { success, error, data: validatedBook } = BookSchema.safeParse(data);
 
-    if (success) {
-        return await prisma.book.create({
-            data: validatedBook,
-        });
-    } else {
-        throw new Error("Validation error: " + JSON.stringify(error));
-    }
+  if (success) {
+    const { author, genre, ...bookData } = validatedBook;
+    console.log("Author:", author);
+    console.log("Genre:", genre);
+    console.log("Book Data:", bookData);
+
+    const foundAuthor = await prisma.author.upsert({
+      where: {
+        name: author,
+      },
+      update: {},
+      create: { name: author },
+    });
+
+    const foundGenre = await prisma.genre.upsert({
+      where: { name: genre },
+      update: {},
+      create: { name: genre },
+    });
+
+    await prisma.book.create({
+      data: {
+        ...bookData,
+        authorId: foundAuthor.id,
+        genreId: foundGenre.id,
+      },
+    });
+  } else {
+    throw new Error("Validation error: " + JSON.stringify(error));
+  }
 }
+
+
+
+
+
 
 export const deleteBook = async (id: number) => {
-    return await prisma.book.delete({
-        where: {
-            id,
-        },
-    });
-}
+  await prisma.book.delete({
+    where: {
+      id,
+    },
+  });
 
-
+  revalidatePath("/bookshelf");
+};

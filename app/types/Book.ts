@@ -9,8 +9,8 @@ type CommonBook = { //tronc commun aux autres types
   title: string;
   volume: number;
   serie: string;
-  author: string;
-  genre: string;
+  authorId: number;
+  genreId: number;
   resume: string;
   type: string;
   returned: boolean;
@@ -22,6 +22,8 @@ type CommonBook = { //tronc commun aux autres types
 export type Book = CommonBook & { // type pour récupérer le livre de la db
   id: number;
   rating: number;
+  authorId: number;
+  genreId: number;
 };
 
 
@@ -37,7 +39,7 @@ export const BookSchema = z.object({ // schema zod pour envoyer le formulaire à
   returned: z.boolean(),
   format: z.string().min(1),
   borrower: z.string().optional(),
-  date: z.string().optional().transform((date) => date ? new Date(date) : undefined) //transforme le string en date
+  date: z.string().optional().transform((date) => date ? new Date(date).toISOString() : undefined) //transforme le string en date
 }).strict(); // le strict signifie que les types doivent être strictement identiques
 
 export type CreateBook = z.infer<typeof BookSchema>; //type qui utilise le schema zod 

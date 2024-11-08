@@ -92,13 +92,9 @@ const FormatChoice = ({
             className={`bg-[#E4B781] placeholder-[#311C0D] placeholder-opacity-50 w-[150px] h-8 text-center ${
               !paperFormat ? "opacity-60" : ""
             }`}
-            type="text"
+            type="date"
             id="date"
-            placeholder={new Date().toLocaleDateString("fr-FR", {
-              year: "numeric",
-              month: "2-digit",
-              day: "2-digit",
-              })}
+            
             disabled={!paperFormat}
             {...register("date")}
           />
