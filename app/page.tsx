@@ -6,8 +6,7 @@ import Switch from "@/components/Switch";
 import FormatChoice from "@/components/FormatChoice";
 import { useState } from "react";
 import Link from "next/link";
-import { fromError } from 'zod-validation-error';
-import { z as zod } from 'zod';
+
 
 import Image from "next/image";
 import check from "@/images/check-solid.svg";
@@ -24,7 +23,7 @@ import { createBook } from "./db.service";
 import { zodResolver } from '@hookform/resolvers/zod'
 
 
-const resolver = zodResolver(BookSchema);
+
 
 
 export default function Home() {
@@ -49,6 +48,9 @@ export default function Home() {
   const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState(false);
   const onSubmit: SubmitHandler<BookData> = async (data) => {
+    if (data.borrower && !data.date) {
+      data.date = new Date().toISOString(); 
+    }
 
     const { success, error, data: validatedBook } = BookSchema.safeParse(data);
     
@@ -62,12 +64,12 @@ export default function Home() {
       
         setShowModal(true);
       } catch (error) {
-        // console.error("Failed to create book:", error);
+       
         setShowModal(true);
         setError(true);
       }
     } else {
-      // console.error("Validation error:", error);
+      
       setShowModal(true);
       setError(true);
     }}

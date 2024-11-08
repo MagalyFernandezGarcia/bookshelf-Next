@@ -14,14 +14,12 @@ import trash from "@/images/trash.svg";
 import Link from "next/link";
 import DeleteBtn from "./DeleteBtn";
 
-const ListOfBooks = async () => {
-  const books = await getBooks();
-
+const ListOfBooks = async ({currentArray}: {currentArray: Book[]}) => {
   const sizeIcon = 16;
 
   return (
     <section className="flex flex-col gap-4 mt-8">
-      {books.map((book) => {
+      {currentArray.map((book) => {
         return (
           <div
             className="flex items-center justify-around  h-20 bg-[#E4B781] text-lg rounded-sm"

@@ -5,34 +5,36 @@ import SearchBar from "@/components/SearchBar";
 
 import add from "@/images/add.svg";
 import ListOfBooks from "@/components/ListOfBooks";
-import { getBooks } from "../db.service";
+import { getAuthors, getBooks } from "../db.service";
+import { Book } from "@prisma/client";
 
-const Page =  () => {
-  const value = "present";
-
-const filter =  async (value : string) => {
-  const allBooks = await getBooks();
+const Page = async () => {
+  let value  = "present";
+  let currentArray :Book[] = []
+  
 
   
-  switch (value){
-    case "present":
-      const test = allBooks.filter((book) => book.returned === false && book.borrower === "");
-      return test
-  default :
-    return allBooks
-  
-    ;
-  }
-}
 
-filter(value).then((data) => console.log(data));
+  switch(value){
+    
+    case "present"  :
+      const test = await getBooks();
+      currentArray = test.filter((book) => book.borrower !== null && book.returned !== true);
+
+      break;
+    default :
+      currentArray = await getBooks();
+    }
+
+
+  
   return (
     <>
       <SearchBar />
 
       <div className="flex justify-between ">
         <select className="bg-[#E4B781]  mt-6  text-center">
-          <option value="Tout">Filtrer par : </option>
+          <option value="all">Filtrer par : </option>
           <option value="author">Auteur</option>
           <option value="genre">Genre</option>
           <option value="format">Format</option>
@@ -47,7 +49,7 @@ filter(value).then((data) => console.log(data));
           <Image src={add} alt="plus" width={18} height={18} />
         </Link>
       </div>
-      <ListOfBooks />
+      <ListOfBooks currentArray={currentArray} />
     </>
   );
 };

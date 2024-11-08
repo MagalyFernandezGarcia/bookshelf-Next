@@ -5,6 +5,8 @@ import { BookSchema, CreateBook } from "./types/Book";
 
 
 export const getBooks = async () => prisma.book.findMany();
+export const getAuthors = async () => prisma.author.findMany();
+export const getGenres = async () => prisma.genre.findMany();
 
 export async function createBook(data: CreateBook) {
   const { success, error, data: validatedBook } = BookSchema.safeParse(data);
@@ -49,7 +51,15 @@ export const deleteBook = async (id: number) => {
     where: {
       id,
     },
-  });
+  }); 
 
   revalidatePath("/bookshelf");
 };
+
+
+export const searchBooks = async (serachText : string)=>{
+ const booksFound = await prisma.book.findMany({ where: { title: { contains: serachText }, }});
+ return booksFound
+  
+ 
+}
