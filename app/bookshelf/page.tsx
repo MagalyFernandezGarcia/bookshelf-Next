@@ -1,54 +1,59 @@
-import Link from "next/link";
-import Image from "next/image";
+
 
 import SearchBar from "@/components/SearchBar";
 
-import add from "@/images/add.svg";
+
+
 import ListOfBooks from "@/components/ListOfBooks";
 import { getAuthors, getBooks } from "../db.service";
-import { Book } from "@prisma/client";
+import { Author, Book } from "@prisma/client";
+import GeneralChoice from "@/components/GeneralChoice";
 
-const Page = async () => {
-  let value  = "present";
-  let currentArray :Book[] = []
+import Filter from "@/components/Filter";
+
+const Page = async ({ searchParams }: { searchParams: { filter: string } }) => {
   
+   const filter = searchParams?.filter || 'all'
+  let currentArray: Book[] = [];
+  let authors: Author[] = [];
 
+  const allBooks = await getBooks();
   
-
-  switch(value){
-    
-    case "present"  :
-      const test = await getBooks();
-      currentArray = test.filter((book) => book.borrower !== null && book.returned !== true);
-
+  
+  switch (filter) {
+    case "present":
+      currentArray = allBooks.filter(
+        (book) => book.borrower === "" && book.returned === false
+      );
       break;
-    default :
-      currentArray = await getBooks();
-    }
 
+    case "absent":
+      currentArray = allBooks.filter(
+        (book) => book.borrower !== "" || book.returned === true
+      );
+      break;
+    case "author":
+      authors = await getAuthors();
+      break;
+    default:
+      currentArray = allBooks;
+  }
+  
+
+  
 
   
   return (
     <>
       <SearchBar />
+      <Filter />
 
-      <div className="flex justify-between ">
-        <select className="bg-[#E4B781]  mt-6  text-center">
-          <option value="all">Filtrer par : </option>
-          <option value="author">Auteur</option>
-          <option value="genre">Genre</option>
-          <option value="format">Format</option>
-          <option value="rating">Avis</option>
-          <option value="absent">Absent</option>
-          <option value="present">Présent</option>
-        </select>
-        <Link
-          href="/"
-          className="flex gap-2 mt-6 bg-[#E4B781] p-2 rounded-sm justify-center items-center"
-        >
-          <Image src={add} alt="plus" width={18} height={18} />
-        </Link>
-      </div>
+      
+      {/* {value === "author" || value === "genre" ? (
+        <GeneralChoice valueChoice={authors} />
+      ) : (
+        <ListOfBooks currentArray={currentArray} />
+      )} */}
       <ListOfBooks currentArray={currentArray} />
     </>
   );
