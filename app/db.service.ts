@@ -8,6 +8,8 @@ export const getBooks = async () => prisma.book.findMany();
 export const getAuthors = async () => prisma.author.findMany();
 export const getGenres = async () => prisma.genre.findMany();
 
+
+
 export async function createBook(data: CreateBook) {
   const { success, error, data: validatedBook } = BookSchema.safeParse(data);
 
@@ -63,3 +65,9 @@ export const searchBooks = async (serachText : string)=>{
   
  
 }
+
+export const byAuthor= async(id: number)=>{
+  const authorSelected = await prisma.book.findMany({where:{authorId:id}})
+  return authorSelected
+}
+

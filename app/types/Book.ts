@@ -10,13 +10,11 @@ type CommonBook = {
   //tronc commun aux autres types
   title: string;
   volume: number;
-  serie: string;
+  
   resume: string;
-  type: string;
   returned: boolean;
   format: string;
-  borrower?: string;
-  date?: string;
+ 
 };
 
 export type Book = CommonBook & {
@@ -25,6 +23,9 @@ export type Book = CommonBook & {
   rating: number;
   authorId: number;
   genreId: number;
+  borrower : string |null
+  date: Date | null
+  serie: string | null;
 };
 
 export type BookData = CommonBook & {
@@ -32,6 +33,9 @@ export type BookData = CommonBook & {
   rating: number;
   author: string;
   genre: string;
+  borrower?: string;
+  date?: string;
+  serie: string;
 };
 
 export const BookSchema = z

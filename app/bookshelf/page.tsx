@@ -5,17 +5,21 @@ import SearchBar from "@/components/SearchBar";
 
 
 import ListOfBooks from "@/components/ListOfBooks";
-import { getAuthors, getBooks } from "../db.service";
+import { byAuthor, getAuthors, getBooks } from "../db.service";
 import { Author, Book } from "@prisma/client";
 import GeneralChoice from "@/components/GeneralChoice";
 
 import Filter from "@/components/Filter";
 
-const Page = async ({ searchParams }: { searchParams: { filter: string } }) => {
+
+const Page = async ({ searchParams }: { searchParams: { filter: string, author?: string }  }) => {
   
-   const filter = searchParams?.filter || 'all'
+  
+  const filter = searchParams?.filter || 'all'
   let currentArray: Book[] = [];
   let authors: Author[] = [];
+  let searchArray : Book[] = [];
+  const selectedChoice = searchParams.author ? parseInt(searchParams.author, 10) : undefined;
 
   const allBooks = await getBooks();
   
@@ -35,11 +39,22 @@ const Page = async ({ searchParams }: { searchParams: { filter: string } }) => {
     case "author":
       authors = await getAuthors();
       break;
+     
     default:
       currentArray = allBooks;
   }
   
 
+  if(selectedChoice){
+
+   searchArray= selectedChoice ? await byAuthor(selectedChoice) : [];
+  }
+
+  
+  
+  
+  
+  
   
 
   
@@ -49,12 +64,16 @@ const Page = async ({ searchParams }: { searchParams: { filter: string } }) => {
       <Filter />
 
       
-      {/* {value === "author" || value === "genre" ? (
-        <GeneralChoice valueChoice={authors} />
-      ) : (
-        <ListOfBooks currentArray={currentArray} />
-      )} */}
-      <ListOfBooks currentArray={currentArray} />
+      {
+  selectedChoice ? (
+    <ListOfBooks currentArray={searchArray} />
+  ) : filter === "author" || filter === "genre" ? (
+    <GeneralChoice valueChoice={authors} />
+  ) : (
+    <ListOfBooks currentArray={currentArray} />
+  )
+}
+      
     </>
   );
 };
