@@ -15,8 +15,8 @@ datasource db {
 }
 
 model Author {
-  id   Int @id @default(autoincrement())
-  name String @unique
+  id    Int    @id @default(autoincrement())
+  name  String @unique
   books Book[]
 }
 
@@ -40,7 +40,7 @@ model Book {
 }
 
 model Genre {
-  id   Int    @id @default(autoincrement())
-  name String @unique
+  id    Int    @id @default(autoincrement())
+  name  String @unique
   books Book[]
 }
