@@ -9,6 +9,8 @@ import {
 	getBooks,
 	getFormats,
 	getGenres,
+	searchAuthor,
+	searchBooks,
 } from "../db.service";
 import { Author, Book } from "@prisma/client";
 import GeneralChoice from "@/components/GeneralChoice";
@@ -23,6 +25,7 @@ const Page = async ({
 		author?: string;
 		genre?: string;
 		format?: string;
+		searchbar?: string;
 	};
 }) => {
 	const filter = searchParams?.filter || "all";
@@ -38,6 +41,7 @@ const Page = async ({
 	const selectedFormat = searchParams.format
 		? parseInt(searchParams.format, 10)
 		: undefined;
+	const searchBarValue = searchParams.searchbar;
 
 	const allBooks = await getBooks();
 
@@ -80,13 +84,22 @@ const Page = async ({
 	if (selectedFormat) {
 		searchArray = selectedFormat ? await byFormat(selectedFormat) : [];
 	}
+	if (searchBarValue) {
+		currentArray = await searchBooks(searchBarValue);
+		authors = await searchAuthor(searchBarValue);
+	}
 
 	return (
 		<>
 			<SearchBar />
 			<Filter />
 
-			{selectedAuthor || selectedGenre || selectedFormat ? (
+			{searchBarValue ? (
+				<>
+					<ListOfBooks currentArray={currentArray} />
+					<GeneralChoice valueChoice={authors} filter={filter} />
+				</>
+			) : selectedAuthor || selectedGenre || selectedFormat ? (
 				<ListOfBooks currentArray={searchArray} />
 			) : filter === "author" || filter === "genre" || filter === "format" ? (
 				<GeneralChoice valueChoice={authors} filter={filter} />

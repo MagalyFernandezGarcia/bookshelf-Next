@@ -26,6 +26,7 @@ const Filter = () => {
 		params.delete("author");
 		params.delete("genre");
 		params.delete("format");
+		params.delete("searchbar");
 		params.set("filter", newFilter);
 		const newUrl = `${window.location.pathname}?${params.toString()}`;
 		window.location.href = newUrl;

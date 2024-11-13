@@ -63,6 +63,13 @@ export const searchBooks = async (serachText: string) => {
 	return booksFound;
 };
 
+export const searchAuthor = async (serachText: string) => {
+	const AuthorsFound = await prisma.author.findMany({
+		where: { name: { contains: serachText } },
+	});
+	return AuthorsFound;
+};
+
 export const byAuthor = async (id: number) => {
 	const authorSelected = await prisma.book.findMany({
 		where: { authorId: id },

@@ -2,6 +2,7 @@
 
 import { Author } from "@prisma/client";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import SearchBar from "./SearchBar";
 
 const GeneralChoice = ({
 	valueChoice,
@@ -16,6 +17,10 @@ const GeneralChoice = ({
 
 	const handleClick = (id: number) => {
 		const params = new URLSearchParams(searchParams);
+		if (params.has("searchbar")) {
+			params.delete("searchbar");
+			params.set("author", id.toString());
+		}
 
 		if (id) {
 			params.set(filter, id.toString());
