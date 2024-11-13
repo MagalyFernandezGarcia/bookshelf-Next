@@ -3,7 +3,13 @@
 import { Author } from "@prisma/client";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 
-const GeneralChoice = ({ valueChoice }: { valueChoice: Author[] }) => {
+const GeneralChoice = ({
+	valueChoice,
+	filter,
+}: {
+	valueChoice: Author[];
+	filter: string;
+}) => {
 	const searchParams = useSearchParams();
 	const { replace } = useRouter();
 	const pathName = usePathname();
@@ -12,10 +18,11 @@ const GeneralChoice = ({ valueChoice }: { valueChoice: Author[] }) => {
 		const params = new URLSearchParams(searchParams);
 
 		if (id) {
-			params.set("author", id.toString());
+			params.set(filter, id.toString());
 		} else {
-			params.delete("author");
+			params.delete(filter);
 		}
+
 		replace(`${pathName}?${params.toString()}`);
 	};
 

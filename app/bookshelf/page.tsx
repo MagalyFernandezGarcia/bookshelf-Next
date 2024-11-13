@@ -1,24 +1,32 @@
 import SearchBar from "@/components/SearchBar";
 
 import ListOfBooks from "@/components/ListOfBooks";
-import { byAuthor, getAuthors, getBooks } from "../db.service";
+import {
+	byAuthor,
+	byGenre,
+	getAuthors,
+	getBooks,
+	getGenres,
+} from "../db.service";
 import { Author, Book } from "@prisma/client";
 import GeneralChoice from "@/components/GeneralChoice";
 
 import Filter from "@/components/Filter";
-import { redirect } from "next/navigation";
 
 const Page = async ({
 	searchParams,
 }: {
-	searchParams: { filter: string; author?: string };
+	searchParams: { filter: string; author?: string; genre?: string };
 }) => {
 	const filter = searchParams?.filter || "all";
 	let currentArray: Book[] = [];
 	let authors: Author[] = [];
 	let searchArray: Book[] = [];
-	let selectedChoice = searchParams.author
+	const selectedAuthor = searchParams.author
 		? parseInt(searchParams.author, 10)
+		: undefined;
+	const selectedGenre = searchParams.genre
+		? parseInt(searchParams.genre, 10)
 		: undefined;
 
 	const allBooks = await getBooks();
@@ -28,25 +36,27 @@ const Page = async ({
 			currentArray = allBooks.filter(
 				(book) => book.borrower === "" && book.returned === false
 			);
-
 			break;
-
 		case "absent":
 			currentArray = allBooks.filter(
 				(book) => book.borrower !== "" || book.returned === true
 			);
-
 			break;
 		case "author":
 			authors = await getAuthors();
 			break;
+		case "genre":
+			authors = await getGenres();
 
 		default:
 			currentArray = allBooks;
 	}
 
-	if (selectedChoice) {
-		searchArray = selectedChoice ? await byAuthor(selectedChoice) : [];
+	if (selectedAuthor) {
+		searchArray = selectedAuthor ? await byAuthor(selectedAuthor) : [];
+	}
+	if (selectedGenre && filter === "genre") {
+		searchArray = selectedGenre ? await byGenre(selectedGenre) : [];
 	}
 
 	return (
@@ -54,10 +64,10 @@ const Page = async ({
 			<SearchBar />
 			<Filter />
 
-			{selectedChoice ? (
+			{selectedAuthor || selectedGenre ? (
 				<ListOfBooks currentArray={searchArray} />
 			) : filter === "author" || filter === "genre" ? (
-				<GeneralChoice valueChoice={authors} />
+				<GeneralChoice valueChoice={authors} filter={filter} />
 			) : (
 				<ListOfBooks currentArray={currentArray} />
 			)}
