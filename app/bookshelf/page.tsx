@@ -47,6 +47,8 @@ const Page = async ({
 			break;
 		case "genre":
 			authors = await getGenres();
+		case "rating":
+			currentArray = allBooks.sort((a: Book, b: Book) => b.rating - a.rating);
 
 		default:
 			currentArray = allBooks;
