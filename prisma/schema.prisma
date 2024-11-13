@@ -28,7 +28,6 @@ model Book {
   resume   String
   rating   Int
   returned Boolean
-  format   String
   borrower String?
   date     DateTime?
 
@@ -37,9 +36,18 @@ model Book {
 
   genre   Genre @relation(fields: [genreId], references: [id])
   genreId Int
+
+  format   Format @relation(fields: [formatId], references: [id])
+  formatId Int
 }
 
 model Genre {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  books Book[]
+}
+
+model Format {
   id    Int    @id @default(autoincrement())
   name  String @unique
   books Book[]

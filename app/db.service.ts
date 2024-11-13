@@ -6,12 +6,13 @@ import { BookSchema, CreateBook } from "./types/Book";
 export const getBooks = async () => prisma.book.findMany();
 export const getAuthors = async () => prisma.author.findMany();
 export const getGenres = async () => prisma.genre.findMany();
+export const getFormats = async () => prisma.format.findMany();
 
 export async function createBook(data: CreateBook) {
 	const { success, error, data: validatedBook } = BookSchema.safeParse(data);
 
 	if (success) {
-		const { author, genre, ...bookData } = validatedBook;
+		const { author, genre, format, ...bookData } = validatedBook;
 
 		const foundAuthor = await prisma.author.upsert({
 			where: {
@@ -26,12 +27,18 @@ export async function createBook(data: CreateBook) {
 			update: {},
 			create: { name: genre },
 		});
+		const foundFormat = await prisma.format.upsert({
+			where: { name: format },
+			update: {},
+			create: { name: format },
+		});
 
 		await prisma.book.create({
 			data: {
 				...bookData,
 				authorId: foundAuthor.id,
 				genreId: foundGenre.id,
+				formatId: foundFormat.id,
 			},
 		});
 	} else {
@@ -66,4 +73,11 @@ export const byAuthor = async (id: number) => {
 export const byGenre = async (id: number) => {
 	const genreSelected = await prisma.book.findMany({ where: { genreId: id } });
 	return genreSelected;
+};
+
+export const byFormat = async (id: number) => {
+	const formatSelected = await prisma.book.findMany({
+		where: { formatId: id },
+	});
+	return formatSelected;
 };

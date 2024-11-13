@@ -3,9 +3,11 @@ import SearchBar from "@/components/SearchBar";
 import ListOfBooks from "@/components/ListOfBooks";
 import {
 	byAuthor,
+	byFormat,
 	byGenre,
 	getAuthors,
 	getBooks,
+	getFormats,
 	getGenres,
 } from "../db.service";
 import { Author, Book } from "@prisma/client";
@@ -16,7 +18,12 @@ import Filter from "@/components/Filter";
 const Page = async ({
 	searchParams,
 }: {
-	searchParams: { filter: string; author?: string; genre?: string };
+	searchParams: {
+		filter: string;
+		author?: string;
+		genre?: string;
+		format?: string;
+	};
 }) => {
 	const filter = searchParams?.filter || "all";
 	let currentArray: Book[] = [];
@@ -27,6 +34,9 @@ const Page = async ({
 		: undefined;
 	const selectedGenre = searchParams.genre
 		? parseInt(searchParams.genre, 10)
+		: undefined;
+	const selectedFormat = searchParams.format
+		? parseInt(searchParams.format, 10)
 		: undefined;
 
 	const allBooks = await getBooks();
@@ -47,9 +57,13 @@ const Page = async ({
 			break;
 		case "genre":
 			authors = await getGenres();
+			break;
 		case "rating":
 			currentArray = allBooks.sort((a: Book, b: Book) => b.rating - a.rating);
-
+			break;
+		case "format":
+			authors = await getFormats();
+			break;
 		default:
 			currentArray = allBooks;
 	}
@@ -57,8 +71,11 @@ const Page = async ({
 	if (selectedAuthor) {
 		searchArray = selectedAuthor ? await byAuthor(selectedAuthor) : [];
 	}
-	if (selectedGenre && filter === "genre") {
+	if (selectedGenre) {
 		searchArray = selectedGenre ? await byGenre(selectedGenre) : [];
+	}
+	if (selectedFormat) {
+		searchArray = selectedFormat ? await byFormat(selectedFormat) : [];
 	}
 
 	return (
@@ -66,9 +83,9 @@ const Page = async ({
 			<SearchBar />
 			<Filter />
 
-			{selectedAuthor || selectedGenre ? (
+			{selectedAuthor || selectedGenre || selectedFormat ? (
 				<ListOfBooks currentArray={searchArray} />
-			) : filter === "author" || filter === "genre" ? (
+			) : filter === "author" || filter === "genre" || filter === "format" ? (
 				<GeneralChoice valueChoice={authors} filter={filter} />
 			) : (
 				<ListOfBooks currentArray={currentArray} />
