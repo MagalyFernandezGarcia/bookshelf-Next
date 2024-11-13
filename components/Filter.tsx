@@ -25,6 +25,7 @@ const Filter = () => {
 		const params = new URLSearchParams(window.location.search);
 		params.delete("author");
 		params.delete("genre");
+		params.delete("format");
 		params.set("filter", newFilter);
 		const newUrl = `${window.location.pathname}?${params.toString()}`;
 		window.location.href = newUrl;
@@ -42,7 +43,8 @@ const Filter = () => {
 				onChange={handleChange}
 				className="bg-[#E4B781] mt-6 text-center"
 			>
-				<option value="all">Filtrer par :</option>
+				<option value="">Filtrer par :</option>
+				<option value="all">Tout</option>
 				<option value="author">Auteur</option>
 				<option value="genre">Genre</option>
 				<option value="format">Format</option>

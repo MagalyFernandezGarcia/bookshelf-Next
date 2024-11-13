@@ -64,6 +64,9 @@ const Page = async ({
 		case "format":
 			authors = await getFormats();
 			break;
+		case "all":
+			currentArray = allBooks;
+			break;
 		default:
 			currentArray = allBooks;
 	}
