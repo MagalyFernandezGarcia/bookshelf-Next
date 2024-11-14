@@ -1,4 +1,5 @@
 import SearchBar from "@/components/SearchBar";
+import Image from "next/image";
 
 import ListOfBooks from "@/components/ListOfBooks";
 import {
@@ -14,8 +15,9 @@ import {
 } from "../db.service";
 import { Author, Book } from "@prisma/client";
 import GeneralChoice from "@/components/GeneralChoice";
-
 import Filter from "@/components/Filter";
+
+import sitCat from "@/images/sitCat.png";
 
 const Page = async ({
 	searchParams,
@@ -93,6 +95,8 @@ const Page = async ({
 		<>
 			<SearchBar />
 			<Filter />
+			<div className="relative">
+			<Image src={sitCat} alt="cat" width={80} height={80} className="absolute right-10  top-[-40px]" />
 
 			{searchBarValue ? (
 				<>
@@ -106,6 +110,7 @@ const Page = async ({
 			) : (
 				<ListOfBooks currentArray={currentArray} />
 			)}
+			</div>
 		</>
 	);
 };

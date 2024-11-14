@@ -42,7 +42,7 @@ const Filter = () => {
 			<select
 				name="filter"
 				onChange={handleChange}
-				className="bg-[#E4B781] mt-6 text-center"
+				className="bg-[#E4B781] mt-6 text-center rounded-sm"
 			>
 				<option value="">Filtrer par :</option>
 				<option value="all">Tout</option>
