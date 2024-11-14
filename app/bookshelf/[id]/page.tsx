@@ -1,4 +1,4 @@
-import { getFullBook } from "@/app/db.service";
+import { getFullBook, updateBook } from "@/app/db.service";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -56,6 +56,8 @@ const BookPage = async ({ params }: BookPageProps) => {
     return arrayOfHearts;
   }
 
+ 
+
   return (
     <>
       {currentBook ? (
@@ -106,7 +108,7 @@ const BookPage = async ({ params }: BookPageProps) => {
                     })}
                   </p>
                 )}
-                <Switch />
+                <Switch currentBook={currentBook} />
                 
               </>
           

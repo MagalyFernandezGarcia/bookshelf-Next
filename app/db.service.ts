@@ -104,3 +104,12 @@ export const getFullBook = async (id: number) => {
 	});
 	return fullBook;
 };
+
+export const updateBook = async(id:number)=> prisma.book.update({where:{
+	id
+},
+data:{
+	borrower: "",
+	date: null
+}
+})
