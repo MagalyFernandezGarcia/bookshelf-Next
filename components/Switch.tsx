@@ -4,14 +4,18 @@ import { BookData } from "@/app/types/Book";
 import { UseFormRegister } from "react-hook-form";
 import { Book } from "@prisma/client";
 import { updateBook } from "@/app/db.service";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 
-
-
-const Switch = ({  register, currentBook }: {register?:UseFormRegister<BookData>,currentBook?: Book; }) => {
-  const router=useRouter()
+const Switch = ({
+  register,
+  currentBook,
+}: {
+  register?: UseFormRegister<BookData>;
+  currentBook?: Book;
+}) => {
+  const router = useRouter();
   function update() {
-    if (currentBook ) {
+    if (currentBook) {
       try {
         updateBook(currentBook.id)
           .then(() => {
@@ -23,7 +27,7 @@ const Switch = ({  register, currentBook }: {register?:UseFormRegister<BookData>
       } catch (error) {
         console.error("Caught error:", error);
       }
-      router.push(`/bookshelf/${currentBook.id}`)
+      router.push(`/bookshelf/${currentBook.id}`);
     }
   }
 
@@ -42,7 +46,12 @@ const Switch = ({  register, currentBook }: {register?:UseFormRegister<BookData>
             {...register("returned")}
           />
         ) : currentBook ? (
-          <input type="checkbox" id="switch" className="opacity-0 w-0 h-0"  onClick={update}/>
+          <input
+            type="checkbox"
+            id="switch"
+            className="opacity-0 w-0 h-0"
+            onClick={update}
+          />
         ) : null}
 
         <span className="slider block w-full h-full bg-[#D8778D] transition-all duration-300 rounded-full relative">

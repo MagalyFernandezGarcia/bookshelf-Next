@@ -1,6 +1,7 @@
 import Image from "next/image";
 import logoChat from "@/images/logoChat.png";
 import Link from "next/link";
+import { dancingScript} from "@/app/fonts/fonts";
 
 const Header = ({ title = "Bookshelf" }: { title: string }) => {
 	return (
@@ -9,13 +10,13 @@ const Header = ({ title = "Bookshelf" }: { title: string }) => {
 				<Image
 					src={logoChat}
 					alt="logo"
-					width={40}
-					height={40}
-					className="absolute top-1 left-0"
+					height={56}
+					
+					className="absolute top-0 left-0"
 				/>
 			</Link>
 
-			<h1 className="text-3xl">{title}</h1>
+			<h1 className={`${dancingScript.className} text-4xl font-bold`}>{title}</h1>
 		</header>
 	);
 };

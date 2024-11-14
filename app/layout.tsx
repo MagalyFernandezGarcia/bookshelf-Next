@@ -1,18 +1,9 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
 import Header from "../components/Header";
+import { raleway } from "./fonts/fonts";
 
-const geistSans = localFont({
-	src: "./fonts/GeistVF.woff",
-	variable: "--font-geist-sans",
-	weight: "100 900",
-});
-const geistMono = localFont({
-	src: "./fonts/GeistMonoVF.woff",
-	variable: "--font-geist-mono",
-	weight: "100 900",
-});
+
 
 export const metadata: Metadata = {
 	title: "Bookshelf",
@@ -27,7 +18,7 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body
-				className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col `}
+				className={`${raleway.className}  antialiased flex flex-col `}
 			>
 				<Header title="Bookshelf" />
 				<main className=" flex-grow 1 justify-center items-center flex-col mx-4">

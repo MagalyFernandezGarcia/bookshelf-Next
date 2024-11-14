@@ -19,6 +19,7 @@ import { BookData, BookSchema } from "./types/Book";
 import Modal from "@/components/Modal";
 import { createBook } from "./db.service";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { dancingScript} from "@/app/fonts/fonts";
 
 export default function Home() {
 	const {
@@ -81,7 +82,7 @@ export default function Home() {
 			<Link href="/bookshelf" className="flex gap-2 ml-[25ch] mt-4  ">
 				Bibliothèque <Image src={arrow} alt="arrow" width={20} height={20} />
 			</Link>
-			<h1 className="text-xl mt-4 ">Ajouter un livre</h1>
+			<h1 className={`text-3xl mt-4 ${dancingScript.className} font-bold`}>Ajouter un livre</h1>
 			<form
 				className="flex flex-col  relative"
 				onSubmit={handleSubmit(onSubmit)}
@@ -145,7 +146,7 @@ export default function Home() {
 							alt="catBorder"
 							width={60}
 							height={60}
-							className="absolute rotate-90 left-[32.5ch] top-[-4.5ch] "
+							className="absolute rotate-90 right-[-20px] top-[-34px] "
 						/>
 						<textarea
 							className=" bg-[#E4B781] placeholder-[#311C0D] placeholder-opacity-50 w-80 overflow-x-auto text-sm rounded-md"

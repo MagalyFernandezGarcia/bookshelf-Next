@@ -7,6 +7,7 @@ import add from "@/images/add.svg";
 import Switch from "@/components/Switch";
 import UpdateBtn from "@/components/UpdateBtn";
 import DeleteBtn from "@/components/DeleteBtn";
+import { dancingScript} from "@/app/fonts/fonts";
 
 interface BookPageProps {
   params: { id: string }; //params est un mot particulier de next qui permet de récupérer les queryparams, c'est pour ça que ça marche et pas la props id passée direct dans le component
@@ -56,8 +57,6 @@ const BookPage = async ({ params }: BookPageProps) => {
     return arrayOfHearts;
   }
 
- 
-
   return (
     <>
       {currentBook ? (
@@ -73,7 +72,7 @@ const BookPage = async ({ params }: BookPageProps) => {
             Bibliothèque
           </Link>
           <section className="flex flex-col items-center mt-4 ">
-            <h1>{currentBook.title}</h1>
+            <h1 className={`${dancingScript.className} text-3xl font-bold`}>{currentBook.title}</h1>
             <section className="flex flex-col mt-6 w-[320px] ">
               <div className="flex justify-between ">
                 <p>{currentBook.author.name}</p>
@@ -87,13 +86,16 @@ const BookPage = async ({ params }: BookPageProps) => {
             </section>
             <section className="mt-8 flex gap-2"> {displayRating()}</section>
           </section>
-          <section className="mt-8 bg-[#E4B781] bg-opacity-70 w-[320px] h-[200px]">
+          <section className="mt-8 bg-[#E4B781] bg-opacity-70 w-[320px] h-[200px] ml-4">
             {currentBook.resume}
           </section>
-           <div className="flex justify-center mt-6"> {currentBook.borrower !== "" || currentBook.returned === true ? (
+          <div className="flex justify-center mt-6">
+            {" "}
+            {currentBook.borrower !== "" || currentBook.returned === true ? (
               <p className=" text-[#E8410E]">Absent de la bibliothèque</p>
-            ) : null}</div>
-          <section className=" flex flex-col items-start">
+            ) : null}
+          </div>
+          <section className=" flex flex-col items-start ml-4">
             <p className="mt-8">Format : papier</p>{" "}
             {currentBook.borrower && (
               <>
@@ -109,12 +111,8 @@ const BookPage = async ({ params }: BookPageProps) => {
                   </p>
                 )}
                 <Switch currentBook={currentBook} />
-                
               </>
-          
-            ) }
-            
-            
+            )}
           </section>
           <section className=" flex gap-2 absolute bottom-8 right-12">
             <div className="p-2 bg-[#E4B781] rounded-sm flex justify-center items-center">
@@ -123,7 +121,10 @@ const BookPage = async ({ params }: BookPageProps) => {
             <div className="p-2 bg-[#E4B781] rounded-sm flex justify-center items-center">
               <DeleteBtn id={currentBook.id} sizeIcon={16} />
             </div>
-            <Link href="/" className="bg-[#E4B781] p-2 rounded-sm flex justify-center items-center ">
+            <Link
+              href="/"
+              className="bg-[#E4B781] p-2 rounded-sm flex justify-center items-center "
+            >
               <Image src={add} alt="plus" width={18} height={18} />
             </Link>
           </section>
