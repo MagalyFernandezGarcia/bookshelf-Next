@@ -106,18 +106,22 @@ const BookPage = async ({ params }: BookPageProps) => {
                     })}
                   </p>
                 )}
+                <Switch />
+                
               </>
-            )}
+          
+            ) }
+            
+            
           </section>
-          <Switch />
           <section className=" flex gap-2 absolute bottom-8 right-12">
-            <div className="p-2 bg-[#E4B781] rounded-sm">
+            <div className="p-2 bg-[#E4B781] rounded-sm flex justify-center items-center">
               <UpdateBtn sizeIcon={16} />
             </div>
-            <div className="p-2 bg-[#E4B781] rounded-sm">
+            <div className="p-2 bg-[#E4B781] rounded-sm flex justify-center items-center">
               <DeleteBtn id={currentBook.id} sizeIcon={16} />
             </div>
-            <Link href="/" className="bg-[#E4B781] p-2 rounded-sm ">
+            <Link href="/" className="bg-[#E4B781] p-2 rounded-sm flex justify-center items-center ">
               <Image src={add} alt="plus" width={18} height={18} />
             </Link>
           </section>

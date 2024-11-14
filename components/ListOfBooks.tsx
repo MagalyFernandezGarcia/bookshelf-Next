@@ -30,7 +30,7 @@ const ListOfBooks = async ({ currentArray }: { currentArray: Book[] }) => {
 						<Link href={`/bookshelf/${book.id}`} className="text-center">
 							{book.title}
 						</Link>
-						<div className="flex gap-1 mr-4 min-w-[48px] ml-4">
+						<div className="flex gap-3 mr-4 min-w-[48px] ml-4">
 							<UpdateBtn sizeIcon={sizeIcon} />
 							<DeleteBtn id={book.id} sizeIcon={sizeIcon} />
 						</div>

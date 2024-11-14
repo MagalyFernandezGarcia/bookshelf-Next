@@ -3,8 +3,11 @@
 import Image from "next/image";
 import trash from "@/images/trash.svg";
 import { deleteBook } from "@/app/db.service";
+import { useRouter } from 'next/navigation'
+
 
 const DeleteBtn = ({ sizeIcon ,id }: { sizeIcon: number, id: number }) => {
+  const router=useRouter()
     const handleDelete = async () => {
         try {
             await deleteBook(id);
@@ -14,7 +17,8 @@ const DeleteBtn = ({ sizeIcon ,id }: { sizeIcon: number, id: number }) => {
             console.error("Failed to delete book:", error);
             console.log(error);
           }
-    }
+          router.push('/bookshelf')
+        }
 
 
 
