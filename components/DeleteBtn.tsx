@@ -18,7 +18,7 @@ const DeleteBtn = ({ sizeIcon ,id }: { sizeIcon: number, id: number }) => {
 
 
 
-  return <button><Image src={trash} alt="trash" width={sizeIcon} height={sizeIcon} onClick={handleDelete} /></button>
+  return <button ><Image src={trash} alt="trash" width={sizeIcon} height={sizeIcon} onClick={handleDelete} /></button>
 };
 
 export default DeleteBtn;

@@ -8,6 +8,9 @@ export const getAuthors = async () => prisma.author.findMany();
 export const getGenres = async () => prisma.genre.findMany();
 export const getFormats = async () => prisma.format.findMany();
 
+
+
+
 export async function createBook(data: CreateBook) {
 	const { success, error, data: validatedBook } = BookSchema.safeParse(data);
 
@@ -87,4 +90,17 @@ export const byFormat = async (id: number) => {
 		where: { formatId: id },
 	});
 	return formatSelected;
+};
+
+
+export const getFullBook = async (id: number) => {
+	const fullBook = await prisma.book.findUnique({
+		where: { id },
+		include: {
+			author: {select: {name: true}},
+			genre: {select: {name: true}},
+			format: {select: {name: true}},
+		},
+	});
+	return fullBook;
 };

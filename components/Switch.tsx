@@ -1,7 +1,8 @@
-import { BookData } from "@/app/page";
+
+import { BookData } from "@/app/types/Book";
 import { UseFormRegister } from "react-hook-form";
 
-const Switch = ({ register }: { register: UseFormRegister<BookData> }) => {
+const Switch = ({ register }: { register?: UseFormRegister<BookData> }) => {
   return (
     <div className="flex flex-col mt-6">
       <label
@@ -9,12 +10,18 @@ const Switch = ({ register }: { register: UseFormRegister<BookData> }) => {
         className="relative inline-block w-16 h-8 text-xs cursor-pointer"
       >
         <span className="absolute left-[12px]">Rendu</span>
-        <input
+        {register?  <input
           type="checkbox"
           id="switch"
           className="opacity-0 w-0 h-0"
           {...register("returned")}
-        />
+        /> :  <input
+        type="checkbox"
+        id="switch"
+        className="opacity-0 w-0 h-0"
+        
+      />}
+       
         <span className="slider block w-full h-full bg-[#D8778D] transition-all duration-300 rounded-full relative">
           <span className="absolute bottom-1 left-1 h-6 w-6 bg-white transition-transform duration-300 rounded-full"></span>
         </span>
