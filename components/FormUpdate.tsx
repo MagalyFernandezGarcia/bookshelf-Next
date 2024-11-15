@@ -7,8 +7,11 @@ import { useForm } from "react-hook-form";
 import HeartVote from "./HeartVote";
 import { useState } from "react";
 import Image from "next/image";
+import FormatChoice from "./FormatChoice";
 
 import upCat from "@/images/upCat.png";
+import check from "@/images/check-solid.svg";
+import eraser from "@/images/eraser-solid.svg";
 
 const FormUpdate = ({
   currentBook,
@@ -17,7 +20,7 @@ const FormUpdate = ({
 }) => {
   //type de la fonction getFullBook
 
-  const { register, handleSubmit, setValue } = useForm<BookData>({
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm<BookData>({
     defaultValues: {
       //transformer les données reçues par la fonctions pour qu'elles correspondent à BookData
       title: currentBook.title,
@@ -81,6 +84,11 @@ const FormUpdate = ({
           {...register("resume")}
         ></textarea>
       </div>
+	  <FormatChoice register={register} onReset={resetState} error={errors}/>
+	  <section className="flex justify-between mt-12">
+		<button type="reset" className="w-[150px] h-24 bg-[#E8CAA7] flex items-center justify-center mb-6"><Image src={eraser} alt="reset" width={40} height={40} /></button>
+		<button type="submit" className="w-[150px] h-24 bg-[#794822] flex items-center justify-center mb-6"><Image src={check} alt="check" width={40} height={40} /></button>
+	  </section>
     </form>
   );
 };
