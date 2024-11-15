@@ -1,4 +1,4 @@
-import { BookData } from "../app/types/Book";
+import { Book, BookData } from "../app/types/Book";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 
 const InputStyle = ({
@@ -6,14 +6,24 @@ const InputStyle = ({
   placeholder,
   register,
   registerName,
-  error
+  error,
+  
+  
+  
+  
 }: {
   labelTxt: string;
-  placeholder: string;
-  register: UseFormRegister<BookData>;
-  registerName: keyof BookData;
-  error?: FieldErrors<BookData>
+  placeholder?: string;
+  register: UseFormRegister<BookData> ;
+  registerName: keyof BookData ;
+  error?: FieldErrors<BookData>,
+  
+  
+  
+
+  
 }) => {
+  
   const errorMessage = error?.[registerName]
   return (
     <>
@@ -21,8 +31,9 @@ const InputStyle = ({
         <label className="text-xs ps-16  " htmlFor={labelTxt}>
           {labelTxt}
         </label>
+        
         <input
-          className=" bg-[#E4B781] placeholder-[#311C0D] placeholder-opacity-50 w-80 h-8 text-center rounded-md"
+          className=" bg-[#E4B781] placeholder-[#311C0D] placeholder-opacity-50 h-8 text-center rounded-md w-full"
           type="text"
           id={labelTxt}
           placeholder={placeholder}

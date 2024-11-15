@@ -21,7 +21,7 @@ export default function RootLayout({
 				className={`${raleway.className}  antialiased flex flex-col `}
 			>
 				<Header title="Bookshelf" />
-				<main className=" flex-grow 1 justify-center items-center flex-col mx-4">
+				<main className=" flex-grow 1 justify-center items-center flex-col mx-8">
 					{children}
 				</main>
 			</body>

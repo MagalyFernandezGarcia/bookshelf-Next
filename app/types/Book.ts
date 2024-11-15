@@ -10,19 +10,18 @@ type CommonBook = {
   //tronc commun aux autres types
   title: string;
   volume: number;
-  
   resume: string;
   returned: boolean;
   format: string;
+  rating: number;
  
 };
 
 export type Book = CommonBook & {
   // type pour récupérer le livre de la db
   id: number;
-  rating: number;
-  authorId: number;
-  genreId: number;
+  authorId: string;
+  genreId: string;
   borrower : string |null
   date: Date | null
   serie: string | null;
@@ -30,7 +29,7 @@ export type Book = CommonBook & {
 
 export type BookData = CommonBook & {
   // type pour envoyer le formulaire à la db
-  rating: number;
+  
   author: string;
   genre: string;
   borrower?: string;
