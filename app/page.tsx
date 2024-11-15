@@ -161,7 +161,7 @@ export default function Home() {
 					</div>
 				</div>
 				<div>
-					<HeartVote onSetValue={setValue} onReset={resetState} />
+					<HeartVote onSetValue={setValue} onReset={resetState} rating={0} />
 					{errors.rating && (
 						<p className="text-xs text-red-500">{errors.rating.message}</p>
 					)}

@@ -36,10 +36,10 @@ const FormUpdate = ({
 
   const [resetState, setResetState] = useState(0);
   return (
-    <form >
+    <form>
       <InputStyle labelTxt="title" register={register} registerName="title" />
       <section className="flex gap-4">
-        <div >
+        <div>
           <InputStyle
             labelTxt="author"
             register={register}
@@ -64,24 +64,23 @@ const FormUpdate = ({
           />
         </div>
       </section>
-	  <HeartVote onSetValue={setValue} onReset={resetState}/>
-	  <div className="relative mt-16 flex justify-center ">
-						<Image
-							src={upCat}
-							alt="playful cat"
-							width={60}
-							height={60}
-							className="absolute top-[-60px] scale-x-[-1] right-[50px] "
-						/>
-						<textarea
-							className=" bg-[#E4B781] placeholder-[#311C0D] placeholder-opacity-50 w-80 overflow-x-auto text-sm rounded-md"
-							rows={7}
-							id="resume"
-							placeholder="Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum provident commodi in perspiciatis. Error laudantium ut minus architecto corrupti aut illum reiciendis velit, perferendis officia vero vel fuga nemo atque."
-							{...register("resume")}
-						></textarea>
-						
-					</div>
+      <HeartVote onSetValue={setValue} onReset={resetState} rating={currentBook.rating} />
+      <div className="relative mt-16 flex justify-center ">
+        <Image
+          src={upCat}
+          alt="playful cat"
+          width={60}
+          height={60}
+          className="absolute top-[-60px] scale-x-[-1] right-[30px] "
+        />
+        <textarea
+          className=" bg-[#E4B781] placeholder-[#311C0D] placeholder-opacity-50 w-80 overflow-x-auto text-sm rounded-md"
+          rows={7}
+          id="resume"
+          placeholder="Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum provident commodi in perspiciatis. Error laudantium ut minus architecto corrupti aut illum reiciendis velit, perferendis officia vero vel fuga nemo atque."
+          {...register("resume")}
+        ></textarea>
+      </div>
     </form>
   );
 };

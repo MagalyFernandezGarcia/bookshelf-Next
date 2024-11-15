@@ -32,18 +32,26 @@ const Heart = ({
 const HeartVote = ({
 	onSetValue,
 	onReset,
+	rating
 }: {
 	onSetValue: UseFormSetValue<BookData>;
 	onReset: number;
+	rating: number;
 }) => {
 	const [toggleFillArray, setToggleFillArray] = useState<boolean[]>(
-		Array(5).fill(false)
+		Array(5).fill(false).map((_, index) => index < rating )
 	);
 	useEffect(() => {
-		onSetValue("rating", 0);
+		
+		setToggleFillArray(Array(5).fill(false).map((_, index) => index < rating));
+	  }, [rating, onReset]); 
+	
+	  
+	  
+	
 
-		setToggleFillArray(Array(5).fill(false));
-	}, [onReset]);
+	console.log(toggleFillArray);
+	
 
 	const toggle = (index: number) => {
 		onSetValue("rating", index + 1);
@@ -60,6 +68,11 @@ const HeartVote = ({
 			);
 		}
 	};
+
+	
+
+
+
 
 	return (
 		<div className="flex  mt-6 justify-center gap-2">
