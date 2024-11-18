@@ -1,9 +1,12 @@
 import Image from "next/image";
 import pen from "@/images/pen.svg";
-const UpdateBtn = ({ sizeIcon }: { sizeIcon: number }) => {
+import Link from "next/link";
+const UpdateBtn = ({ sizeIcon, id }: { sizeIcon: number; id: number }) => {
 	return (
-		<button >
-			<Image src={pen} alt="trash" width={sizeIcon} height={sizeIcon} />
+		<button>
+			<Link href={`/bookshelf/${id}/update`}>
+				<Image src={pen} alt="pen" width={sizeIcon} height={sizeIcon} />
+			</Link>
 		</button>
 	);
 };

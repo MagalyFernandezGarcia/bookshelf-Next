@@ -31,7 +31,7 @@ const ListOfBooks = async ({ currentArray }: { currentArray: Book[] }) => {
 							{book.title}
 						</Link>
 						<div className="flex gap-3 mr-4 min-w-[48px] ml-4">
-							<UpdateBtn sizeIcon={sizeIcon} />
+							<UpdateBtn sizeIcon={sizeIcon} id={book.id} />
 							<DeleteBtn id={book.id} sizeIcon={sizeIcon} />
 						</div>
 					</div>
