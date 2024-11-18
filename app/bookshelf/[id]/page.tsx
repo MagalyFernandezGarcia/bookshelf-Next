@@ -5,8 +5,8 @@ import Image from "next/image";
 import arrow from "@/images/right-arrow.svg";
 import add from "@/images/add.svg";
 import Switch from "@/components/Switch";
-import UpdateBtn from "@/components/UpdateBtn";
-import DeleteBtn from "@/components/DeleteBtn";
+import UpdateBtn from "@/components/Buttons/UpdateBtn";
+import DeleteBtn from "@/components/Buttons/DeleteBtn";
 import { dancingScript } from "@/app/fonts/fonts";
 
 interface BookPageProps {

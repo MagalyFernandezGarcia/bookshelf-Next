@@ -1,10 +1,10 @@
 "use server";
 
 import Image from "next/image";
-import UpdateBtn from "@/components/UpdateBtn";
+import UpdateBtn from "@/components/Buttons/UpdateBtn";
 import { Book } from "@prisma/client";
 import Link from "next/link";
-import DeleteBtn from "./DeleteBtn";
+import DeleteBtn from "./Buttons/DeleteBtn";
 
 import greenBook from "@/images/greenBook.svg";
 import redBook from "@/images/redBook.svg";

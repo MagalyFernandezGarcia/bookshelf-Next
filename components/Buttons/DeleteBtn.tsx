@@ -5,7 +5,8 @@ import trash from "@/images/trash.svg";
 import { deleteBook } from "@/app/db.service";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import Modal from "./Modal";
+import Modal from "../Modals/Modal";
+import DeleteModal from "../Modals/DeleteModal";
 
 const DeleteBtn = ({ sizeIcon, id }: { sizeIcon: number; id: number }) => {
 	const router = useRouter();
@@ -29,16 +30,7 @@ const DeleteBtn = ({ sizeIcon, id }: { sizeIcon: number; id: number }) => {
 	};
 
 	if (showModal) {
-		return (
-			<Modal
-				modalContent="Etes vous sûr de vouloir supprimer ce livre ?"
-				onSetModal={handleDelete}
-				txtSelection="Annuler"
-				redirectLink="/bookshelf"
-				returnBtn="Oui"
-				onSelection={handelAbort}
-			/>
-		);
+		return <DeleteModal onSetModal={handleDelete} onAbort={handelAbort} />;
 	} else {
 		return (
 			<button>

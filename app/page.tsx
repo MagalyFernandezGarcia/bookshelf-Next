@@ -16,7 +16,7 @@ import catBorder from "@/images/catBorder.png";
 
 import { BookData, BookSchema } from "./types/Book";
 
-import Modal from "@/components/Modal";
+import Modal from "@/components/Modals/Modal";
 import { createBook } from "./db.service";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { dancingScript } from "@/app/fonts/fonts";
@@ -93,9 +93,6 @@ export default function Home() {
 					<Modal
 						modalContent={!error ? "Livre ajouté à la bibliothèque" : "oups"}
 						onSetModal={handleModal}
-						redirectBtn="Bilbliothèque"
-						redirectLink="/bookshelf"
-						returnBtn="Ajouter un livre"
 					/>
 				) : null}
 				<InputStyle
