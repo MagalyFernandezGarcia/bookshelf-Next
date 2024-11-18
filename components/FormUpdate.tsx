@@ -46,6 +46,7 @@ const FormUpdate = ({
 		resolver: zodResolver(BookSchema),
 	});
 
+	const [resetState, setResetState] = useState(0);
 	const onSubmit: SubmitHandler<BookData> = async (data) => {
 		if (data.borrower && !data.date) {
 			data.date = new Date().toISOString();
@@ -56,7 +57,7 @@ const FormUpdate = ({
 		if (success) {
 			try {
 				await updateBook(validatedBook, currentBook.id);
-				console.log("yay");
+				setResetState(+1);
 			} catch (error) {
 				console.log(error);
 			}
@@ -65,7 +66,6 @@ const FormUpdate = ({
 		}
 	};
 
-	const [resetState, setResetState] = useState(0);
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<InputStyle labelTxt="title" register={register} registerName="title" />

@@ -19,7 +19,7 @@ import { BookData, BookSchema } from "./types/Book";
 import Modal from "@/components/Modal";
 import { createBook } from "./db.service";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { dancingScript} from "@/app/fonts/fonts";
+import { dancingScript } from "@/app/fonts/fonts";
 
 export default function Home() {
 	const {
@@ -82,7 +82,9 @@ export default function Home() {
 			<Link href="/bookshelf" className="flex gap-2 ml-[25ch] mt-4  ">
 				Bibliothèque <Image src={arrow} alt="arrow" width={20} height={20} />
 			</Link>
-			<h1 className={`text-3xl mt-4 ${dancingScript.className} font-bold`}>Ajouter un livre</h1>
+			<h1 className={`text-3xl mt-4 ${dancingScript.className} font-bold`}>
+				Ajouter un livre
+			</h1>
 			<form
 				className="flex flex-col  relative"
 				onSubmit={handleSubmit(onSubmit)}
@@ -91,6 +93,9 @@ export default function Home() {
 					<Modal
 						modalContent={!error ? "Livre ajouté à la bibliothèque" : "oups"}
 						onSetModal={handleModal}
+						redirectBtn="Bilbliothèque"
+						redirectLink="/bookshelf"
+						returnBtn="Ajouter un livre"
 					/>
 				) : null}
 				<InputStyle
