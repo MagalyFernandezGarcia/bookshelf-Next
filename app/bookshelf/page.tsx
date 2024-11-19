@@ -19,6 +19,8 @@ import Filter from "@/components/Filter";
 
 import sitCat from "@/images/sitCat.png";
 import { boolean } from "zod";
+import ConfirmModal from "@/components/Modals/ConfirmModal";
+import ReclaimModal from "@/components/Modals/ReclaimModal";
 
 const Page = async ({
 	searchParams,
@@ -92,52 +94,57 @@ const Page = async ({
 		authors = await searchAuthor(searchBarValue);
 	}
 
-	const reclaim: boolean[] = [];
-	const sixMonthsAgo = new Date();
-	sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
 	const dateBorrow = allBooks.filter((book) => book.date);
-	dateBorrow.forEach((book) => {
+	const reclaim = dateBorrow.filter((book) => {
 		if (book.date) {
-			if (book.date < sixMonthsAgo) {
-				console.log(book.date);
-				console.log(sixMonthsAgo);
-
-				reclaim.push(true);
-			} else {
-				reclaim.push(false);
-			}
+			const diffDate = new Date(book.date).getTime() - new Date().getTime();
+			const diffInMonths = Math.floor(diffDate / (1000 * 60 * 60 * 24 * 30));
+			return diffInMonths < -6;
 		}
+		return false;
 	});
 	console.log(reclaim);
 
-	return (
-		<>
-			<SearchBar />
-			<Filter />
-			<div className="relative">
-				<Image
-					src={sitCat}
-					alt="cat"
-					width={80}
-					height={80}
-					className="absolute right-10  top-[-40px]"
-				/>
+	// const handleModal = () => {
+	// 	reclaim.fill(false);
+	// };
 
-				{searchBarValue ? (
-					<>
-						<ListOfBooks currentArray={currentArray} />
+	if (reclaim.length !== 0) {
+		return <ReclaimModal array={reclaim} />;
+	}
+
+	if (reclaim.length === 0) {
+		return (
+			<>
+				<SearchBar />
+				<Filter />
+				<div className="relative">
+					<Image
+						src={sitCat}
+						alt="cat"
+						width={80}
+						height={80}
+						className="absolute right-10  top-[-40px]"
+					/>
+
+					{searchBarValue ? (
+						<>
+							<ListOfBooks currentArray={currentArray} />
+							<GeneralChoice valueChoice={authors} filter={filter} />
+						</>
+					) : selectedAuthor || selectedGenre || selectedFormat ? (
+						<ListOfBooks currentArray={searchArray} />
+					) : filter === "author" ||
+					  filter === "genre" ||
+					  filter === "format" ? (
 						<GeneralChoice valueChoice={authors} filter={filter} />
-					</>
-				) : selectedAuthor || selectedGenre || selectedFormat ? (
-					<ListOfBooks currentArray={searchArray} />
-				) : filter === "author" || filter === "genre" || filter === "format" ? (
-					<GeneralChoice valueChoice={authors} filter={filter} />
-				) : (
-					<ListOfBooks currentArray={currentArray} />
-				)}
-			</div>
-		</>
-	);
+					) : (
+						<ListOfBooks currentArray={currentArray} />
+					)}
+				</div>
+			</>
+		);
+	}
 };
 
 export default Page;
