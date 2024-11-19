@@ -79,7 +79,7 @@ export default function Home() {
 
 	return (
 		<div className="flex flex-col items-center">
-			<Link href="/bookshelf" className="flex gap-2 ml-[25ch] mt-4  ">
+			<Link href="/bookshelf" className="flex gap-2 mr-[-200px] mt-4  ">
 				Bibliothèque <Image src={arrow} alt="arrow" width={20} height={20} />
 			</Link>
 			<h1 className={`text-3xl mt-4 ${dancingScript.className} font-bold`}>

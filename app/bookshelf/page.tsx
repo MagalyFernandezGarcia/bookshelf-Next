@@ -18,6 +18,7 @@ import GeneralChoice from "@/components/GeneralChoice";
 import Filter from "@/components/Filter";
 
 import sitCat from "@/images/sitCat.png";
+import { boolean } from "zod";
 
 const Page = async ({
 	searchParams,
@@ -91,25 +92,49 @@ const Page = async ({
 		authors = await searchAuthor(searchBarValue);
 	}
 
+	const reclaim: boolean[] = [];
+	const sixMonthsAgo = new Date();
+	sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+	const dateBorrow = allBooks.filter((book) => book.date);
+	dateBorrow.forEach((book) => {
+		if (book.date) {
+			if (book.date < sixMonthsAgo) {
+				console.log(book.date);
+				console.log(sixMonthsAgo);
+
+				reclaim.push(true);
+			} else {
+				reclaim.push(false);
+			}
+		}
+	});
+	console.log(reclaim);
+
 	return (
 		<>
 			<SearchBar />
 			<Filter />
 			<div className="relative">
-			<Image src={sitCat} alt="cat" width={80} height={80} className="absolute right-10  top-[-40px]" />
+				<Image
+					src={sitCat}
+					alt="cat"
+					width={80}
+					height={80}
+					className="absolute right-10  top-[-40px]"
+				/>
 
-			{searchBarValue ? (
-				<>
-					<ListOfBooks currentArray={currentArray} />
+				{searchBarValue ? (
+					<>
+						<ListOfBooks currentArray={currentArray} />
+						<GeneralChoice valueChoice={authors} filter={filter} />
+					</>
+				) : selectedAuthor || selectedGenre || selectedFormat ? (
+					<ListOfBooks currentArray={searchArray} />
+				) : filter === "author" || filter === "genre" || filter === "format" ? (
 					<GeneralChoice valueChoice={authors} filter={filter} />
-				</>
-			) : selectedAuthor || selectedGenre || selectedFormat ? (
-				<ListOfBooks currentArray={searchArray} />
-			) : filter === "author" || filter === "genre" || filter === "format" ? (
-				<GeneralChoice valueChoice={authors} filter={filter} />
-			) : (
-				<ListOfBooks currentArray={currentArray} />
-			)}
+				) : (
+					<ListOfBooks currentArray={currentArray} />
+				)}
 			</div>
 		</>
 	);

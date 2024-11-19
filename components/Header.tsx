@@ -1,7 +1,7 @@
 import Image from "next/image";
-import logoChat from "@/images/logoChat.png";
+import logoChat from "@/images/logo.png";
 import Link from "next/link";
-import { dancingScript} from "@/app/fonts/fonts";
+import { dancingScript } from "@/app/fonts/fonts";
 
 const Header = ({ title = "Bookshelf" }: { title: string }) => {
 	return (
@@ -10,13 +10,14 @@ const Header = ({ title = "Bookshelf" }: { title: string }) => {
 				<Image
 					src={logoChat}
 					alt="logo"
-					height={56}
-					
-					className="absolute top-0 left-0"
+					height={100}
+					className="absolute top-[-20px] left-[-20px]"
 				/>
 			</Link>
 
-			<h1 className={`${dancingScript.className} text-4xl font-bold`}>{title}</h1>
+			<h1 className={`${dancingScript.className} text-4xl font-bold`}>
+				{title}
+			</h1>
 		</header>
 	);
 };
