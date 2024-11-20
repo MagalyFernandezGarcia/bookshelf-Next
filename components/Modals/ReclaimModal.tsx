@@ -46,14 +46,21 @@ const ReclaimModal = ({ array }: { array: Book[] }) => {
 		<div className="fixed top-0 left-0 w-full h-full  bg-black bg-opacity-50 z-50 flex items-center justify-center ">
 			<form
 				onSubmit={handleSubmit(handleCheck)}
-				className="bg-white p-16 rounded-lg flex flex-col gap-12  w-[90%] items-center "
+				className="bg-[#E4B781] p-16 rounded-lg flex flex-col gap-12  w-[90%] items-center "
 			>
 				Il est temps de réclamer ces livres :
 				<section>
 					{array.map((book) => {
 						return (
 							<section className="flex items-start gap-4" key={book.id}>
-								<input type="checkbox" {...register(book.id.toString())} />
+								<input
+									type="checkbox"
+									{...register(book.id.toString())}
+									className="hidden peer"
+								/>
+								<span className="relative w-[2ch] h-4 border-2 rounded-sm border-[#311C0D] bg-[#E4B781] flex justify-center mr-2 peer-checked:bg-white">
+									<span className="w-2 h-2 bg-[#311C0D] hidden absolute top-[2px] peer-checked:block"></span>
+								</span>
 								<div>
 									<p>{book.title}</p>
 									<div>

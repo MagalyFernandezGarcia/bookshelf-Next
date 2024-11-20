@@ -109,7 +109,7 @@ const Page = async ({
 		modalDismissedAt &&
 		new Date(modalDismissedAt.value).toDateString() === today;
 
-	if (!isModalDismissed && reclaim.length !== 0) {
+	if (reclaim.length !== 0) {
 		return <ReclaimModal array={reclaim} />;
 	}
 
