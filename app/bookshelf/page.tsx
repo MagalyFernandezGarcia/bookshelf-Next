@@ -18,9 +18,8 @@ import GeneralChoice from "@/components/GeneralChoice";
 import Filter from "@/components/Filter";
 
 import sitCat from "@/images/sitCat.png";
-import { boolean } from "zod";
-import ConfirmModal from "@/components/Modals/ConfirmModal";
 import ReclaimModal from "@/components/Modals/ReclaimModal";
+import { cookies } from "next/headers";
 
 const Page = async ({
 	searchParams,
@@ -103,48 +102,45 @@ const Page = async ({
 		}
 		return false;
 	});
-	console.log(reclaim);
+	const cookieStore = cookies();
+	const modalDismissedAt = cookieStore.get("modalDismissedAt");
+	const today = new Date().toDateString();
+	const isModalDismissed =
+		modalDismissedAt &&
+		new Date(modalDismissedAt.value).toDateString() === today;
 
-	// const handleModal = () => {
-	// 	reclaim.fill(false);
-	// };
-
-	if (reclaim.length !== 0) {
+	if (!isModalDismissed && reclaim.length !== 0) {
 		return <ReclaimModal array={reclaim} />;
 	}
 
-	if (reclaim.length === 0) {
-		return (
-			<>
-				<SearchBar />
-				<Filter />
-				<div className="relative">
-					<Image
-						src={sitCat}
-						alt="cat"
-						width={80}
-						height={80}
-						className="absolute right-10  top-[-40px]"
-					/>
+	return (
+		<>
+			<SearchBar />
+			<Filter />
+			<div className="relative">
+				<Image
+					src={sitCat}
+					alt="cat"
+					width={80}
+					height={80}
+					className="absolute right-10  top-[-40px]"
+				/>
 
-					{searchBarValue ? (
-						<>
-							<ListOfBooks currentArray={currentArray} />
-							<GeneralChoice valueChoice={authors} filter={filter} />
-						</>
-					) : selectedAuthor || selectedGenre || selectedFormat ? (
-						<ListOfBooks currentArray={searchArray} />
-					) : filter === "author" ||
-					  filter === "genre" ||
-					  filter === "format" ? (
-						<GeneralChoice valueChoice={authors} filter={filter} />
-					) : (
+				{searchBarValue ? (
+					<>
 						<ListOfBooks currentArray={currentArray} />
-					)}
-				</div>
-			</>
-		);
-	}
+						<GeneralChoice valueChoice={authors} filter={filter} />
+					</>
+				) : selectedAuthor || selectedGenre || selectedFormat ? (
+					<ListOfBooks currentArray={searchArray} />
+				) : filter === "author" || filter === "genre" || filter === "format" ? (
+					<GeneralChoice valueChoice={authors} filter={filter} />
+				) : (
+					<ListOfBooks currentArray={currentArray} />
+				)}
+			</div>
+		</>
+	);
 };
 
 export default Page;

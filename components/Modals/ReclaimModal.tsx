@@ -1,24 +1,45 @@
 "use client";
 
-import { BookData } from "@/app/types/Book";
+import { updateReturn } from "@/app/db.service";
+
 import { Book } from "@prisma/client";
-import { usePathname, useSearchParams, useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { SubmitHandler, useForm } from "react-hook-form";
+
+type FormData = {
+	[id: string]: boolean;
+};
 
 const ReclaimModal = ({ array }: { array: Book[] }) => {
-	const searchParams = useSearchParams();
-	const { replace } = useRouter();
-	const pathName = usePathname();
-	const {
-		register,
-		handleSubmit,
-		setValue,
-		reset,
-		formState: { errors },
-	} = useForm<BookData>();
+	const router = useRouter();
 
-	const handleCheck = () => {
-		console.log("hey");
+	const { register, handleSubmit, setValue } = useForm<FormData>();
+
+	const handleCheck: SubmitHandler<FormData> = (data) => {
+		for (const key in data) {
+			if (data[key] === true) {
+				try {
+					updateReturn(parseInt(key))
+						.then(() => {
+							console.log("Update successful!");
+						})
+						.catch((error) => {
+							console.error("Update failed:", error);
+						});
+				} catch (error) {
+					console.error("Caught error:", error);
+				}
+			} else {
+				document.cookie = `modalDismissedAt=${new Date().toISOString()}; path=/;`;
+			}
+		}
+		router.push(`/bookshelf`);
+	};
+
+	const checkAll = (isChecked: boolean) => {
+		array.forEach((book) => {
+			setValue(book.id.toString(), isChecked);
+		});
 	};
 
 	return (
@@ -32,7 +53,7 @@ const ReclaimModal = ({ array }: { array: Book[] }) => {
 					{array.map((book) => {
 						return (
 							<section className="flex items-start gap-4" key={book.id}>
-								<input type="checkbox" />
+								<input type="checkbox" {...register(book.id.toString())} />
 								<div>
 									<p>{book.title}</p>
 									<div>
@@ -50,7 +71,11 @@ const ReclaimModal = ({ array }: { array: Book[] }) => {
 						);
 					})}
 					<div className="mt-24 flex gap-4">
-						<input type="checkBox" name="checkAll" />
+						<input
+							type="checkBox"
+							name="checkAll"
+							onClick={(e) => checkAll((e.target as HTMLInputElement).checked)}
+						/>
 						<label htmlFor="checkAll">Tout sélectionner</label>
 					</div>
 				</section>
