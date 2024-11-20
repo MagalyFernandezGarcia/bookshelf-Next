@@ -4,8 +4,6 @@ import { hideReclaimModal } from "@/actions/modal.action";
 import { updateReturn } from "@/app/db.service";
 
 import { Book } from "@prisma/client";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 type FormData = {
@@ -13,18 +11,11 @@ type FormData = {
 };
 
 const ReclaimModal = ({ array }: { array: Book[] }) => {
-	const [isChecked, setIsChecked] = useState(false);
-	const router = useRouter();
-
-	useEffect(() => {
-		setIsChecked(false);
-	}, []);
-
-	const { register, handleSubmit, setValue, watch } = useForm<FormData>();
+	const { register, handleSubmit, setValue, watch, getValues } = useForm<FormData>();
 
 	const handleCheck: SubmitHandler<FormData> = (data) => {
 		for (const key in data) {
-			if (data[key] === true) {
+			if (data[key]) {
 				try {
 					updateReturn(parseInt(key))
 						.then(() => {
@@ -43,14 +34,15 @@ const ReclaimModal = ({ array }: { array: Book[] }) => {
 		hideReclaimModal();
 	};
 
-	const checkAll = (isChecked: boolean) => {
-		setIsChecked(!isChecked);
-		console.log(isChecked);
+  const checkAll = () => {
+    const shouldCheckAllBoxes = () => !Object.values(getValues()).every(value => value);
 
-		array.forEach((book) => {
-			setValue(book.id.toString(), isChecked);
-		});
-	};
+    const shouldCheck = shouldCheckAllBoxes()
+
+    array.forEach((book) => {
+      setValue(book.id.toString(), shouldCheck);
+    });
+  };
 
 	return (
 		<div className="fixed top-0 left-0 w-full h-full  bg-black bg-opacity-50 z-50 flex items-center justify-center ">
@@ -93,7 +85,7 @@ const ReclaimModal = ({ array }: { array: Book[] }) => {
 					})}
 					<div className="mt-24 flex gap-4">
 						<button
-							onClick={(e) => checkAll(isChecked)}
+							onClick={() => checkAll()}
 							className="bg-[#F8D8B1] p-4 rounded-lg text-[##794822]"
 							type="button"
 						>

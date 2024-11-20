@@ -19,7 +19,6 @@ import Filter from "@/components/Filter";
 
 import sitCat from "@/images/sitCat.png";
 import ReclaimModal from "@/components/Modals/ReclaimModal";
-import { cookies } from "next/headers";
 import {
 	getVisibilityReclaimModal,
 	showReclaimModal,

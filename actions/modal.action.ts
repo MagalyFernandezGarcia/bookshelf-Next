@@ -1,31 +1,25 @@
 "use server";
 
-import { unstable_noStore as noStore, revalidatePath } from "next/cache";
+import { unstable_noStore as noStore } from "next/cache";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
-export const showReclaimModal = () => {
+export const showReclaimModal = async () => {
 	noStore();
 	console.log("showReclaimModal");
 
 	const cookieStore = cookies();
 	cookieStore.delete("modalDismissedAt");
-
-	revalidatePath("/bookshelf");
 };
 
-export const hideReclaimModal = () => {
+export const hideReclaimModal = async  () => {
 	noStore();
 	console.log("hideReclaimModal");
 
 	const cookieStore = cookies();
 	cookieStore.set("modalDismissedAt", new Date().toDateString());
-
-	revalidatePath("/bookshelf");
-	redirect("/bookshelf");
 };
 
-export const getVisibilityReclaimModal = () => {
+export const getVisibilityReclaimModal = async () => {
 	noStore();
 	console.log("getVisibilityReclaimModal 1");
 
