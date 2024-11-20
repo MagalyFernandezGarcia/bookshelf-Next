@@ -4,6 +4,7 @@ import { updateReturn } from "@/app/db.service";
 
 import { Book } from "@prisma/client";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 type FormData = {
@@ -11,9 +12,14 @@ type FormData = {
 };
 
 const ReclaimModal = ({ array }: { array: Book[] }) => {
+	const [isChecked, setIsChecked] = useState(false);
 	const router = useRouter();
 
-	const { register, handleSubmit, setValue } = useForm<FormData>();
+	useEffect(() => {
+		setIsChecked(false);
+	}, []);
+
+	const { register, handleSubmit, setValue, watch } = useForm<FormData>();
 
 	const handleCheck: SubmitHandler<FormData> = (data) => {
 		for (const key in data) {
@@ -37,6 +43,9 @@ const ReclaimModal = ({ array }: { array: Book[] }) => {
 	};
 
 	const checkAll = (isChecked: boolean) => {
+		setIsChecked(!isChecked);
+		console.log(isChecked);
+
 		array.forEach((book) => {
 			setValue(book.id.toString(), isChecked);
 		});
@@ -46,23 +55,27 @@ const ReclaimModal = ({ array }: { array: Book[] }) => {
 		<div className="fixed top-0 left-0 w-full h-full  bg-black bg-opacity-50 z-50 flex items-center justify-center ">
 			<form
 				onSubmit={handleSubmit(handleCheck)}
-				className="bg-[#E4B781] p-16 rounded-lg flex flex-col gap-12  w-[90%] items-center "
+				className="bg-[#E4B781] p-16 rounded-lg flex flex-col gap-12  w-[90%] items-center  "
 			>
 				Il est temps de réclamer ces livres :
 				<section>
 					{array.map((book) => {
 						return (
 							<section className="flex items-start gap-4" key={book.id}>
-								<input
-									type="checkbox"
-									{...register(book.id.toString())}
-									className="hidden peer"
-								/>
-								<span className="relative w-[2ch] h-4 border-2 rounded-sm border-[#311C0D] bg-[#E4B781] flex justify-center mr-2 peer-checked:bg-white">
-									<span className="w-2 h-2 bg-[#311C0D] hidden absolute top-[2px] peer-checked:block"></span>
-								</span>
-								<div>
-									<p>{book.title}</p>
+								<label className="relative w-4 h-4 border-2 rounded-sm border-[#311C0D] bg-[#E4B781] flex justify-center mr-2 ">
+									<input
+										type="checkbox"
+										{...register(book.id.toString())}
+										className=" peer hidden "
+									/>
+									<span
+										className={`w-2 h-2 bg-[#311C0D] absolute top-[2px]  ${
+											!watch(book.id.toString()) && "hidden"
+										}`}
+									></span>
+								</label>
+								<div className="w-[80%]">
+									<p className="italic font-bold">{book.title}</p>
 									<div>
 										<p>
 											Prêté à: {book.borrower} le{" "}
@@ -78,22 +91,21 @@ const ReclaimModal = ({ array }: { array: Book[] }) => {
 						);
 					})}
 					<div className="mt-24 flex gap-4">
-						<input
-							type="checkBox"
-							name="checkAll"
-							onClick={(e) => checkAll((e.target as HTMLInputElement).checked)}
-						/>
-						<label htmlFor="checkAll">Tout sélectionner</label>
+						<button
+							onClick={(e) => checkAll(isChecked)}
+							className="bg-[#F8D8B1] p-4 rounded-lg text-[##794822]"
+							type="button"
+						>
+							Tout sélectionner
+						</button>
+						<button
+							type="submit"
+							className="bg-[#794822] p-4 rounded-lg text-[#F8D8B1]"
+						>
+							Fermer
+						</button>
 					</div>
 				</section>
-				<div className="flex gap-4  ">
-					<button
-						type="submit"
-						className="bg-[#794822] p-4 rounded-lg text-[#F8D8B1]"
-					>
-						Fermer
-					</button>
-				</div>
 			</form>
 		</div>
 	);

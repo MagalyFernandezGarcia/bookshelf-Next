@@ -14,6 +14,14 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
+model User {
+  id       Int    @id @default(autoincrement())
+  name     String
+  email    String @unique
+  password String
+  books    Book[]
+}
+
 model Author {
   id    Int    @id @default(autoincrement())
   name  String @unique
@@ -39,6 +47,9 @@ model Book {
 
   format   Format @relation(fields: [formatId], references: [id])
   formatId Int
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
 }
 
 model Genre {

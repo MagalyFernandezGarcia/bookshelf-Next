@@ -40,6 +40,7 @@ export async function createBook(data: CreateBook) {
 				authorId: foundAuthor.id,
 				genreId: foundGenre.id,
 				formatId: foundFormat.id,
+				userId: 2,
 			},
 		});
 	} else {
