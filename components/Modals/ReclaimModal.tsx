@@ -1,5 +1,6 @@
 "use client";
 
+import { hideReclaimModal } from "@/actions/modal.action";
 import { updateReturn } from "@/app/db.service";
 
 import { Book } from "@prisma/client";
@@ -36,10 +37,10 @@ const ReclaimModal = ({ array }: { array: Book[] }) => {
 					console.error("Caught error:", error);
 				}
 			} else {
-				document.cookie = `modalDismissedAt=${new Date().toISOString()}; path=/;`;
 			}
 		}
-		router.push(`/bookshelf`);
+
+		hideReclaimModal();
 	};
 
 	const checkAll = (isChecked: boolean) => {

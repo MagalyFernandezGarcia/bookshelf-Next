@@ -20,6 +20,10 @@ import Filter from "@/components/Filter";
 import sitCat from "@/images/sitCat.png";
 import ReclaimModal from "@/components/Modals/ReclaimModal";
 import { cookies } from "next/headers";
+import {
+	getVisibilityReclaimModal,
+	showReclaimModal,
+} from "@/actions/modal.action";
 
 const Page = async ({
 	searchParams,
@@ -102,20 +106,27 @@ const Page = async ({
 		}
 		return false;
 	});
-	const cookieStore = cookies();
-	const modalDismissedAt = cookieStore.get("modalDismissedAt");
-	const today = new Date().toDateString();
-	const isModalDismissed =
-		modalDismissedAt &&
-		new Date(modalDismissedAt.value).toDateString() === today;
+	// const cookieStore = cookies();
+	// const modalDismissedAt = cookieStore.get("modalDismissedAt");
+	// const today = new Date().toDateString();
+	// const isModalDismissed =
+	// 	modalDismissedAt &&
+	// 	new Date(modalDismissedAt.value).toDateString() === today;
 
-	console.log(reclaim);
-	if (!isModalDismissed && reclaim.length !== 0) {
-		return <ReclaimModal array={reclaim} />;
-	}
+	// console.log(reclaim);
+
+	// if (getVisibilityReclaimModal() && reclaim.length !== 0) {
+	// 	console.log("1111111");
+
+	// 	return <ReclaimModal array={reclaim} />;
+	// }
+	// console.log("22222222");
+
+	const modalIsVisible = await getVisibilityReclaimModal();
 
 	return (
 		<>
+			{modalIsVisible && <ReclaimModal array={reclaim} />}
 			<SearchBar />
 			<Filter />
 			<div className="relative">
@@ -126,6 +137,10 @@ const Page = async ({
 					height={80}
 					className="absolute right-10  top-[-40px]"
 				/>
+
+				<form action={showReclaimModal}>
+					<button>Arnaque</button>
+				</form>
 
 				{searchBarValue ? (
 					<>
