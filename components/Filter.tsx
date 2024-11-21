@@ -5,6 +5,7 @@ import Image from "next/image";
 import add from "@/images/add.svg";
 
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import { deleteCookies } from "@/actions/modal.action";
 
 const Filter = () => {
 	const searchParams = useSearchParams();
@@ -38,7 +39,10 @@ const Filter = () => {
 	};
 
 	return (
-		<form className="flex justify-between" onSubmit={(e) => e.preventDefault()}>
+		<form
+			className="flex justify-between "
+			onSubmit={(e) => e.preventDefault()}
+		>
 			<select
 				name="filter"
 				onChange={handleChange}

@@ -21,7 +21,7 @@ import sitCat from "@/images/sitCat.png";
 import ReclaimModal from "@/components/Modals/ReclaimModal";
 import {
 	getVisibilityReclaimModal,
-	showReclaimModal,
+	deleteCookies,
 } from "@/actions/modal.action";
 
 const Page = async ({
@@ -127,6 +127,11 @@ const Page = async ({
 		<>
 			{modalIsVisible && <ReclaimModal array={reclaim} />}
 			<SearchBar />
+			<form action={deleteCookies} className="mt-4">
+				<button className="bg-[#E4B781] p-1 text-center rounded-sm">
+					Prêtés
+				</button>
+			</form>
 			<Filter />
 			<div className="relative">
 				<Image
@@ -136,10 +141,6 @@ const Page = async ({
 					height={80}
 					className="absolute right-10  top-[-40px]"
 				/>
-
-				<form action={showReclaimModal}>
-					<button>Arnaque</button>
-				</form>
 
 				{searchBarValue ? (
 					<>

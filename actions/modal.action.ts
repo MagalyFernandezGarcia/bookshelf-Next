@@ -3,7 +3,7 @@
 import { unstable_noStore as noStore } from "next/cache";
 import { cookies } from "next/headers";
 
-export const showReclaimModal = async () => {
+export const deleteCookies = async () => {
 	noStore();
 	console.log("showReclaimModal");
 
@@ -11,7 +11,7 @@ export const showReclaimModal = async () => {
 	cookieStore.delete("modalDismissedAt");
 };
 
-export const hideReclaimModal = async  () => {
+export const setCookies = async () => {
 	noStore();
 	console.log("hideReclaimModal");
 

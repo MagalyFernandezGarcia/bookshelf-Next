@@ -1,6 +1,6 @@
 "use client";
 
-import { hideReclaimModal } from "@/actions/modal.action";
+import { setCookies } from "@/actions/modal.action";
 import { updateReturn } from "@/app/db.service";
 
 import { Book } from "@prisma/client";
@@ -11,7 +11,8 @@ type FormData = {
 };
 
 const ReclaimModal = ({ array }: { array: Book[] }) => {
-	const { register, handleSubmit, setValue, watch, getValues } = useForm<FormData>();
+	const { register, handleSubmit, setValue, watch, getValues } =
+		useForm<FormData>();
 
 	const handleCheck: SubmitHandler<FormData> = (data) => {
 		for (const key in data) {
@@ -31,18 +32,19 @@ const ReclaimModal = ({ array }: { array: Book[] }) => {
 			}
 		}
 
-		hideReclaimModal();
+		setCookies();
 	};
 
-  const checkAll = () => {
-    const shouldCheckAllBoxes = () => !Object.values(getValues()).every(value => value);
+	const checkAll = () => {
+		const shouldCheckAllBoxes = () =>
+			!Object.values(getValues()).every((value) => value);
 
-    const shouldCheck = shouldCheckAllBoxes()
+		const shouldCheck = shouldCheckAllBoxes();
 
-    array.forEach((book) => {
-      setValue(book.id.toString(), shouldCheck);
-    });
-  };
+		array.forEach((book) => {
+			setValue(book.id.toString(), shouldCheck);
+		});
+	};
 
 	return (
 		<div className="fixed top-0 left-0 w-full h-full  bg-black bg-opacity-50 z-50 flex items-center justify-center ">
