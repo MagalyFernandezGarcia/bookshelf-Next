@@ -15,14 +15,11 @@ datasource db {
 }
 
 model User {
-  id            Int       @id @default(autoincrement())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-  books         Book[]
+  id    Int     @id @default(autoincrement())
+  name  String?
+  email String? @unique
+
+  books Book[]
 }
 
 model Author {
@@ -65,30 +62,4 @@ model Format {
   id    Int    @id @default(autoincrement())
   name  String @unique
   books Book[]
-}
-
-model Account {
-  id                String  @id @default(cuid())
-  userId            Int
-  user              User    @relation(fields: [userId], references: [id])
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String?
-  access_token      String?
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String?
-  session_state     String?
-
-  @@unique([provider, providerAccountId])
-}
-
-model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       Int
-  user         User     @relation(fields: [userId], references: [id])
-  expires      DateTime
 }
