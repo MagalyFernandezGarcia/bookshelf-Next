@@ -6,6 +6,7 @@ import prisma from "./app/dbConfig/prisma";
 import bcrypt from 'bcryptjs'
 
 
+
 async function getUser(mail: string) {
     try {
       return prisma.user.findUnique({ where: { email: mail } });
@@ -26,6 +27,8 @@ export const { signIn, signOut, auth } = NextAuth({
         if (parsedCredentials.success) {
           const { mail, password } = parsedCredentials.data;
           const user = await getUser(mail);
+          console.log(user);
+          
 
           if (!user) {
             return null;

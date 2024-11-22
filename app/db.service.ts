@@ -3,6 +3,7 @@ import { revalidatePath } from "next/cache";
 import prisma from "./dbConfig/prisma";
 import { BookSchema, CreateBook } from "./types/Book";
 import { redirect } from "next/navigation";
+import { NewUser } from "./types/User";
 
 export const getBooks = async () => prisma.book.findMany();
 export const getAuthors = async () => prisma.author.findMany();
@@ -40,7 +41,7 @@ export async function createBook(data: CreateBook) {
 				authorId: foundAuthor.id,
 				genreId: foundGenre.id,
 				formatId: foundFormat.id,
-				userId: 2,
+				userId: 1,
 			},
 		});
 	} else {
@@ -152,4 +153,9 @@ export async function updateBook(data: CreateBook, id: number) {
 	} else {
 		throw new Error("Validation error: " + JSON.stringify(error));
 	}
+}
+
+
+export async function createUser(data: NewUser) {
+	await prisma.user.create({ data });
 }

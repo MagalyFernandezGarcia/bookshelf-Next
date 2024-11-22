@@ -5,7 +5,7 @@ import Image from "next/image";
 import add from "@/images/add.svg";
 
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
-import { deleteCookies } from "@/actions/modal.action";
+
 
 const Filter = () => {
 	const searchParams = useSearchParams();

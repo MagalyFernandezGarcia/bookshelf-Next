@@ -3,7 +3,7 @@ import { z } from "zod"
 export type NewUser ={
     name: string
     password: string
-    mail: string
+    email: string
 }
 
 export type User = NewUser & {
