@@ -4,158 +4,188 @@ import prisma from "./dbConfig/prisma";
 import { BookSchema, CreateBook } from "./types/Book";
 import { redirect } from "next/navigation";
 import { NewUser } from "./types/User";
+import { auth } from "@/auth";
 
-export const getBooks = async () => prisma.book.findMany();
 export const getAuthors = async () => prisma.author.findMany();
 export const getGenres = async () => prisma.genre.findMany();
 export const getFormats = async () => prisma.format.findMany();
 
+export async function getBooks() {
+  const session = await auth();
+  const userMail = session?.user?.email;
+
+  if (!userMail) {
+    throw new Error("Missing userId");
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { email: userMail },
+  });
+  const books = await prisma.book.findMany({
+    where: {
+      userId: user?.id,
+    },
+  });
+  return books;
+}
 export async function createBook(data: CreateBook) {
-	const { success, error, data: validatedBook } = BookSchema.safeParse(data);
+  const { success, error, data: validatedBook } = BookSchema.safeParse(data);
+  const session = await auth();
+  const userMail = session?.user?.email;
 
-	if (success) {
-		const { author, genre, format, ...bookData } = validatedBook;
+  if (success) {
+    const { author, genre, format, ...bookData } = validatedBook;
 
-		const foundAuthor = await prisma.author.upsert({
-			where: {
-				name: author,
-			},
-			update: {},
-			create: { name: author },
-		});
+    if (!userMail) {
+      throw new Error("Missing userId");
+    }
 
-		const foundGenre = await prisma.genre.upsert({
-			where: { name: genre },
-			update: {},
-			create: { name: genre },
-		});
-		const foundFormat = await prisma.format.upsert({
-			where: { name: format },
-			update: {},
-			create: { name: format },
-		});
+    const user = await prisma.user.findUnique({
+      where: { email: userMail },
+    });
 
-		await prisma.book.create({
-			data: {
-				...bookData,
-				authorId: foundAuthor.id,
-				genreId: foundGenre.id,
-				formatId: foundFormat.id,
-				userId: 1,
-			},
-		});
-	} else {
-		throw new Error("Validation error: " + JSON.stringify(error));
-	}
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    const foundAuthor = await prisma.author.upsert({
+      where: { name: author },
+      update: {},
+      create: { name: author },
+    });
+
+    const foundGenre = await prisma.genre.upsert({
+      where: { name: genre },
+      update: {},
+      create: { name: genre },
+    });
+
+    const foundFormat = await prisma.format.upsert({
+      where: { name: format },
+      update: {},
+      create: { name: format },
+    });
+
+    await prisma.book.create({
+      data: {
+        ...bookData,
+        authorId: foundAuthor.id,
+        genreId: foundGenre.id,
+        formatId: foundFormat.id,
+        userId: user.id,
+      },
+    });
+  } else {
+    throw new Error("Validation error: " + JSON.stringify(error));
+  }
 }
 
 export const deleteBook = async (id: number) => {
-	await prisma.book.delete({
-		where: {
-			id,
-		},
-	});
+  await prisma.book.delete({
+    where: {
+      id,
+    },
+  });
 
-	revalidatePath("/bookshelf");
+  revalidatePath("/bookshelf");
 };
 
 export const searchBooks = async (serachText: string) => {
-	const booksFound = await prisma.book.findMany({
-		where: { title: { contains: serachText } },
-	});
-	return booksFound;
+  const booksFound = await prisma.book.findMany({
+    where: { title: { contains: serachText } },
+  });
+  return booksFound;
 };
 
 export const searchAuthor = async (serachText: string) => {
-	const AuthorsFound = await prisma.author.findMany({
-		where: { name: { contains: serachText } },
-	});
-	return AuthorsFound;
+  const AuthorsFound = await prisma.author.findMany({
+    where: { name: { contains: serachText } },
+  });
+  return AuthorsFound;
 };
 
 export const byAuthor = async (id: number) => {
-	const authorSelected = await prisma.book.findMany({
-		where: { authorId: id },
-	});
-	return authorSelected;
+  const authorSelected = await prisma.book.findMany({
+    where: { authorId: id },
+  });
+  return authorSelected;
 };
 
 export const byGenre = async (id: number) => {
-	const genreSelected = await prisma.book.findMany({ where: { genreId: id } });
-	return genreSelected;
+  const genreSelected = await prisma.book.findMany({ where: { genreId: id } });
+  return genreSelected;
 };
 
 export const byFormat = async (id: number) => {
-	const formatSelected = await prisma.book.findMany({
-		where: { formatId: id },
-	});
-	return formatSelected;
+  const formatSelected = await prisma.book.findMany({
+    where: { formatId: id },
+  });
+  return formatSelected;
 };
 
 export const getFullBook = async (id: number) => {
-	const fullBook = await prisma.book.findUnique({
-		where: { id },
-		include: {
-			author: { select: { name: true } },
-			genre: { select: { name: true } },
-			format: { select: { name: true } },
-		},
-	});
-	return fullBook;
+  const fullBook = await prisma.book.findUnique({
+    where: { id },
+    include: {
+      author: { select: { name: true } },
+      genre: { select: { name: true } },
+      format: { select: { name: true } },
+    },
+  });
+  return fullBook;
 };
 
 export const updateReturn = async (id: number) =>
-	prisma.book.update({
-		where: {
-			id,
-		},
-		data: {
-			borrower: "",
-			date: null,
-		},
-	});
+  prisma.book.update({
+    where: {
+      id,
+    },
+    data: {
+      borrower: "",
+      date: null,
+    },
+  });
 
 export async function updateBook(data: CreateBook, id: number) {
-	const { success, error, data: validatedBook } = BookSchema.safeParse(data);
+  const { success, error, data: validatedBook } = BookSchema.safeParse(data);
 
-	if (success) {
-		const { author, genre, format, ...bookData } = validatedBook;
+  if (success) {
+    const { author, genre, format, ...bookData } = validatedBook;
 
-		const foundAuthor = await prisma.author.upsert({
-			where: {
-				name: author,
-			},
-			update: {},
-			create: { name: author },
-		});
+    const foundAuthor = await prisma.author.upsert({
+      where: {
+        name: author,
+      },
+      update: {},
+      create: { name: author },
+    });
 
-		const foundGenre = await prisma.genre.upsert({
-			where: { name: genre },
-			update: {},
-			create: { name: genre },
-		});
-		const foundFormat = await prisma.format.upsert({
-			where: { name: format },
-			update: {},
-			create: { name: format },
-		});
+    const foundGenre = await prisma.genre.upsert({
+      where: { name: genre },
+      update: {},
+      create: { name: genre },
+    });
+    const foundFormat = await prisma.format.upsert({
+      where: { name: format },
+      update: {},
+      create: { name: format },
+    });
 
-		await prisma.book.update({
-			where: { id },
-			data: {
-				...bookData,
-				authorId: foundAuthor.id,
-				genreId: foundGenre.id,
-				formatId: foundFormat.id,
-			},
-		});
-		redirect(`/bookshelf/${id}`);
-	} else {
-		throw new Error("Validation error: " + JSON.stringify(error));
-	}
+    await prisma.book.update({
+      where: { id },
+      data: {
+        ...bookData,
+        authorId: foundAuthor.id,
+        genreId: foundGenre.id,
+        formatId: foundFormat.id,
+      },
+    });
+    redirect(`/bookshelf/${id}`);
+  } else {
+    throw new Error("Validation error: " + JSON.stringify(error));
+  }
 }
 
-
 export async function createUser(data: NewUser) {
-	await prisma.user.create({ data });
+  await prisma.user.create({ data });
 }

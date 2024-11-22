@@ -105,27 +105,13 @@ const Page = async ({
 		}
 		return false;
 	});
-	// const cookieStore = cookies();
-	// const modalDismissedAt = cookieStore.get("modalDismissedAt");
-	// const today = new Date().toDateString();
-	// const isModalDismissed =
-	// 	modalDismissedAt &&
-	// 	new Date(modalDismissedAt.value).toDateString() === today;
-
-	// console.log(reclaim);
-
-	// if (getVisibilityReclaimModal() && reclaim.length !== 0) {
-	// 	console.log("1111111");
-
-	// 	return <ReclaimModal array={reclaim} />;
-	// }
-	// console.log("22222222");
+	
 
 	const modalIsVisible = await getVisibilityReclaimModal();
 
 	return (
 		<>
-			{modalIsVisible && <ReclaimModal array={reclaim} />}
+			{modalIsVisible && reclaim.length !== 0 && <ReclaimModal array={reclaim} />}
 			<SearchBar />
 			<form action={deleteCookies} className="mt-4">
 				<button className="bg-[#E4B781] p-1 text-center rounded-sm">
