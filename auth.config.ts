@@ -10,6 +10,8 @@ export const authConfig = {
 			const isOnLoginPage = nextUrl.pathname.startsWith("/login");
       if(isLoggedIn) {
         if(isOnLoginPage) {
+			console.log("redirect?");
+			
           return Response.redirect(new URL("/", nextUrl));
         }
         return true;
