@@ -3,38 +3,42 @@ import Credentials from "next-auth/providers/credentials";
 import { authConfig } from "./auth.config";
 import { z } from "zod";
 import prisma from "./app/dbConfig/prisma";
-// import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 
 
-async function getUser(usermail: string) {
+async function getUser(mail: string) {
     try {
-      return prisma.user.findUnique({ where: { email: usermail } });
+      return prisma.user.findUnique({ where: { email: mail } });
     } catch (error) {
       throw new Error("Failed to fetch user.");
     }
   }
 
-export const { auth, signIn, signOut } = NextAuth({
+export const { signIn, signOut } = NextAuth({
 	...authConfig,
   providers: [
     Credentials({
-      async authorize(credentials) {//????
+      async authorize(credentials) {
         const parsedCredentials = z
-          .object({ usermail: z.string(), password: z.string() })
+          .object({ mail: z.string().email(), password: z.string() })
           .safeParse(credentials);
 
         if (parsedCredentials.success) {
-          const { usermail, password } = parsedCredentials.data;
-          const user = await getUser(usermail);
+          const { mail, password } = parsedCredentials.data;
+          const user = await getUser(mail);
 
           if (!user) {
             return null;
           }
 
-          // const passwordsMatch = await bcrypt.compare(password, user.password);
-          // if (passwordsMatch) {
-          //   return user;
-          // }
+          const passwordsMatch = await bcrypt.compare(password, user.password);
+          if (passwordsMatch) {
+            return {
+              name: user.name,
+              email: user.email,
+              id: user.id.toString()
+            };
+          }
         }
 
         return null;

@@ -8,13 +8,14 @@ export const authConfig = {
 		authorized({ auth, request: { nextUrl } }) {
 			const isLoggedIn = !!auth?.user;
 			const isOnLoginPage = nextUrl.pathname.startsWith("/login");
-			if (isOnLoginPage) {
-				if (isLoggedIn) return true; //je ne comprends pas tout le code ci-dessous
-				return false;
-			} else if (isLoggedIn) {
-				return Response.redirect(new URL("/", nextUrl));
-			}
-			return true;
+      if(isLoggedIn) {
+        if(isOnLoginPage) {
+          return Response.redirect(new URL("/", nextUrl));
+        }
+        return true;
+      } else {
+        return false;
+      }
 		},
 	},
 	providers: [],
