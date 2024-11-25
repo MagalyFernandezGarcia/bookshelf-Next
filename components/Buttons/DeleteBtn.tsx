@@ -40,6 +40,7 @@ const DeleteBtn = ({ sizeIcon, id }: { sizeIcon: number; id: number }) => {
 					width={sizeIcon}
 					height={sizeIcon}
 					onClick={handleModal}
+					className="lg:w-full lg:h-auto"
 				/>
 			</button>
 		);

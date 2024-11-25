@@ -1,16 +1,19 @@
 "use client";
 
 import { SubmitHandler, useForm } from "react-hook-form";
-import { NewUser } from "../types/User";
+import { NewUser, NewUserSchema } from "../types/User";
 import { createUser } from "../db.service";
 import { useState } from "react";
 import AccountModal from "@/components/Modals/AccountModal";
 import bcrypt from 'bcryptjs'
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const Account = () => {
   const[showModal, setShowModal] = useState(false);
   
-  const { register, handleSubmit } = useForm<NewUser>({});
+  const { register, handleSubmit, formState: { errors } } = useForm<NewUser>({
+    resolver: zodResolver(NewUserSchema),
+  });
 
   const onSubmit: SubmitHandler<NewUser> = async (data) => {
     data.password = await bcrypt.hash(data.password, 10);
@@ -40,9 +43,12 @@ const Account = () => {
           <input
             type="text"
             placeholder="Jaimie Lyre"
-            className=" bg-[#E4B781] placeholder-[#311C0D] placeholder-opacity-50 h-8 text-center rounded-md w-full"
+            className=" bg-[#E4B781] placeholder-[#311C0D] placeholder-opacity-50 h-8 text-center rounded-md w-full lg:w-[600px]"
             {...register("name")}
           />
+          {errors.name && (
+          <p className="text-xs text-red-500">{errors.name.message}</p>
+        )}
         </div>
         <div className="flex flex-col mt-6">
           <label htmlFor="email" className="text-xs ps-16  ">
@@ -51,9 +57,12 @@ const Account = () => {
           <input
             type="mail"
             placeholder="pims@cat.be"
-            className=" bg-[#E4B781] placeholder-[#311C0D] placeholder-opacity-50 h-8 text-center rounded-md w-full"
+            className=" bg-[#E4B781] placeholder-[#311C0D] placeholder-opacity-50 h-8 text-center rounded-md w-full lg:w-[600px]"
             {...register("email")}
           />
+          {errors.email && (
+          <p className="text-xs text-red-500">{errors.email.message}</p>
+        )}
         </div>
         <div className="flex flex-col mt-6">
           <label htmlFor="password" className="text-xs ps-16  ">
@@ -61,9 +70,12 @@ const Account = () => {
           </label>{" "}
           <input
             type="password"
-            className=" bg-[#E4B781] placeholder-[#311C0D] placeholder-opacity-50 h-8 text-center rounded-md w-full"
+            className=" bg-[#E4B781] placeholder-[#311C0D] placeholder-opacity-50 h-8 text-center rounded-md w-full lg:w-[600px]"
             {...register("password")}
           />
+          {errors.password && (
+          <p className="text-xs text-red-500">{errors.password.message}</p>
+        )}
         </div>
 
         <button

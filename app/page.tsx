@@ -79,10 +79,10 @@ export default function Home() {
 
 	return (
 		<div className="flex flex-col items-center">
-			<Link href="/bookshelf" className="flex gap-2 mr-[-200px] mt-4  ">
+			<Link href="/bookshelf" className="flex gap-2 mr-[-200px] mt-4 lg:mr-[-600px] ">
 				Bibliothèque <Image src={arrow} alt="arrow" width={20} height={20} />
 			</Link>
-			<h1 className={`text-3xl mt-4 ${dancingScript.className} font-bold`}>
+			<h1 className={`text-3xl mt-4 ${dancingScript.className} font-bold lg:mb-4`}>
 				Ajouter un livre
 			</h1>
 			<form
@@ -151,7 +151,7 @@ export default function Home() {
 							className="absolute rotate-90 right-[-20px] top-[-34px] "
 						/>
 						<textarea
-							className=" bg-[#E4B781] placeholder-[#311C0D] placeholder-opacity-50 w-80 overflow-x-auto text-sm rounded-md"
+							className=" bg-[#E4B781] placeholder-[#311C0D] placeholder-opacity-50 w-80 overflow-x-auto text-sm rounded-md lg:w-[600px]"
 							rows={7}
 							id="resume"
 							placeholder="Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum provident commodi in perspiciatis. Error laudantium ut minus architecto corrupti aut illum reiciendis velit, perferendis officia vero vel fuga nemo atque."
@@ -170,7 +170,7 @@ export default function Home() {
 				</div>
 				<Switch register={register} />
 				<FormatChoice register={register} onReset={resetState} error={errors} />
-				<div className="flex  mt-6 gap-5">
+				<div className="flex mt-6 gap-5  lg:mt-24 lg:justify-center">
 					<button
 						type="reset"
 						className="w-[150px] h-24 bg-[#E8CAA7] flex items-center justify-center mb-6"

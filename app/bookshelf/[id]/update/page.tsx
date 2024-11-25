@@ -31,7 +31,7 @@ const updatePage = async ({ params }: BookPageProps) => {
 					/>
 					retour
 				</Link>
-				<FormUpdate currentBook={currentBook} />{" "}
+				<FormUpdate currentBook={currentBook} />
 			</>
 		);
 	}

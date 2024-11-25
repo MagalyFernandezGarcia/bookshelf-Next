@@ -127,7 +127,7 @@ const Page = async ({
 					alt="cat"
 					width={80}
 					height={80}
-					className="absolute right-10  top-[-40px]"
+					className="absolute right-10  top-[-40px] lg:right-20"
 				/>)}
 				
 

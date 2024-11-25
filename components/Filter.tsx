@@ -40,13 +40,14 @@ const Filter = () => {
 
 	return (
 		<form
-			className="flex justify-between "
+			className="flex justify-between lg:mb-12"
 			onSubmit={(e) => e.preventDefault()}
+			
 		>
 			<select
 				name="filter"
 				onChange={handleChange}
-				className="bg-[#E4B781] mt-6 text-center rounded-sm"
+				className="bg-[#E4B781] mt-6 text-center rounded-sm lg:w-[200px] "
 			>
 				<option value="">Filtrer par :</option>
 				<option value="all">Tout</option>

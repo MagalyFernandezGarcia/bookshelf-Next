@@ -78,13 +78,14 @@ const FormUpdate = ({
 	if (!showModal) {
 		return (
 			<>
-				<form onSubmit={handleSubmit(onSubmit)}>
+				<form onSubmit={handleSubmit(onSubmit)} className="lg:w-[600px]">
 					<InputStyle
 						labelTxt="title"
 						register={register}
 						registerName="title"
+						
 					/>
-					<section className="flex gap-4">
+					<section className="flex gap-4 ">
 						<div>
 							<InputStyle
 								labelTxt="author"
@@ -124,7 +125,7 @@ const FormUpdate = ({
 							className="absolute top-[-60px] scale-x-[-1] right-[30px] "
 						/>
 						<textarea
-							className=" bg-[#E4B781] placeholder-[#311C0D] placeholder-opacity-50 w-80 overflow-x-auto text-sm rounded-md"
+							className=" bg-[#E4B781] placeholder-[#311C0D] placeholder-opacity-50 p-4 w-80 overflow-x-auto text-sm rounded-md lg:w-[600px] "
 							rows={7}
 							id="resume"
 							placeholder="Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum provident commodi in perspiciatis. Error laudantium ut minus architecto corrupti aut illum reiciendis velit, perferendis officia vero vel fuga nemo atque."
@@ -138,16 +139,16 @@ const FormUpdate = ({
 						currentFormat={currentBook.format.name}
 						currentDate={currentBook.date}
 					/>
-					<section className="flex justify-between mt-12">
+					<section className="flex justify-between mt-12 ">
 						<button
 							type="reset"
-							className="w-[150px] h-24 bg-[#E8CAA7] flex items-center justify-center mb-6"
+							className="w-[150px] h-24 bg-[#E8CAA7] flex items-center justify-center mb-6 relative  "
 						>
-							<Image src={eraser} alt="reset" width={40} height={40} />
+							<Image src={eraser} alt="reset" width={40} height={40}  />
 						</button>
 						<button
 							type="submit"
-							className="w-[150px] h-24 bg-[#794822] flex items-center justify-center mb-6"
+							className="w-[150px] h-24 bg-[#794822] flex items-center justify-center mb-6 "
 						>
 							<Image src={check} alt="check" width={40} height={40} />
 						</button>

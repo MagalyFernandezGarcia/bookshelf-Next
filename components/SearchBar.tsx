@@ -34,15 +34,15 @@ const SearchBar = () => {
 	return (
 		<form
 			onSubmit={handleSubmit(researchResult)}
-			className=" flex flex-col  place-content-center relative"
+			className=" flex flex-col  place-content-center relative lg:mb-8"
 		>
 			<input
 				type="text"
 				placeholder="Rechercher"
-				className="bg-[#E4B781] placeholder-[#311C0D] placeholder-opacity-50 w-80 h-8 text-center rounded-2xl mt-6"
+				className="bg-[#E4B781] placeholder-[#311C0D] placeholder-opacity-50 w-80 h-8 text-center rounded-2xl mt-6 lg:w-[600px]"
 				{...register("search")}
 			/>
-			<button type="submit" className="absolute right-4 top-[3.5ch]">
+			<button type="submit" className="absolute right-4 top-[3ch]">
 				<Image src={glass} width={20} height={20} alt="magnifying glass" />
 			</button>
 		</form>

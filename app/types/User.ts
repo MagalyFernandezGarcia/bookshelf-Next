@@ -1,3 +1,4 @@
+import exp from "constants"
 import { z } from "zod"
 
 export type NewUser ={
@@ -15,8 +16,19 @@ export type UserRegistration ={
     mail: string
 }
 
-export const AuthorSchema = z.object({ 
+export const NewUserSchema = z.object({ 
   name: z.string().min(1), 
+  password: z.string().min(1),
+  email: z.string().email(),
 }).strict(); 
 
-export type CreateAuthor = z.infer<typeof AuthorSchema>;
+
+export const UserSchema = z.object({ 
+  
+  password: z.string().min(1),
+  email: z.string().email(),
+}).strict();
+
+export type CreateUser = z.infer<typeof NewUserSchema>;
+
+export type GetUser =z.infer<typeof UserSchema>;

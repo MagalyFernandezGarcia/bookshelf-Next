@@ -61,7 +61,7 @@ const BookPage = async ({ params }: BookPageProps) => {
 		<>
 			{currentBook ? (
 				<>
-					<Link href="/bookshelf" className="flex gap-2 mr-[25ch] mt-4  ">
+					<Link href="/bookshelf" className="flex gap-2 mr-[25ch] mt-4 lg:mt-8 lg:mb-8">
 						<Image
 							src={arrow}
 							alt="arrow"
@@ -71,8 +71,8 @@ const BookPage = async ({ params }: BookPageProps) => {
 						/>{" "}
 						Bibliothèque
 					</Link>
-					<section className="flex flex-col items-center mt-4 ">
-						<h1 className={`${dancingScript.className} text-3xl font-bold`}>
+					<section className="flex flex-col items-center mt-4 lg:mb-12">
+						<h1 className={`${dancingScript.className} text-3xl font-bold lg:mb-12`}>
 							{currentBook.title}
 						</h1>
 						<section className="flex flex-col mt-6 w-[320px] ">
@@ -81,29 +81,29 @@ const BookPage = async ({ params }: BookPageProps) => {
 								<p>{currentBook.genre.name}</p>
 							</div>
 							{currentBook.serie ? (
-								<div className="flex  justify-between mt-2 ">
+								<div className="flex  justify-between mt-2 lg:mt-6 ">
 									<p>{currentBook.serie}</p> <p>{currentBook.volume}</p>
 								</div>
 							) : null}
 						</section>
-						<section className="mt-8 flex gap-2"> {displayRating()}</section>
+						<section className="mt-8 flex gap-2 lg:mt-16"> {displayRating()}</section>
 					</section>
-					<section className="mt-8 bg-[#E4B781] bg-opacity-70 w-[320px] h-[200px] ml-4">
+					<section className="mt-8 bg-[#E4B781] bg-opacity-70 w-[320px] ] ml-4 h-fit p-4 lg:w-[600px]">
 						{currentBook.resume}
 					</section>
 					<div className="flex justify-center mt-6">
 						{" "}
 						{currentBook.borrower !== "" || currentBook.returned === true ? (
-							<p className=" text-[#E8410E]">Absent de la bibliothèque</p>
+							<p className=" text-[#E8410E] lg:mt-8 ">Absent de la bibliothèque</p>
 						) : null}
 					</div>
-					<section className=" flex flex-col items-start ml-4">
+					<section className=" flex flex-col items-start ml-4 lg:mt-8">
 						<p className="mt-8">Format : papier</p>{" "}
 						{currentBook.borrower && (
 							<>
-								<p className="mt-2">Emprunte par {currentBook.borrower} </p>
+								<p className="mt-2 lg:mt-4">Emprunte par {currentBook.borrower} </p>
 								{currentBook.date && (
-									<p className="mt-2">
+									<p className="mt-2 lg:mt-4">
 										Prêté le :{" "}
 										{currentBook.date.toLocaleDateString("fr-FR", {
 											day: "numeric",
@@ -116,18 +116,18 @@ const BookPage = async ({ params }: BookPageProps) => {
 							</>
 						)}
 					</section>
-					<section className=" flex gap-2 absolute bottom-8 right-12">
-						<div className="p-2 bg-[#E4B781] rounded-sm flex justify-center items-center">
+					<section className=" flex gap-2 absolute bottom-8 right-12 ">
+						<div className="p-2 bg-[#E4B781] rounded-sm flex justify-center items-center relative lg:w-[40px]">
 							<UpdateBtn sizeIcon={16} id={currentBook.id} />
 						</div>
-						<div className="p-2 bg-[#E4B781] rounded-sm flex justify-center items-center">
+						<div className="p-2 bg-[#E4B781] rounded-sm flex justify-center items-center relative lg:w-[40px]">
 							<DeleteBtn id={currentBook.id} sizeIcon={16} />
 						</div>
 						<Link
 							href="/"
 							className="bg-[#E4B781] p-2 rounded-sm flex justify-center items-center "
 						>
-							<Image src={add} alt="plus" width={18} height={18} />
+							<Image src={add} alt="plus" width={18} height={18} className="lg:w-[30px] "/>
 						</Link>
 					</section>
 				</>
