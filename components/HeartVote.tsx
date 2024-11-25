@@ -54,9 +54,7 @@ const HeartVote = ({
 	const toggle = (index: number) => {
 		onSetValue("rating", index + 1);
 
-		if (toggleFillArray[index] && index === 0) {
-			setToggleFillArray(Array(5).fill(false));
-		} else if (toggleFillArray[index] === true) {
+		 if (toggleFillArray[index] === true) {
 			setToggleFillArray((prev) =>
 				prev.map((fill, i) => (i > index ? false : fill))
 			);

@@ -65,7 +65,7 @@ const FormUpdate = ({
 				console.log(error);
 			}
 		} else {
-			console.log("oups");
+			console.log("db issues");
 		}
 	};
 	const handleModal = () => {

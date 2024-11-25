@@ -112,6 +112,7 @@ const Page = async ({
 	return (
 		<>
 			{modalIsVisible && reclaim.length !== 0 && <ReclaimModal array={reclaim} />}
+			
 			<SearchBar />
 			<form action={deleteCookies} className="mt-4">
 				<button className="bg-[#E4B781] p-1 text-center rounded-sm">
@@ -119,14 +120,16 @@ const Page = async ({
 				</button>
 			</form>
 			<Filter />
+			
 			<div className="relative">
-				<Image
+				{currentArray.length>0&&(<Image
 					src={sitCat}
 					alt="cat"
 					width={80}
 					height={80}
 					className="absolute right-10  top-[-40px]"
-				/>
+				/>)}
+				
 
 				{searchBarValue ? (
 					<>

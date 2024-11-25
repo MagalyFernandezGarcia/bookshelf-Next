@@ -36,7 +36,7 @@ export default function Home() {
 			author: "",
 			genre: "",
 			resume: "",
-			rating: 0,
+			rating: 3,
 			returned: false,
 			format: "",
 			borrower: "",
@@ -163,7 +163,7 @@ export default function Home() {
 					</div>
 				</div>
 				<div>
-					<HeartVote onSetValue={setValue} onReset={resetState} rating={0} />
+					<HeartVote onSetValue={setValue} onReset={resetState} rating={3} />
 					{errors.rating && (
 						<p className="text-xs text-red-500">{errors.rating.message}</p>
 					)}
