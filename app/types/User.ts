@@ -13,7 +13,7 @@ export type User = NewUser & {
 }
 export type UserRegistration ={
     password: string,
-    mail: string
+    email: string
 }
 
 export const NewUserSchema = z.object({ 

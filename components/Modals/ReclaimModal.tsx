@@ -52,7 +52,7 @@ const ReclaimModal = ({ array }: { array: Book[] }) => {
 		<div className="fixed top-0 left-0 w-full h-full  bg-black bg-opacity-50 z-50 flex items-center justify-center ">
 			<form
 				onSubmit={handleSubmit(handleCheck)}
-				className="bg-[#E4B781] p-16 rounded-lg flex flex-col gap-12  w-[90%] items-center  "
+				className="bg-[#E4B781] p-16 rounded-lg flex flex-col gap-12  w-[90%] items-center lg:w-[600px] "
 			>
 				Il est temps de réclamer ces livres :
 				<section>
