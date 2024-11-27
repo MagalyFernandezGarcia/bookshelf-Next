@@ -132,7 +132,7 @@ const BookPage = async ({ params }: BookPageProps) => {
 					</section>
 				</>
 			) : (
-				<p>Book not found</p>
+				<p className="text-4xl mt-44">Book not found</p>
 			)}
 		</>
 	);

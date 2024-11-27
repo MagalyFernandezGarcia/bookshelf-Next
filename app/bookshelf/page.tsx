@@ -115,7 +115,7 @@ const Page = async ({
 			
 			<SearchBar />
 			{reclaim.length > 0 && <form action={deleteCookies} className="mt-4">
-				<button className="bg-[#E4B781] p-1 text-center rounded-sm">
+				<button className="bg-[#E4B781] p-2 text-center rounded-sm">
 					Prêtés
 				</button>
 			</form>}

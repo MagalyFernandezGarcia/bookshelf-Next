@@ -35,7 +35,7 @@ const Switch = ({
 		<div className="flex flex-col mt-6">
 			<label
 				htmlFor="switch"
-				className="relative inline-block w-16 h-8 text-xs cursor-pointer"
+				className="relative inline-block w-12 h-6 text-xs cursor-pointer"
 			>
 				<span className="absolute left-[12px]">Rendu</span>
 				{register ? (
@@ -55,7 +55,7 @@ const Switch = ({
 				) : null}
 
 				<span className="slider block w-full h-full bg-[#D8778D] transition-all duration-300 rounded-full relative">
-					<span className="absolute bottom-1 left-1 h-6 w-6 bg-white transition-transform duration-300 rounded-full"></span>
+					<span className="absolute bottom-1 left-1 h-4 w-4 bg-white transition-transform duration-300 rounded-full"></span>
 				</span>
 
 				<style>

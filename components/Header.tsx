@@ -34,7 +34,7 @@ const Header = async ({ title = "Bookshelf" }: { title: string }) => {
         <Image
           src={logoChat}
           alt="logo"
-          height={100}
+          height={95}
           className=" absolute top-[-20px] left-[-20px]"
         />
       </Link>

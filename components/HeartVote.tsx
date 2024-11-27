@@ -14,7 +14,7 @@ const Heart = ({
 			<svg
 				className={
 					isFilled
-						? "fill-[#A6596B] text-red-400 w-6 h-auto"
+						? "fill-[#D8778D] text-red-400 w-6 h-auto"
 						: "fill-white text-red-400 w-6 h-auto"
 				}
 				xmlns="http://www.w3.org/2000/svg"

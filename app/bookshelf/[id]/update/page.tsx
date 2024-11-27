@@ -36,7 +36,7 @@ const updatePage = async ({ params }: BookPageProps) => {
 		);
 	}
 
-	return <div>404</div>;
+	return <p className="text-4xl mt-44">Book not found</p>;
 };
 
 export default updatePage;
