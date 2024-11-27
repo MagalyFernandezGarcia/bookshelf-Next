@@ -55,6 +55,15 @@ export const BookSchema = z
       .optional()
       .transform((date) => (date ? new Date(date).toISOString() : undefined)), //transforme le string en date
   })
-  .strict(); // le strict signifie que les types doivent être strictement identiques
+  .strict() // le strict signifie que les types doivent être strictement identiques
+  .transform((data) => {
+    if (data.format === "kindle") {
+      return {
+        ...data,
+        borrower: "",
+        date: undefined,
+      };
+    }
+  });
 
 export type CreateBook = z.infer<typeof BookSchema>; //type qui utilise le schema zod

@@ -98,7 +98,7 @@ const BookPage = async ({ params }: BookPageProps) => {
 						) : null}
 					</div>
 					<section className=" flex flex-col items-start ml-4 lg:mt-8">
-						<p className="mt-8">Format : papier</p>{" "}
+						<p className="mt-8">Format : {currentBook.format.name}</p>{" "}
 						{currentBook.borrower && (
 							<>
 								<p className="mt-2 lg:mt-4">Emprunte par {currentBook.borrower} </p>

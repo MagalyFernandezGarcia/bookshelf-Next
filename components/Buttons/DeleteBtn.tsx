@@ -29,10 +29,10 @@ const DeleteBtn = ({ sizeIcon, id }: { sizeIcon: number; id: number }) => {
 		setShowModal(false);
 	};
 
-	if (showModal) {
-		return <DeleteModal onSetModal={handleDelete} onAbort={handelAbort} />;
-	} else {
+	
 		return (
+			<>
+			{showModal && <DeleteModal onSetModal={handleDelete} onAbort={handelAbort} />}
 			<button>
 				<Image
 					src={trash}
@@ -43,8 +43,9 @@ const DeleteBtn = ({ sizeIcon, id }: { sizeIcon: number; id: number }) => {
 					className="lg:w-full lg:h-auto"
 				/>
 			</button>
+			</>
 		);
-	}
+	
 };
 
 export default DeleteBtn;
