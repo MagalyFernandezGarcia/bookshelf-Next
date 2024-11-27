@@ -153,13 +153,13 @@ const FormUpdate = ({
 					<section className="flex justify-between mt-12 ">
 						<button
 							type="reset"
-							className="w-[150px] h-24 bg-[#E8CAA7] flex items-center justify-center mb-6 relative  "
+							className="w-[150px] h-24 bg-[#E8CAA7] flex items-center justify-center mb-6 relative hover:bg-[#ecd3b4] "
 						>
 							<Image src={eraser} alt="reset" width={40} height={40}  />
 						</button>
 						<button
 							type="submit"
-							className="w-[150px] h-24 bg-[#794822] flex items-center justify-center mb-6 "
+							className="w-[150px] h-24 bg-[#794822] flex items-center justify-center mb-6 hover:bg-[#b66f38]"
 						>
 							<Image src={check} alt="check" width={40} height={40} />
 						</button>

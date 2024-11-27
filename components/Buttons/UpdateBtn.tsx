@@ -3,7 +3,7 @@ import pen from "@/images/pen.svg";
 import Link from "next/link";
 const UpdateBtn = ({ sizeIcon, id }: { sizeIcon: number; id: number }) => {
 	return (
-		<button>
+		<button className="hover:scale-150">
 			<Link href={`/bookshelf/${id}/update`}>
 				<Image src={pen} alt="pen" width={sizeIcon} height={sizeIcon} className="lg:w-full lg:h-auto"/>
 			</Link>

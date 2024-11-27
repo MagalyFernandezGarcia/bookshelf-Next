@@ -33,7 +33,7 @@ const DeleteBtn = ({ sizeIcon, id }: { sizeIcon: number; id: number }) => {
 		return (
 			<>
 			{showModal && <DeleteModal onSetModal={handleDelete} onAbort={handelAbort} />}
-			<button>
+			<button className="hover:scale-150">
 				<Image
 					src={trash}
 					alt="trash"

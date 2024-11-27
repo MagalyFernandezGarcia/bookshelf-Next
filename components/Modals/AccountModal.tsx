@@ -8,7 +8,7 @@ const AccountModal = () => {
 				<div className="flex gap-4  ">
 					<button
 						
-						className="bg-[#794822] p-4 rounded-lg text-[#F8D8B1]"
+						className="bg-[#794822] p-4 rounded-lg text-[#F8D8B1] hover:bg-[#b66f38]"
 					>
 						<Link href="/login">Se connecter</Link>
 					</button>

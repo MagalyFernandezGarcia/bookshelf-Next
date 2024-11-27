@@ -60,7 +60,7 @@ const Filter = () => {
 			</select>
 			<Link
 				href="/"
-				className="flex gap-2 mt-6 bg-[#E4B781] p-2 rounded-sm justify-center items-center"
+				className="flex gap-2 mt-6 bg-[#E4B781] p-2 rounded-sm justify-center items-center hover:scale-150"
 			>
 				<Image src={add} alt="plus" width={18} height={18} />
 			</Link>

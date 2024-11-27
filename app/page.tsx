@@ -179,14 +179,14 @@ export default function Home() {
 				<div className="flex mt-6 gap-5  lg:mt-24 lg:justify-center">
 					<button
 						type="reset"
-						className="w-[150px] h-24 bg-[#E8CAA7] flex items-center justify-center mb-6 cursor-pointer hover:bg-[#ecd3b4]"
+						className="w-[150px] h-24 bg-[#E8CAA7] flex items-center justify-center mb-6  hover:bg-[#ecd3b4]"
 						onClick={() => setResetState((prev) => prev + 1)}
 					>
 						<Image src={eraser} width={40} height={40} alt="eraser" />
 					</button>
 					<button
 						type="submit"
-						className="w-[150px] h-24 bg-[#794822] flex items-center justify-center mb-6 cursor-pointer hover:bg-[#b66f38]"
+						className="w-[150px] h-24 bg-[#794822] flex items-center justify-center mb-6  hover:bg-[#b66f38]"
 					>
 						<Image src={check} width={40} height={40} alt="check" />{" "}
 					</button>

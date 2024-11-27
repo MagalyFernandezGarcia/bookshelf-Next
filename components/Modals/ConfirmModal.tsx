@@ -6,7 +6,7 @@ const ConfirmModal = ({ onSetModal }: { onSetModal: () => void }) => {
 				<div className="flex gap-4  ">
 					<button
 						onClick={onSetModal}
-						className="bg-[#794822] p-4 rounded-lg text-[#F8D8B1]"
+						className="bg-[#794822] p-4 rounded-lg text-[#F8D8B1] hover:bg-[#b66f38]"
 					>
 						Fermer
 					</button>

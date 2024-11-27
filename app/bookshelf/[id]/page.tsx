@@ -127,7 +127,7 @@ const BookPage = async ({ params }: BookPageProps) => {
 							href="/"
 							className="bg-[#E4B781] p-2 rounded-sm flex justify-center items-center "
 						>
-							<Image src={add} alt="plus" width={18} height={18} className="lg:w-[30px] "/>
+							<Image src={add} alt="plus" width={18} height={18} className="lg:w-[30px] hover:scale-150"/>
 						</Link>
 					</section>
 				</>
