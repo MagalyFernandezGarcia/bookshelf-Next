@@ -65,7 +65,7 @@ const FormatChoice = ({
 								className={
 									currentFormat
 										? "w-2 h-2 bg-[#311C0D] rounded-full absolute  top-[2px] "
-										: "w-2 h-2 bg-[#311C0D] rounded-full absolute right-[34px] top-[2px] "
+										: "w-2 h-2 bg-[#311C0D] rounded-full absolute right-[26px] top-[2px] "
 								}
 							></span>
 						) : null}
@@ -91,7 +91,7 @@ const FormatChoice = ({
 								className={
 									currentFormat
 										? "w-2 h-2 bg-[#311C0D] rounded-full absolute  top-[2px] "
-										: "w-2 h-2 bg-[#311C0D] rounded-full absolute right-[34px] top-[2px] "
+										: "w-2 h-2 bg-[#311C0D] rounded-full absolute right-[26px] top-[2px] "
 								}
 							></span>
 						) : null}

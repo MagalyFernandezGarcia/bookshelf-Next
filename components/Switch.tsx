@@ -69,7 +69,7 @@ const Switch = ({
             }
             
             input:checked + span span {
-              transform: translateX(2rem); 
+              transform: translateX(1.5rem); 
             }
           `}
 				</style>

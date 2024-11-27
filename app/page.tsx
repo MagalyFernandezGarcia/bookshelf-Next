@@ -49,8 +49,14 @@ export default function Home() {
 	const [showModal, setShowModal] = useState(false);
 	const [error, setError] = useState(false);
 	const onSubmit: SubmitHandler<BookData> = async (data) => {
+		
 		if (data.borrower && !data.date) {
 			data.date = new Date().toISOString();
+		}
+		if(data.format === "kindle"){
+			data.date = ""
+			data.borrower = ""
+
 		}
 
 		const { success, data: validatedBook } = BookSchema.safeParse(data);
@@ -173,14 +179,14 @@ export default function Home() {
 				<div className="flex mt-6 gap-5  lg:mt-24 lg:justify-center">
 					<button
 						type="reset"
-						className="w-[150px] h-24 bg-[#E8CAA7] flex items-center justify-center mb-6"
+						className="w-[150px] h-24 bg-[#E8CAA7] flex items-center justify-center mb-6 cursor-pointer hover:bg-[#ecd3b4]"
 						onClick={() => setResetState((prev) => prev + 1)}
 					>
 						<Image src={eraser} width={40} height={40} alt="eraser" />
 					</button>
 					<button
 						type="submit"
-						className="w-[150px] h-24 bg-[#794822] flex items-center justify-center mb-6"
+						className="w-[150px] h-24 bg-[#794822] flex items-center justify-center mb-6 cursor-pointer hover:bg-[#b66f38]"
 					>
 						<Image src={check} width={40} height={40} alt="check" />{" "}
 					</button>

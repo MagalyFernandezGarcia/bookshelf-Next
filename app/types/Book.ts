@@ -1,9 +1,6 @@
+import { log } from "console";
 import { z } from "zod";
 
-const parseLocalizedDate = (dateString: string) => {
-  const [day, month, year] = dateString.split("/").map(Number);
-  return new Date(year, month - 1, day);
-};
 
 type CommonBook = {
   //tronc commun aux autres types
@@ -56,14 +53,6 @@ export const BookSchema = z
       .transform((date) => (date ? new Date(date).toISOString() : undefined)), //transforme le string en date
   })
   .strict() // le strict signifie que les types doivent être strictement identiques
-  .transform((data) => {
-    if (data.format === "kindle") {
-      return {
-        ...data,
-        borrower: "",
-        date: undefined,
-      };
-    }
-  });
+  
 
 export type CreateBook = z.infer<typeof BookSchema>; //type qui utilise le schema zod
