@@ -5,12 +5,15 @@ import Image from "next/image";
 import add from "@/images/add.svg";
 
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import { useState } from "react";
+import Spinner from "./Spinner";
 
 const Filter = () => {
   const searchParams = useSearchParams();
   const { replace } = useRouter();
   const pathName = usePathname();
   const selectFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    
     const params = new URLSearchParams(searchParams);
 
     if (e) {
@@ -24,20 +27,28 @@ const Filter = () => {
     }
     replace(`${pathName}?${params.toString()}`);
   };
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     selectFilter(e);
+    setIsLoading(true)
+		setTimeout(()=>setIsLoading(false), 1400)
   };
+
+
+	if(isLoading) return <Spinner size={40}/>
 
   return (
     <form
       className="flex justify-between lg:mb-12"
       onSubmit={(e) => e.preventDefault()}
     >
+      
       <select
         name="filter"
         onChange={handleChange}
         className="bg-[#E4B781] mt-6 text-center rounded-sm lg:w-[200px] "
+      
       >
         <option value="">Filtrer par :</option>
         <option value="all">Tout</option>

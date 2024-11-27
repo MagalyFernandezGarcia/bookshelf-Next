@@ -8,6 +8,7 @@ import Switch from "@/components/Switch";
 import UpdateBtn from "@/components/Buttons/UpdateBtn";
 import DeleteBtn from "@/components/Buttons/DeleteBtn";
 import { dancingScript } from "@/app/fonts/fonts";
+import NavigateBtn from "@/components/Buttons/NavigateBtn";
 
 interface BookPageProps {
 	params: { id: string }; //params est un mot particulier de next qui permet de récupérer les queryparams, c'est pour ça que ça marche et pas la props id passée direct dans le component
@@ -61,16 +62,7 @@ const BookPage = async ({ params }: BookPageProps) => {
 		<>
 			{currentBook ? (
 				<>
-					<Link href="/bookshelf" className="flex gap-2 mr-[25ch] mt-4 lg:mt-8 lg:mb-8">
-						<Image
-							src={arrow}
-							alt="arrow"
-							width={20}
-							height={20}
-							className="rotate-180"
-						/>{" "}
-						Bibliothèque
-					</Link>
+					<NavigateBtn location="left" txt="Bibliothèque" href="/bookshelf" />
 					<section className="flex flex-col items-center mt-4 lg:mb-12">
 						<h1 className={`${dancingScript.className} text-3xl font-bold lg:mb-12`}>
 							{currentBook.title}

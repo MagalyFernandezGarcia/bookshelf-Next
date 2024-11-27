@@ -28,12 +28,12 @@ const DeleteBtn = ({ sizeIcon, id }: { sizeIcon: number; id: number }) => {
 	const handelAbort = () => {
 		setShowModal(false);
 	};
-
+	
 	
 		return (
 			<>
 			{showModal && <DeleteModal onSetModal={handleDelete} onAbort={handelAbort} />}
-			<button className="hover:scale-150">
+			<button className="hover:scale-150" >
 				<Image
 					src={trash}
 					alt="trash"

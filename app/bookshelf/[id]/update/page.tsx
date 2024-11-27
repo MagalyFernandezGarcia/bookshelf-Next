@@ -1,42 +1,34 @@
 import { getFullBook } from "@/app/db.service";
 
 import FormUpdate from "@/components/FormUpdate";
-import Link from "next/link";
-import Image from "next/image";
-import arrow from "@/images/right-arrow.svg";
+
+import NavigateBtn from "@/components/Buttons/NavigateBtn";
 
 interface BookPageProps {
-	params: { id: string };
+  params: { id: string };
 }
 
 const updatePage = async ({ params }: BookPageProps) => {
-	const { id } = params;
+  const { id } = params;
 
-	const currentBook = await getFullBook(parseInt(id));
+  const currentBook = await getFullBook(parseInt(id));
 
-	//vérifie que currentBook n'est pas undefined
-	if (currentBook) {
-		return (
-			<>
-				<Link
-					href={`/bookshelf/${currentBook.id}`}
-					className="flex gap-2  mt-4  "
-				>
-					<Image
-						src={arrow}
-						alt="arrow"
-						width={20}
-						height={20}
-						className="rotate-180"
-					/>
-					retour
-				</Link>
-				<FormUpdate currentBook={currentBook} />
-			</>
-		);
-	}
+  //vérifie que currentBook n'est pas undefined
+  if (currentBook) {
+    return (
+      <>
+        <NavigateBtn
+          location="left"
+          txt="retour"
+          href={`/bookshelf/${currentBook.id}`}
+        />
 
-	return <p className="text-4xl mt-44">Book not found</p>;
+        <FormUpdate currentBook={currentBook} />
+      </>
+    );
+  }
+
+  return <p className="text-4xl mt-44">Book not found</p>;
 };
 
 export default updatePage;

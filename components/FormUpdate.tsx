@@ -13,7 +13,8 @@ import upCat from "@/images/upCat.png";
 import check from "@/images/check-solid.svg";
 import eraser from "@/images/eraser-solid.svg";
 import { zodResolver } from "@hookform/resolvers/zod";
-import ConfirmModal from "./Modals/ConfirmModal";
+import Spinner from "./Spinner";
+
 
 const FormUpdate = ({
 	currentBook,
@@ -48,8 +49,9 @@ const FormUpdate = ({
 	});
 
 	const [resetState, setResetState] = useState(0);
-	const [showModal, setShowModal] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 	const onSubmit: SubmitHandler<BookData> = async (data) => {
+		setIsLoading(true);
 		if (data.borrower && !data.date) {
 			data.date = new Date().toISOString();
 		}
@@ -57,27 +59,30 @@ const FormUpdate = ({
 		const { success, data: validatedBook } = BookSchema.safeParse(data);
 
 		if (success) {
-			setShowModal(true);
+			
 			try {
 				await updateBook(validatedBook, currentBook.id);
 				setResetState(+1);
 			} catch (error) {
 				console.log(error);
+			}finally{
+				setIsLoading(false);
 			}
 		} else {
 			console.log("db issues");
 		}
 	};
-	const handleModal = () => {
-		setShowModal(false);
-	};
+	
 
-	if (showModal) {
-		return <ConfirmModal onSetModal={handleModal} />;
-	}
-	if (!showModal) {
+	if(isLoading) return <Spinner size={40}/>
+
+	if (!isLoading) {
+		
+	
+	
 		return (
 			<>
+			
 				<form onSubmit={handleSubmit(onSubmit)} className="lg:w-[600px]">
 					<InputStyle
 						labelTxt="title"
@@ -167,6 +172,7 @@ const FormUpdate = ({
 				</form>
 			</>
 		);
+	
 	}
 };
 

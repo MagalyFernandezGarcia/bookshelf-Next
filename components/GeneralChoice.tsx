@@ -2,7 +2,9 @@
 
 import { Author } from "@prisma/client";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
-import SearchBar from "./SearchBar";
+import { useState } from "react";
+import Spinner from "./Spinner";
+
 
 const GeneralChoice = ({
 	valueChoice,
@@ -16,6 +18,7 @@ const GeneralChoice = ({
 	const pathName = usePathname();
 
 	const handleClick = (id: number) => {
+		setIsLoading(true);
 		const params = new URLSearchParams(searchParams);
 		if (params.has("searchbar")) {
 			params.delete("searchbar");
@@ -30,9 +33,10 @@ const GeneralChoice = ({
 
 		replace(`${pathName}?${params.toString()}`);
 	};
+	const [isLoading, setIsLoading] = useState(false);
 
-	return (
-		<section className="flex flex-col gap-4 mt-8">
+	return (<>
+	{isLoading ? <Spinner size={40}/> : <section className="flex flex-col gap-4 mt-8">
 			{valueChoice.map((choice) => {
 				return (
 					<p
@@ -44,7 +48,10 @@ const GeneralChoice = ({
 					</p>
 				);
 			})}
-		</section>
+		</section>}
+		
+		
+		</>
 	);
 };
 

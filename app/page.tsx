@@ -21,6 +21,10 @@ import { createBook } from "./db.service";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { dancingScript } from "@/app/fonts/fonts";
 
+import Spinner from "@/components/Spinner";
+import BookshelfBtn from "@/components/Buttons/NavigateBtn";
+import NavigateBtn from "@/components/Buttons/NavigateBtn";
+
 export default function Home() {
 	const {
 		register,
@@ -48,7 +52,9 @@ export default function Home() {
 	const [resetState, setResetState] = useState(0);
 	const [showModal, setShowModal] = useState(false);
 	const [error, setError] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 	const onSubmit: SubmitHandler<BookData> = async (data) => {
+		setIsLoading(true);
 		
 		if (data.borrower && !data.date) {
 			data.date = new Date().toISOString();
@@ -69,6 +75,8 @@ export default function Home() {
 			} catch (error) {
 				setShowModal(true);
 				setError(true);
+			}finally{
+				setIsLoading(false);
 			}
 		} else {
 			setShowModal(true);
@@ -80,14 +88,13 @@ export default function Home() {
 		setShowModal(false);
 		setResetState((prev) => prev + 1);
 		setError(false);
+		
 		reset();
 	};
 
 	return (
 		<div className="flex flex-col items-center">
-			<Link href="/bookshelf" className="flex gap-2 mr-[-200px] mt-4 lg:mr-[-600px] ">
-				Bibliothèque <Image src={arrow} alt="arrow" width={20} height={20} />
-			</Link>
+			<NavigateBtn txt="Bibliothèque" location="right" href="/bookshelf"/>
 			<h1 className={`text-3xl mt-4 ${dancingScript.className} font-bold lg:mb-4`}>
 				Ajouter un livre
 			</h1>
@@ -181,14 +188,17 @@ export default function Home() {
 						type="reset"
 						className="w-[150px] h-24 bg-[#E8CAA7] flex items-center justify-center mb-6  hover:bg-[#ecd3b4]"
 						onClick={() => setResetState((prev) => prev + 1)}
+						disabled={isLoading}
 					>
 						<Image src={eraser} width={40} height={40} alt="eraser" />
 					</button>
 					<button
 						type="submit"
 						className="w-[150px] h-24 bg-[#794822] flex items-center justify-center mb-6  hover:bg-[#b66f38]"
+						disabled={isLoading}
 					>
-						<Image src={check} width={40} height={40} alt="check" />{" "}
+						
+						{isLoading ? <Spinner size={40}/> : <Image src={check} width={40} height={40} alt="check" />}
 					</button>
 				</div>
 			</form>

@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import UpdateBtn from "@/components/Buttons/UpdateBtn";
 import { Book } from "@prisma/client";
@@ -6,6 +8,8 @@ import DeleteBtn from "./Buttons/DeleteBtn";
 
 import greenBook from "@/images/greenBook.svg";
 import redBook from "@/images/redBook.svg";
+import { useState } from "react";
+import Spinner from "./Spinner";
 
 const ListOfBooks = ({ currentArray }: { currentArray: Book[] }) => {
   const sizeIcon = 16;
@@ -21,6 +25,9 @@ const ListOfBooks = ({ currentArray }: { currentArray: Book[] }) => {
     );
 
   if (currentArray.length > 0) {
+    const [isLoading, setIsLoading] = useState(false);
+    if(isLoading) return <Spinner  size={40} />
+    if(!isLoading) {
     return (
       <section className="flex flex-col gap-4 mt-8 lg:w-[600px]">
         {currentArray
@@ -40,9 +47,11 @@ const ListOfBooks = ({ currentArray }: { currentArray: Book[] }) => {
                   className="ml-4 mr-4 lg:ml-8 lg:mr-8 lg:w-full lg:h-auto "
                 />
                 </div>
+                <button onClick={()=>setIsLoading(true)}>
                 <Link href={`/bookshelf/${book.id}`} className="text-center">
                   {book.title}
                 </Link>
+                </button>
                 <div className="flex gap-3 mr-4 min-w-[48px] ml-4 relative lg:w-[55px] ">
                   <UpdateBtn sizeIcon={sizeIcon} id={book.id} />
                   <DeleteBtn id={book.id} sizeIcon={sizeIcon} />
@@ -52,6 +61,7 @@ const ListOfBooks = ({ currentArray }: { currentArray: Book[] }) => {
           })}
       </section>
     );
+    }
   }
 };
 
