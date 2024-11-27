@@ -83,6 +83,7 @@ const FormUpdate = ({
 						labelTxt="title"
 						register={register}
 						registerName="title"
+						error={errors}
 						
 					/>
 					<section className="flex gap-4 ">
@@ -91,11 +92,13 @@ const FormUpdate = ({
 								labelTxt="author"
 								register={register}
 								registerName="author"
+								error={errors}
 							/>
 							<InputStyle
 								labelTxt="genre"
 								register={register}
 								registerName="genre"
+								error={errors}
 							/>
 						</div>
 						<div>
@@ -103,11 +106,13 @@ const FormUpdate = ({
 								labelTxt="volume"
 								register={register}
 								registerName="volume"
+								error={errors}
 							/>
 							<InputStyle
 								labelTxt="serie"
 								register={register}
 								registerName="serie"
+								error={errors}
 							/>
 						</div>
 					</section>
@@ -116,6 +121,9 @@ const FormUpdate = ({
 						onReset={resetState}
 						rating={currentBook.rating}
 					/>
+					{errors.rating && (
+						<p className="text-xs text-red-500">{errors.rating.message}</p>
+					)}
 					<div className="relative mt-16 flex justify-center ">
 						<Image
 							src={upCat}
@@ -131,6 +139,9 @@ const FormUpdate = ({
 							placeholder="Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum provident commodi in perspiciatis. Error laudantium ut minus architecto corrupti aut illum reiciendis velit, perferendis officia vero vel fuga nemo atque."
 							{...register("resume")}
 						></textarea>
+						{errors.resume && (
+							<p className="text-xs text-red-500">{errors.resume.message}</p>
+						)}
 					</div>
 					<FormatChoice
 						register={register}
