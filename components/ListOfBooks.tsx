@@ -12,8 +12,9 @@ const ListOfBooks = ({ currentArray }: { currentArray: Book[] }) => {
 
   if (currentArray.length === 0)
     return (
-      <section className="flex justify-center items-center pt-24">
-        <button className="bg-[#E4B781] text-lg rounded-sm ">
+      <section className="flex justify-center flex-col gap-12 items-center pt-24">
+        <p>Pas de résultat trouvé, voulez-vous ajouter un livre?</p>
+        <button className="bg-[#E4B781] text-lg rounded-sm p-2">
           <Link href="/">Ajouter un livre</Link>
         </button>
       </section>

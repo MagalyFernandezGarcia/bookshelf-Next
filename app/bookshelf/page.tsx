@@ -114,11 +114,12 @@ const Page = async ({
 			{modalIsVisible && reclaim.length !== 0 && <ReclaimModal array={reclaim} />}
 			
 			<SearchBar />
-			<form action={deleteCookies} className="mt-4">
+			{reclaim.length > 0 && <form action={deleteCookies} className="mt-4">
 				<button className="bg-[#E4B781] p-1 text-center rounded-sm">
 					Prêtés
 				</button>
-			</form>
+			</form>}
+			
 			<Filter />
 			
 			<div className="relative">
