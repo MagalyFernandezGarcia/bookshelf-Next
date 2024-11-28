@@ -8,14 +8,18 @@ import Spinner from "./Spinner";
 
 const GeneralChoice = ({
 	valueChoice,
-	filter,
+	sort,
 }: {
 	valueChoice: Author[];
-	filter: string;
+	sort: string;
 }) => {
 	const searchParams = useSearchParams();
 	const { replace } = useRouter();
 	const pathName = usePathname();
+	console.log("sort", sort);
+	console.log("valueChoice", valueChoice);
+	
+	
 
 	const handleClick = (id: number) => {
 		setIsLoading(true);
@@ -26,9 +30,9 @@ const GeneralChoice = ({
 		}
 
 		if (id) {
-			params.set(filter, id.toString());
+			params.set(sort, id.toString());
 		} else {
-			params.delete(filter);
+			params.delete(sort);
 		}
 
 		replace(`${pathName}?${params.toString()}`);

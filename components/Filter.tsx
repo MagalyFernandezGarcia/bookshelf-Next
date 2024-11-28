@@ -21,6 +21,7 @@ const Filter = () => {
       params.delete("genre");
       params.delete("format");
       params.delete("searchbar");
+      params.delete("sort");
       params.set("filter", e.target.value);
     } else {
       params.delete("filter");
@@ -34,6 +35,7 @@ const Filter = () => {
     setIsLoading(true)
 		setTimeout(()=>setIsLoading(false), 1400)
   };
+
 
 
 	if(isLoading) return <Spinner size={40}/>
@@ -52,12 +54,10 @@ const Filter = () => {
       >
         <option value="">Filtrer par :</option>
         <option value="all">Tout</option>
-        <option value="author">Auteur</option>
-        <option value="genre">Genre</option>
-        <option value="format">Format</option>
         <option value="rating">Avis</option>
         <option value="absent">Absent</option>
         <option value="present">Présent</option>
+        <option value="lend">Prêtés</option>
       </select>
       <Link
         href="/"

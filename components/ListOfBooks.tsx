@@ -13,6 +13,8 @@ import Spinner from "./Spinner";
 
 const ListOfBooks = ({ currentArray }: { currentArray: Book[] }) => {
   const sizeIcon = 16;
+  
+  
 
   if (currentArray.length === 0)
     return (

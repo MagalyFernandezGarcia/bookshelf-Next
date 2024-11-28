@@ -8,7 +8,7 @@ import Image from "next/image";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import Spinner from "./Spinner";
-import { set } from "zod";
+
 
 const SearchBar = () => {
   const searchParams = useSearchParams();

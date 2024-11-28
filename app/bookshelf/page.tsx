@@ -23,6 +23,7 @@ import {
   getVisibilityReclaimModal,
   deleteCookies,
 } from "@/actions/modal.action";
+import SortBtn from "@/components/Buttons/SortBtn";
 
 const Page = async ({
   searchParams,
@@ -33,9 +34,11 @@ const Page = async ({
     genre?: string;
     format?: string;
     searchbar?: string;
+    sort?: string;
   };
 }) => {
   const filter = searchParams?.filter || "all";
+  const sort = searchParams?.sort || "";
   let currentArray: Book[] = [];
   let authors: Author[] = [];
   let searchArray: Book[] = [];
@@ -63,24 +66,32 @@ const Page = async ({
         (book) => book.borrower !== "" || book.returned === true
       );
       break;
+    case "rating":
+      currentArray = allBooks.sort((a: Book, b: Book) => b.rating - a.rating);
+      break;
+    case"lend":
+      currentArray = allBooks.filter(
+        (book) => book.borrower !== "" 
+      );
+      break;
+        case "":
+    case "all":
+      currentArray = allBooks;
+      break;
+    default:
+      currentArray = allBooks;
+  }
+
+  switch (sort) {
     case "author":
       authors = await getAuthors();
       break;
     case "genre":
       authors = await getGenres();
       break;
-    case "rating":
-      currentArray = allBooks.sort((a: Book, b: Book) => b.rating - a.rating);
-      break;
     case "format":
       authors = await getFormats();
       break;
-    case "":
-    case "all":
-      currentArray = allBooks;
-      break;
-    default:
-      currentArray = allBooks;
   }
 
   if (selectedAuthor) {
@@ -108,6 +119,10 @@ const Page = async ({
   });
 
   const modalIsVisible = await getVisibilityReclaimModal();
+ 
+  
+  
+
 
   return (
     <>
@@ -116,13 +131,20 @@ const Page = async ({
       )}
 
       <SearchBar />
-      {reclaim.length > 0 && (
-        <form action={deleteCookies} className="mt-4">
-          <button className="bg-[#E4B781] p-2 text-center rounded-sm">
-            Prêtés
-          </button>
-        </form>
-      )}
+      <section className=" flex justify-center gap-4 mb-4">
+        {reclaim.length > 0 && (
+          <form action={deleteCookies} className="mt-4">
+            <button className="bg-[#E4B781] p-2 text-center rounded-sm hover:bg-[#ecd3b4]]">
+              Prêtés
+            </button>
+          </form>
+        )}
+        <div className="mt-4 flex justify-center gap-4 ">
+          <SortBtn value="author" />
+          <SortBtn value="genre" />
+          <SortBtn value="format" />
+        </div>
+      </section>
 
       <Filter />
 
@@ -136,19 +158,21 @@ const Page = async ({
             className="absolute right-10  top-[-40px] lg:right-20"
           />
         )}
-
-        {searchBarValue ? (
+        { searchBarValue ? (
           <>
             <ListOfBooks currentArray={currentArray} />
-            <GeneralChoice valueChoice={authors} filter={filter} />
+            <GeneralChoice valueChoice={authors} sort={filter} />
           </>
-        ) : selectedAuthor || selectedGenre || selectedFormat ? (
+        ) :(sort && !searchParams.author && !searchParams.genre && !searchParams.format)? (
+          <GeneralChoice valueChoice={authors} sort={sort} />
+        ) : sort &&(selectedAuthor || selectedGenre || selectedFormat) ? (
           <ListOfBooks currentArray={searchArray} />
-        ) : filter === "author" || filter === "genre" || filter === "format" ? (
-          <GeneralChoice valueChoice={authors} filter={filter} />
         ) : (
           <ListOfBooks currentArray={currentArray} />
         )}
+        
+
+       
       </div>
     </>
   );

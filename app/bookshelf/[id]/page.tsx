@@ -2,13 +2,15 @@ import { getFullBook, updateBook } from "@/app/db.service";
 import Link from "next/link";
 import Image from "next/image";
 
-import arrow from "@/images/right-arrow.svg";
+
 import add from "@/images/add.svg";
 import Switch from "@/components/Switch";
 import UpdateBtn from "@/components/Buttons/UpdateBtn";
 import DeleteBtn from "@/components/Buttons/DeleteBtn";
 import { dancingScript } from "@/app/fonts/fonts";
 import NavigateBtn from "@/components/Buttons/NavigateBtn";
+
+
 
 interface BookPageProps {
 	params: { id: string }; //params est un mot particulier de next qui permet de récupérer les queryparams, c'est pour ça que ça marche et pas la props id passée direct dans le component
@@ -18,6 +20,8 @@ const BookPage = async ({ params }: BookPageProps) => {
 	const { id } = params;
 	const currentBook = await getFullBook(parseInt(id));
 	const arrayOfHearts: JSX.Element[] = [];
+	
+	
 
 	function displayRating() {
 		if (currentBook) {
