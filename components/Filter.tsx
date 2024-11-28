@@ -7,6 +7,7 @@ import add from "@/images/add.svg";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import Spinner from "./Spinner";
+import SortBtn from "./Buttons/SortBtn";
 
 const Filter = () => {
   const searchParams = useSearchParams();
@@ -42,14 +43,14 @@ const Filter = () => {
 
   return (
     <form
-      className="flex justify-between lg:mb-12"
+      className="flex justify-between lg:mb-12 items-end"
       onSubmit={(e) => e.preventDefault()}
     >
       
       <select
         name="filter"
         onChange={handleChange}
-        className="bg-[#E4B781] mt-6 text-center rounded-sm lg:w-[200px] "
+        className="bg-[#E4B781] mt-6 text-center rounded-sm lg:w-[200px] p-2 "
       
       >
         <option value="">Filtrer par :</option>
@@ -59,6 +60,12 @@ const Filter = () => {
         <option value="present">Présent</option>
         <option value="lend">Prêtés</option>
       </select>
+
+      <div className=" flex justify-center gap-4  ">
+        <SortBtn value="author" />
+        <SortBtn value="genre" />
+        <SortBtn value="format" />
+      </div>
       <Link
         href="/"
         className="flex gap-2 mt-6 bg-[#E4B781] p-2 rounded-sm justify-center items-center hover:scale-150"

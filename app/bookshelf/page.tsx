@@ -21,9 +21,9 @@ import sitCat from "@/images/sitCat.png";
 import ReclaimModal from "@/components/Modals/ReclaimModal";
 import {
   getVisibilityReclaimModal,
-  deleteCookies,
+  
 } from "@/actions/modal.action";
-import SortBtn from "@/components/Buttons/SortBtn";
+
 import Link from "next/link";
 
 const Page = async ({
@@ -127,11 +127,7 @@ const Page = async ({
 
       <SearchBar />
 
-      <div className="mt-4 flex justify-center gap-4 mb-4 ">
-        <SortBtn value="author" />
-        <SortBtn value="genre" />
-        <SortBtn value="format" />
-      </div>
+      
 
       <Filter />
 
