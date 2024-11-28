@@ -24,6 +24,7 @@
     "react-dom": "^18",
     "react-hook-form": "^7.53.1",
     "sequelize": "6.37.5",
+    "use-debounce": "^10.0.4",
     "zod": "^3.23.8",
     "zod-validation-error": "^3.4.0"
   },

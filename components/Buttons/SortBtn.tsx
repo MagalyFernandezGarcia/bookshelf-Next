@@ -40,7 +40,7 @@ const SortBtn = ({ value }: { value: string }) => {
         <Spinner size={40} />
       ) : (
         <button
-          className="bg-[#E4B781] p-2 text-center rounded-sm hover:bg-[#ecd3b4]]"
+          className="bg-[#E4B781] p-2 text-center rounded-sm hover:bg-[#ecd3b4]"
           value={value}
           onClick={handleClick}
         >

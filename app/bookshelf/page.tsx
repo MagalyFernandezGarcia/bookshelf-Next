@@ -69,12 +69,10 @@ const Page = async ({
     case "rating":
       currentArray = allBooks.sort((a: Book, b: Book) => b.rating - a.rating);
       break;
-    case"lend":
-      currentArray = allBooks.filter(
-        (book) => book.borrower !== "" 
-      );
+    case "lend":
+      currentArray = allBooks.filter((book) => book.borrower !== "");
       break;
-        case "":
+    case "":
     case "all":
       currentArray = allBooks;
       break;
@@ -119,10 +117,6 @@ const Page = async ({
   });
 
   const modalIsVisible = await getVisibilityReclaimModal();
- 
-  
-  
-
 
   return (
     <>
@@ -131,20 +125,12 @@ const Page = async ({
       )}
 
       <SearchBar />
-      <section className=" flex justify-center gap-4 mb-4">
-        {reclaim.length > 0 && (
-          <form action={deleteCookies} className="mt-4">
-            <button className="bg-[#E4B781] p-2 text-center rounded-sm hover:bg-[#ecd3b4]]">
-              Prêtés
-            </button>
-          </form>
-        )}
-        <div className="mt-4 flex justify-center gap-4 ">
-          <SortBtn value="author" />
-          <SortBtn value="genre" />
-          <SortBtn value="format" />
-        </div>
-      </section>
+
+      <div className="mt-4 flex justify-center gap-4 mb-4 ">
+        <SortBtn value="author" />
+        <SortBtn value="genre" />
+        <SortBtn value="format" />
+      </div>
 
       <Filter />
 
@@ -158,21 +144,21 @@ const Page = async ({
             className="absolute right-10  top-[-40px] lg:right-20"
           />
         )}
-        { searchBarValue ? (
+        {searchBarValue ? (
           <>
             <ListOfBooks currentArray={currentArray} />
             <GeneralChoice valueChoice={authors} sort={filter} />
           </>
-        ) :(sort && !searchParams.author && !searchParams.genre && !searchParams.format)? (
+        ) : sort &&
+          !searchParams.author &&
+          !searchParams.genre &&
+          !searchParams.format ? (
           <GeneralChoice valueChoice={authors} sort={sort} />
-        ) : sort &&(selectedAuthor || selectedGenre || selectedFormat) ? (
+        ) : sort && (selectedAuthor || selectedGenre || selectedFormat) ? (
           <ListOfBooks currentArray={searchArray} />
         ) : (
           <ListOfBooks currentArray={currentArray} />
         )}
-        
-
-       
       </div>
     </>
   );
