@@ -10,24 +10,11 @@ import greenBook from "@/images/greenBook.svg";
 import redBook from "@/images/redBook.svg";
 import { useState } from "react";
 import Spinner from "./Spinner";
-import { useSearchParams } from "next/navigation";
+
 
 const ListOfBooks = ({ currentArray }: { currentArray: Book[] }) => {
   const sizeIcon = 16;
-  const searchParams = useSearchParams()
-  const params = new URLSearchParams(searchParams);
-  
-  
-
-  if (currentArray.length === 0 && !params.get("searchbar"))
-    return (
-      <section className="flex justify-center flex-col gap-12 items-center pt-24">
-        <p>Pas de résultat trouvé, voulez-vous ajouter un livre?</p>
-        <button className="bg-[#E4B781] text-lg rounded-sm p-2">
-          <Link href="/">Ajouter un livre</Link>
-        </button>
-      </section>
-    );
+ 
 
   if (currentArray.length > 0) {
     const [isLoading, setIsLoading] = useState(false);

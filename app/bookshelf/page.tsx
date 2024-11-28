@@ -24,6 +24,7 @@ import {
   deleteCookies,
 } from "@/actions/modal.action";
 import SortBtn from "@/components/Buttons/SortBtn";
+import Link from "next/link";
 
 const Page = async ({
   searchParams,
@@ -159,6 +160,12 @@ const Page = async ({
         ) : (
           <ListOfBooks currentArray={currentArray} />
         )}
+        {currentArray.length === 0 && searchArray.length === 0 && <section className="flex justify-center flex-col gap-12 items-center pt-24">
+        <p>Pas de résultat trouvé, voulez-vous ajouter un livre?</p>
+        <button className="bg-[#E4B781] text-lg rounded-sm p-2">
+          <Link href="/">Ajouter un livre</Link>
+        </button>
+      </section>}
       </div>
     </>
   );
