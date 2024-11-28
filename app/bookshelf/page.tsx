@@ -25,6 +25,7 @@ import {
 } from "@/actions/modal.action";
 
 import Link from "next/link";
+import SortBtn from "@/components/Buttons/SortBtn";
 
 const Page = async ({
   searchParams,
@@ -126,6 +127,11 @@ const Page = async ({
       )}
 
       <SearchBar />
+      <div className=" flex justify-center gap-4 mt-4  ">
+        <SortBtn value="author" />
+        <SortBtn value="genre" />
+        <SortBtn value="format" />
+      </div>
 
       
 

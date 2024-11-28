@@ -61,11 +61,7 @@ const Filter = () => {
         <option value="lend">Prêtés</option>
       </select>
 
-      <div className=" flex justify-center gap-4  ">
-        <SortBtn value="author" />
-        <SortBtn value="genre" />
-        <SortBtn value="format" />
-      </div>
+      
       <Link
         href="/"
         className="flex gap-2 mt-6 bg-[#E4B781] p-2 rounded-sm justify-center items-center hover:scale-150"
