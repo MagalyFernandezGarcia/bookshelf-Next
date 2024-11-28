@@ -16,8 +16,7 @@ const GeneralChoice = ({
 	const searchParams = useSearchParams();
 	const { replace } = useRouter();
 	const pathName = usePathname();
-	console.log("sort", sort);
-	console.log("valueChoice", valueChoice);
+
 	
 	
 
