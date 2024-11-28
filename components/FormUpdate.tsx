@@ -14,6 +14,8 @@ import check from "@/images/check-solid.svg";
 import eraser from "@/images/eraser-solid.svg";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Spinner from "./Spinner";
+import {  useRouter } from "next/navigation";
+
 
 
 const FormUpdate = ({
@@ -47,11 +49,15 @@ const FormUpdate = ({
 		},
 		resolver: zodResolver(BookSchema),
 	});
+	
+  const { replace } = useRouter();
+  
 
 	const [resetState, setResetState] = useState(0);
 	const [isLoading, setIsLoading] = useState(false);
 	const onSubmit: SubmitHandler<BookData> = async (data) => {
 		setIsLoading(true);
+		
 		if (data.borrower && !data.date) {
 			data.date = new Date().toISOString();
 		}
@@ -63,10 +69,12 @@ const FormUpdate = ({
 			try {
 				await updateBook(validatedBook, currentBook.id);
 				setResetState(+1);
+				replace(`/bookshelf/${currentBook.id}`);
 			} catch (error) {
 				console.log(error);
 			}finally{
 				setIsLoading(false);
+				
 			}
 		} else {
 			console.log("db issues");

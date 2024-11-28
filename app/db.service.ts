@@ -181,7 +181,7 @@ export async function updateBook(data: CreateBook, id: number) {
         formatId: foundFormat.id,
       },
     });
-    redirect(`/bookshelf/${id}`);
+    // redirect(`/bookshelf/${id}`);
   } else {
     throw new Error("Validation error: " + JSON.stringify(error));
   }
