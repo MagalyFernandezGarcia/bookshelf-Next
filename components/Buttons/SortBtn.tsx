@@ -18,6 +18,8 @@ const SortBtn = ({ value }: { value: string }) => {
       params.delete("author");
       params.delete("genre");
       params.delete("format");
+      params.delete("serie");
+      params.delete("rating")
       params.set("sort", value);
     } else {
       params.delete("sort");
@@ -44,7 +46,7 @@ const SortBtn = ({ value }: { value: string }) => {
           value={value}
           onClick={handleClick}
         >
-          {value === "author"? "Auteurs" : value === "genre" ? "Genres" : "Formats"}
+          {value === "author"? "Auteurs" : value === "genre" ? "Genres" : value === "serie" ? "Séries": value ==="rating" ? "Score" : "Formats"}
         </button>
       )}
     </>

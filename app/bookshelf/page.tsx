@@ -19,13 +19,11 @@ import Filter from "@/components/Filter";
 
 import sitCat from "@/images/sitCat.png";
 import ReclaimModal from "@/components/Modals/ReclaimModal";
-import {
-  getVisibilityReclaimModal,
-  
-} from "@/actions/modal.action";
+import { getVisibilityReclaimModal } from "@/actions/modal.action";
 
 import Link from "next/link";
 import SortBtn from "@/components/Buttons/SortBtn";
+import RatingChoice from "@/components/RatingChoice";
 
 const Page = async ({
   searchParams,
@@ -37,6 +35,7 @@ const Page = async ({
     format?: string;
     searchbar?: string;
     sort?: string;
+    rating?: string;
   };
 }) => {
   const filter = searchParams?.filter || "all";
@@ -54,6 +53,9 @@ const Page = async ({
     ? parseInt(searchParams.format, 10)
     : undefined;
   const searchBarValue = searchParams.searchbar;
+  const selectedRating = searchParams.rating
+    ? parseInt(searchParams.rating, 10)
+    : undefined;
 
   const allBooks = await getBooks();
 
@@ -68,9 +70,7 @@ const Page = async ({
         (book) => book.borrower !== "" || book.returned === true
       );
       break;
-    case "rating":
-      currentArray = allBooks.sort((a: Book, b: Book) => b.rating - a.rating);
-      break;
+  
     case "lend":
       currentArray = allBooks.filter((book) => book.borrower !== "");
       break;
@@ -92,6 +92,7 @@ const Page = async ({
     case "format":
       authors = await getFormats();
       break;
+    
   }
 
   if (selectedAuthor) {
@@ -107,6 +108,9 @@ const Page = async ({
     currentArray = await searchBooks(searchBarValue);
     authors = await searchAuthor(searchBarValue);
   }
+  if (selectedRating) {
+    currentArray = allBooks.filter((book) => book.rating === selectedRating);
+  }
 
   const dateBorrow = allBooks.filter((book) => book.date);
   const reclaim = dateBorrow.filter((book) => {
@@ -118,6 +122,8 @@ const Page = async ({
     return false;
   });
 
+  
+
   const modalIsVisible = await getVisibilityReclaimModal();
 
   return (
@@ -127,13 +133,16 @@ const Page = async ({
       )}
 
       <SearchBar />
-      <div className=" flex justify-center gap-4 mt-4  ">
-        <SortBtn value="author" />
-        <SortBtn value="genre" />
-        <SortBtn value="format" />
-      </div>
-
-      
+      <details className="mt-4">
+        <summary>Rechercher par :</summary>
+        <div className=" flex justify-center gap-4 mt-4 flex-wrap ">
+          <SortBtn value="author" />
+          <SortBtn value="genre" />
+          <SortBtn value="format" />
+          <SortBtn value="serie" />
+          <SortBtn value="rating" />
+        </div>
+      </details>
 
       <Filter />
 
@@ -152,22 +161,27 @@ const Page = async ({
             <ListOfBooks currentArray={currentArray} />
             <GeneralChoice valueChoice={authors} sort={filter} />
           </>
-        ) : sort &&
+        ): sort === "rating" && !selectedRating ?(<RatingChoice />) : sort==="rating" && selectedRating? (<ListOfBooks currentArray={currentArray} />):sort !== "rating" &&
           !searchParams.author &&
           !searchParams.genre &&
           !searchParams.format ? (
           <GeneralChoice valueChoice={authors} sort={sort} />
-        ) : sort && (selectedAuthor || selectedGenre || selectedFormat) ? (
+        ) : sort !== "rating" && (selectedAuthor || selectedGenre || selectedFormat) ? (
           <ListOfBooks currentArray={searchArray} />
-        ) : (
-          <ListOfBooks currentArray={currentArray} />
+        ) 
+          
+        :<ListOfBooks currentArray={currentArray} />}
+       
+        
+        
+        {currentArray.length === 0 && searchArray.length === 0 && (
+          <section className="flex justify-center flex-col gap-12 items-center pt-24">
+            <p>Pas de résultat trouvé, voulez-vous ajouter un livre?</p>
+            <button className="bg-[#E4B781] text-lg rounded-sm p-2">
+              <Link href="/">Ajouter un livre</Link>
+            </button>
+          </section>
         )}
-        {currentArray.length === 0 && searchArray.length === 0 && <section className="flex justify-center flex-col gap-12 items-center pt-24">
-        <p>Pas de résultat trouvé, voulez-vous ajouter un livre?</p>
-        <button className="bg-[#E4B781] text-lg rounded-sm p-2">
-          <Link href="/">Ajouter un livre</Link>
-        </button>
-      </section>}
       </div>
     </>
   );
