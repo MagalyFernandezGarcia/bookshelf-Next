@@ -5,15 +5,21 @@ import { UseFormRegister } from "react-hook-form";
 import { Book } from "@prisma/client";
 import { updateReturn } from "@/app/db.service";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const Switch = ({
 	register,
 	currentBook,
+	serie,
+	onSetLend 
 }: {
 	register?: UseFormRegister<BookData>;
 	currentBook?: Book;
+	serie?:Book[]
+	onSetLend?: ()=>void
 }) => {
 	const router = useRouter();
+	
 	function update() {
 		if (currentBook) {
 			try {
@@ -30,6 +36,7 @@ const Switch = ({
 			router.push(`/bookshelf/${currentBook.id}`);
 		}
 	}
+	
 
 	return (
 		<div className="flex flex-col mt-6">
@@ -37,7 +44,7 @@ const Switch = ({
 				htmlFor="switch"
 				className="relative inline-block w-12 h-6 text-xs cursor-pointer"
 			>
-				<span className="absolute left-[12px]">Rendu</span>
+				<span className="absolute left-[12px]">{serie? "Prêté" : "Retour"}</span>
 				{register ? (
 					<input
 						type="checkbox"
@@ -52,7 +59,12 @@ const Switch = ({
 						className="opacity-0 w-0 h-0"
 						onClick={update}
 					/>
-				) : null}
+				) : serie? (<input
+					type="checkbox"
+					id="switch"
+					className="opacity-0 w-0 h-0"
+					onClick={onSetLend}
+				/>):null}
 
 				<span className="slider block w-full h-full bg-[#D8778D] transition-all duration-300 rounded-full relative">
 					<span className="absolute bottom-1 left-1 h-4 w-4 bg-white transition-transform duration-300 rounded-full"></span>

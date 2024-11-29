@@ -18,7 +18,7 @@ const InputStyle = ({
   return (
     <>
       <div className="flex flex-col mt-6">
-        <label className="text-xs ps-16  " htmlFor={labelTxt}>
+        <label className="text-xs ps-16" htmlFor={labelTxt}>
           {labelTxt}
         </label>
 

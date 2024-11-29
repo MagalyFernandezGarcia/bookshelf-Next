@@ -135,7 +135,7 @@ const Page = async ({
     return false;
   });
 
-  const test = () => {
+  const display = () => {
     if (searchBarValue) {
       return (
         <>
@@ -161,8 +161,11 @@ const Page = async ({
       ) {
         return <GeneralChoice valueChoice={authors} sort={sort} />;
       }
+      if (selectedSerie) {
+        return <ListOfBooks currentArray={searchArray} serie/>;
+      }
 
-      if (selectedAuthor || selectedGenre || selectedFormat || selectedSerie) {
+      if (selectedAuthor || selectedGenre || selectedFormat ) {
         return <ListOfBooks currentArray={searchArray} />;
       }
     }
@@ -203,7 +206,7 @@ const Page = async ({
             className="absolute right-10  top-[-40px] lg:right-20"
           />
         )}
-        {test()}
+        {display()}
 
         {currentArray.length === 0 && searchArray.length === 0 && (
           <section className="flex justify-center flex-col gap-12 items-center pt-24">

@@ -21,6 +21,7 @@ const Filter = () => {
       params.delete("format");
       params.delete("searchbar");
       params.delete("sort");
+      params.delete("serie");
       params.set("filter", e.target.value);
     } else {
       params.delete("filter");

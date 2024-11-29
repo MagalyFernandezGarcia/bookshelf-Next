@@ -217,3 +217,18 @@ export async function updateBook(data: CreateBook, id: number) {
 export async function createUser(data: NewUser) {
   await prisma.user.create({ data });
 }
+
+export async function lendSerie(id: number, borrower: string, date: string) {
+   const bookFromSerie =await prisma.book.findMany({where:{serieId:id}})
+   bookFromSerie.forEach(async (book) => {
+     await prisma.book.update({
+       where: { id: book.id },
+       data: {
+         borrower,
+         date,
+       },
+     });
+   })
+ 
+
+}
