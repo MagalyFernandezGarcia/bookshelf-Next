@@ -6,10 +6,12 @@ import {
   byAuthor,
   byFormat,
   byGenre,
+  bySerie,
   getAuthors,
   getBooks,
   getFormats,
   getGenres,
+  getSeries,
   searchAuthor,
   searchBooks,
 } from "../db.service";
@@ -36,6 +38,7 @@ const Page = async ({
     searchbar?: string;
     sort?: string;
     rating?: string;
+    serie?: string;
   };
 }) => {
   const filter = searchParams?.filter || "all";
@@ -57,6 +60,10 @@ const Page = async ({
     ? parseInt(searchParams.rating, 10)
     : undefined;
 
+  const selectedSerie = searchParams.serie
+    ? parseInt(searchParams.serie, 10)
+    : undefined;
+
   const allBooks = await getBooks();
 
   switch (filter) {
@@ -70,7 +77,7 @@ const Page = async ({
         (book) => book.borrower !== "" || book.returned === true
       );
       break;
-  
+
     case "lend":
       currentArray = allBooks.filter((book) => book.borrower !== "");
       break;
@@ -92,7 +99,10 @@ const Page = async ({
     case "format":
       authors = await getFormats();
       break;
-    
+    case "serie":
+      authors = await getSeries();
+      break
+      
   }
 
   if (selectedAuthor) {
@@ -111,6 +121,9 @@ const Page = async ({
   if (selectedRating) {
     currentArray = allBooks.filter((book) => book.rating === selectedRating);
   }
+  if (selectedSerie) {
+    searchArray= await bySerie(selectedSerie);
+  }
 
   const dateBorrow = allBooks.filter((book) => book.date);
   const reclaim = dateBorrow.filter((book) => {
@@ -122,7 +135,41 @@ const Page = async ({
     return false;
   });
 
-  
+  const test = () => {
+    if (searchBarValue) {
+      return (
+        <>
+          <ListOfBooks currentArray={currentArray} />
+          <GeneralChoice valueChoice={authors} sort={filter} />
+        </>
+      );
+    }
+
+    if (sort === "rating") {
+      if (selectedRating) {
+        return <ListOfBooks currentArray={currentArray} />;
+      } else {
+        return <RatingChoice />;
+      }
+    } else {
+      if (
+        sort !== "" &&
+        !searchParams.author &&
+        !searchParams.genre &&
+        !searchParams.format &&
+        !searchParams.serie
+      ) {
+        return <GeneralChoice valueChoice={authors} sort={sort} />;
+      }
+
+      if (selectedAuthor || selectedGenre || selectedFormat || selectedSerie) {
+        return <ListOfBooks currentArray={searchArray} />;
+      }
+    }
+
+    return <ListOfBooks currentArray={currentArray} />;
+  };
+ 
 
   const modalIsVisible = await getVisibilityReclaimModal();
 
@@ -156,24 +203,8 @@ const Page = async ({
             className="absolute right-10  top-[-40px] lg:right-20"
           />
         )}
-        {searchBarValue ? (
-          <>
-            <ListOfBooks currentArray={currentArray} />
-            <GeneralChoice valueChoice={authors} sort={filter} />
-          </>
-        ): sort === "rating" && !selectedRating ?(<RatingChoice />) : sort==="rating" && selectedRating? (<ListOfBooks currentArray={currentArray} />):sort !== "rating" &&
-          !searchParams.author &&
-          !searchParams.genre &&
-          !searchParams.format ? (
-          <GeneralChoice valueChoice={authors} sort={sort} />
-        ) : sort !== "rating" && (selectedAuthor || selectedGenre || selectedFormat) ? (
-          <ListOfBooks currentArray={searchArray} />
-        ) 
-          
-        :<ListOfBooks currentArray={currentArray} />}
-       
-        
-        
+        {test()}
+
         {currentArray.length === 0 && searchArray.length === 0 && (
           <section className="flex justify-center flex-col gap-12 items-center pt-24">
             <p>Pas de résultat trouvé, voulez-vous ajouter un livre?</p>

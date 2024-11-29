@@ -38,15 +38,14 @@ const SortBtn = ({ value }: { value: string }) => {
 
   return (
     <>
-      {isLoading ? (
-        <Spinner size={40} />
-      ) : (
+      {(
         <button
-          className="bg-[#E4B781] p-2 text-center rounded-sm hover:bg-[#ecd3b4] h-[36px]"
+          className={`bg-[#E4B781] p-2 text-center rounded-sm hover:bg-[#ecd3b4] h-[36px] ${isLoading ? "pointer-events-none, min-w-[70px]  " : "" }`}
           value={value}
           onClick={handleClick}
         >
-          {value === "author"? "Auteurs" : value === "genre" ? "Genres" : value === "serie" ? "Séries": value ==="rating" ? "Score" : "Formats"}
+          {isLoading ? <Spinner size={20} /> : value === "author"? "Auteurs" : value === "genre" ? "Genres" : value === "serie" ? "Séries": value ==="rating" ? "Score" : "Formats"}
+          
         </button>
       )}
     </>

@@ -9,6 +9,7 @@ import { auth } from "@/auth";
 export const getAuthors = async () => prisma.author.findMany();
 export const getGenres = async () => prisma.genre.findMany();
 export const getFormats = async () => prisma.format.findMany();
+export const getSeries = async () => prisma.serie.findMany();
 
 export async function getBooks() {
   const session = await auth();
@@ -35,7 +36,7 @@ export async function createBook(data: CreateBook) {
   const userMail = session?.user?.email;
 
   if (success) {
-    const { author, genre, format, ...bookData } = validatedBook;
+    const { author, genre, format,serie, ...bookData } = validatedBook;
 
     if (!userMail) {
       throw new Error("Missing userId");
@@ -66,6 +67,16 @@ export async function createBook(data: CreateBook) {
       update: {},
       create: { name: format },
     });
+    
+    let foundSerie: { id: number } | null = null;
+    if (serie) {
+      foundSerie = await prisma.serie.upsert({
+        where: { name: serie },
+        update: {},
+        create: { name: serie },
+      });
+    }
+   
 
     await prisma.book.create({
       data: {
@@ -74,6 +85,7 @@ export async function createBook(data: CreateBook) {
         genreId: foundGenre.id,
         formatId: foundFormat.id,
         userId: user.id,
+        serieId: foundSerie?.id || null,
       },
     });
   } else {
@@ -124,6 +136,11 @@ export const byFormat = async (id: number) => {
   return formatSelected;
 };
 
+export const bySerie = async (id: number) => {
+  const serieSelected = await prisma.book.findMany({ where: { serieId: id } });
+  return serieSelected;
+};
+
 export const getFullBook = async (id: number) => {
   const fullBook = await prisma.book.findUnique({
     where: { id },
@@ -131,6 +148,7 @@ export const getFullBook = async (id: number) => {
       author: { select: { name: true } },
       genre: { select: { name: true } },
       format: { select: { name: true } },
+      serie: { select: { name: true } },
     },
   });
   return fullBook;
@@ -151,7 +169,7 @@ export async function updateBook(data: CreateBook, id: number) {
   const { success, error, data: validatedBook } = BookSchema.safeParse(data);
 
   if (success) {
-    const { author, genre, format, ...bookData } = validatedBook;
+    const { author, genre, format,serie, ...bookData } = validatedBook;
 
     const foundAuthor = await prisma.author.upsert({
       where: {
@@ -171,6 +189,14 @@ export async function updateBook(data: CreateBook, id: number) {
       update: {},
       create: { name: format },
     });
+    let foundSerie: { id: number } | null = null;
+    if (serie) {
+      foundSerie = await prisma.serie.upsert({
+        where: { name: serie },
+        update: {},
+        create: { name: serie },
+      });
+    }
 
     await prisma.book.update({
       where: { id },
@@ -179,6 +205,7 @@ export async function updateBook(data: CreateBook, id: number) {
         authorId: foundAuthor.id,
         genreId: foundGenre.id,
         formatId: foundFormat.id,
+        serieId: foundSerie?.id || null,
       },
     });
     // redirect(`/bookshelf/${id}`);

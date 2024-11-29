@@ -81,7 +81,7 @@ const BookPage = async ({ params }: BookPageProps) => {
               </div>
               {currentBook.serie ? (
                 <div className="flex  justify-between mt-2 lg:mt-6 ">
-                  <p>{currentBook.serie}</p> <p>{currentBook.volume}</p>
+                  <p>{currentBook.serie.name}</p> <p>{currentBook.volume}</p>
                 </div>
               ) : null}
             </section>

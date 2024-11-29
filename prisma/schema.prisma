@@ -33,7 +33,7 @@ model Book {
   id       Int       @id @default(autoincrement())
   title    String
   volume   Int
-  serie    String?
+  
   resume   String
   rating   Int
   returned Boolean
@@ -51,8 +51,16 @@ model Book {
 
   user   User @relation(fields: [userId], references: [id])
   userId Int
+
+  serie  Serie? @relation(fields: [serieId], references: [id])
+  serieId Int?
 }
 
+model Serie{
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  books Book[]
+}
 model Genre {
   id    Int    @id @default(autoincrement())
   name  String @unique
@@ -64,3 +72,4 @@ model Format {
   name  String @unique
   books Book[]
 }
+

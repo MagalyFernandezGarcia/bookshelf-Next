@@ -35,7 +35,7 @@ const FormUpdate = ({
 			//transformer les données reçues par la fonctions pour qu'elles correspondent à BookData
 			title: currentBook.title,
 			volume: currentBook.volume,
-			serie: currentBook.serie ?? undefined,
+			serie: currentBook.serie?.name ?? undefined,
 			author: currentBook.author.name,
 			genre: currentBook.genre.name,
 			resume: currentBook.resume,

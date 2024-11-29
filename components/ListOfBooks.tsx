@@ -21,6 +21,8 @@ const ListOfBooks = ({ currentArray }: { currentArray: Book[] }) => {
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams);
   
+  
+  
 
   if (currentArray.length > 0) {
     const [isLoading, setIsLoading] = useState(false);
