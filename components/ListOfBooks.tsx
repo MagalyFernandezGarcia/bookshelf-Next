@@ -10,11 +10,17 @@ import greenBook from "@/images/greenBook.svg";
 import redBook from "@/images/redBook.svg";
 import { useState } from "react";
 import Spinner from "./Spinner";
+import { useSearchParams } from "next/navigation";
+import { log } from "console";
+
+
 
 
 const ListOfBooks = ({ currentArray }: { currentArray: Book[] }) => {
   const sizeIcon = 16;
- 
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams);
+  
 
   if (currentArray.length > 0) {
     const [isLoading, setIsLoading] = useState(false);
@@ -40,7 +46,7 @@ const ListOfBooks = ({ currentArray }: { currentArray: Book[] }) => {
                 />
                 </div>
                 <button onClick={()=>setIsLoading(true)}>
-                <Link href={`/bookshelf/${book.id}`} className="text-center">
+                <Link href={`/bookshelf/${book.id}?${params.toString()}`} className="text-center">
                   {book.title}
                 </Link>
                 </button>

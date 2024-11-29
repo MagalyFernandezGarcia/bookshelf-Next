@@ -7,7 +7,7 @@ import add from "@/images/add.svg";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import Spinner from "./Spinner";
-import SortBtn from "./Buttons/SortBtn";
+
 
 const Filter = () => {
   const searchParams = useSearchParams();

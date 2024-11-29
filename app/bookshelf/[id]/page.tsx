@@ -1,4 +1,4 @@
-import { getFullBook, updateBook } from "@/app/db.service";
+import { getFullBook} from "@/app/db.service";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -12,12 +12,17 @@ import NavigateBtn from "@/components/Buttons/NavigateBtn";
 
 
 
+
 interface BookPageProps {
-	params: { id: string }; //params est un mot particulier de next qui permet de récupérer les queryparams, c'est pour ça que ça marche et pas la props id passée direct dans le component
+	params: { id: string  }; //params est un mot particulier de next qui permet de récupérer les queryparams, c'est pour ça que ça marche et pas la props id passée direct dans le component
+	
 }
 
 const BookPage = async ({ params }: BookPageProps) => {
+
 	const { id } = params;
+
+	
 	const currentBook = await getFullBook(parseInt(id));
 	const arrayOfHearts: JSX.Element[] = [];
 	
@@ -66,7 +71,7 @@ const BookPage = async ({ params }: BookPageProps) => {
 		<>
 			{currentBook ? (
 				<>
-					<NavigateBtn location="left" txt="Bibliothèque" href="/bookshelf" />
+					<NavigateBtn location="left" txt="Retour" href="/bookshelf" retainQueryParams />
 					<section className="flex flex-col items-center mt-4 lg:mb-12">
 						<h1 className={`${dancingScript.className} text-3xl font-bold lg:mb-12`}>
 							{currentBook.title}
