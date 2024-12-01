@@ -26,7 +26,7 @@ const BookPage = async ({ params }: BookPageProps) => {
       for (let i = 0; i < currentBook.rating; i++) {
         arrayOfHearts[i] = (
           <svg
-            className="fill-[#A6596B] text-red-400 w-6 h-auto"
+            className="fill-[#D8778D] text-red-400 w-6 h-auto"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 512 512"
             key={count++}
@@ -122,7 +122,7 @@ const BookPage = async ({ params }: BookPageProps) => {
               </>
             )}
           </section>
-          <section className=" flex gap-2 absolute bottom-8 right-12 ">
+          <section className=" flex gap-2 mt-12 absolute right-4 ">
             <div className="p-2 bg-[#E4B781] rounded-sm flex justify-center items-center relative lg:w-[40px]">
               <UpdateBtn sizeIcon={16} id={currentBook.id} />
             </div>

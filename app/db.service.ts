@@ -116,6 +116,12 @@ export const searchAuthor = async (serachText: string) => {
   });
   return AuthorsFound;
 };
+export const searchSerie = async (serachText: string) => {
+  const serieFound = await prisma.serie.findMany({
+    where: { name: { contains: serachText } },
+  });
+  return serieFound;
+};
 
 export const byAuthor = async (id: number) => {
   const authorSelected = await prisma.book.findMany({

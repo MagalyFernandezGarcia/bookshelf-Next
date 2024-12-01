@@ -14,6 +14,7 @@ import {
   getSeries,
   searchAuthor,
   searchBooks,
+  searchSerie,
 } from "../db.service";
 import { Author, Book } from "@prisma/client";
 import GeneralChoice from "@/components/GeneralChoice";
@@ -45,6 +46,7 @@ const Page = async ({
   const sort = searchParams?.sort || "";
   let currentArray: Book[] = [];
   let authors: Author[] = [];
+  let serie : Author[] = [];
   let searchArray: Book[] = [];
   const selectedAuthor = searchParams.author
     ? parseInt(searchParams.author, 10)
@@ -117,6 +119,7 @@ const Page = async ({
   if (searchBarValue) {
     currentArray = await searchBooks(searchBarValue);
     authors = await searchAuthor(searchBarValue);
+    serie = await searchSerie(searchBarValue);
   }
   if (selectedRating) {
     currentArray = allBooks.filter((book) => book.rating === selectedRating);
@@ -141,6 +144,7 @@ const Page = async ({
         <>
           <ListOfBooks currentArray={currentArray} />
           <GeneralChoice valueChoice={authors} sort={filter} />
+          <GeneralChoice valueChoice={serie} sort={filter} />
         </>
       );
     }
@@ -208,7 +212,7 @@ const Page = async ({
         )}
         {display()}
 
-        {currentArray.length === 0 && searchArray.length === 0 && (
+        {currentArray.length === 0 && searchArray.length === 0 && authors.length === 0 && serie.length === 0 && (
           <section className="flex justify-center flex-col gap-12 items-center pt-24">
             <p>Pas de résultat trouvé, voulez-vous ajouter un livre?</p>
             <button className="bg-[#E4B781] text-lg rounded-sm p-2">

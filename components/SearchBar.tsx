@@ -1,6 +1,6 @@
 "use client";
 
-import { searchBooks } from "@/app/db.service";
+
 import { SubmitHandler, useForm } from "react-hook-form";
 import glass from "@/images/search.svg";
 import Image from "next/image";
@@ -22,6 +22,8 @@ const SearchBar = () => {
       params.delete("author");
       params.delete("genre");
       params.delete("format");
+      params.delete("sort");
+      params.delete("rating");
       params.set("searchbar", data.search);
     } else {
       params.delete("searchbar");
@@ -29,8 +31,7 @@ const SearchBar = () => {
 
     replace(`${pathName}?${params.toString()}`);
 
-    // const array = await searchBooks(data.search);
-    // console.log(array);
+  
   };
 
   const { handleSubmit, register } = useForm<{ search: string }>();
@@ -43,6 +44,11 @@ const SearchBar = () => {
 
   const handleSearchParams = useDebouncedCallback((search: string) => {
     if (search !== "") {
+      params.delete("author");
+      params.delete("genre");
+      params.delete("format");
+      params.delete("sort");
+      params.delete("rating");
       params.set("searchbar", search);
     } else {
       params.delete("searchbar");
