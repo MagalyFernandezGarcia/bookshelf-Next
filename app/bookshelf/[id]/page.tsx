@@ -58,6 +58,8 @@ const BookPage = async ({ params }: BookPageProps) => {
 		return arrayOfHearts;
 	}
 
+	
+
 	return (
 		<>
 			{currentBook ? (

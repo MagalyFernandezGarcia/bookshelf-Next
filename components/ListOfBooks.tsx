@@ -8,58 +8,24 @@ import DeleteBtn from "./Buttons/DeleteBtn";
 
 import greenBook from "@/images/greenBook.svg";
 import redBook from "@/images/redBook.svg";
-import { FormEventHandler, useState } from "react";
+
 import Spinner from "./Spinner";
 import { useSearchParams } from "next/navigation";
-import Switch from "./Switch";
-import { lendSerie } from "@/app/db.service";
+import { useState } from "react";
+
 
 const ListOfBooks = ({
   currentArray,
-  serie,
+ 
 }: {
   currentArray: Book[];
-  serie?: boolean;
+ 
 }) => {
   const sizeIcon = 16;
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams);
-  const [lend, setLend] = useState(false);
+
   const [isLoading, setIsLoading] = useState(false);
-
-  const handleSwitch = () => {
-    setLend((prev) => !prev);
-  };
-
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
-    event.preventDefault();
-    const data = event.currentTarget;
-    const serieParam = params.get("serie");
-    const id = serieParam ? parseInt(serieParam, 10) : null;
-
-    if (!id) {
-      console.error("Invalid or missing 'serie' parameter");
-      return;
-    }
-    const date=  new Date(data.date.value)
-    
-    
-    
-    
-    
-
-    setLend(false);
-    setIsLoading(true);
-    try {
-      lendSerie(id, data.borrower.value, date.toISOString())
-      .then(() => {
-        setIsLoading(false);
-        console.log("Update successful!")
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   if (currentArray.length > 0) {
     if (isLoading) return <Spinner size={40} />;
@@ -100,41 +66,6 @@ const ListOfBooks = ({
                 </div>
               );
             })}
-          {serie && <Switch serie={currentArray} onSetLend={handleSwitch} />}
-          {lend && (
-            <form
-              className="flex flex-col items-center"
-              onSubmit={handleSubmit}
-            >
-              <section className="flex  gap-2">
-                <div className="flex flex-col mt-6">
-                  <label htmlFor="borrower" className="text-xs ps-16">
-                    Emprunteur
-                  </label>{" "}
-                  <input
-                    type="text"
-                    name="borrower"
-                    placeholder="Jerem Aitrait"
-                    required
-                    className=" bg-[#E4B781] placeholder-[#311C0D] placeholder-opacity-50 h-8 text-center rounded-md w-full  "
-                  />
-                </div>
-                <div className="flex flex-col mt-6">
-                  <label htmlFor="date" className="text-xs ps-16">
-                    Date
-                  </label>{" "}
-                  <input
-                    type="date"
-                    name="date"
-                    className=" bg-[#E4B781] placeholder-[#311C0D] placeholder-opacity-50 h-8 text-center rounded-md w-full  "
-                  />
-                </div>
-              </section>
-              <button className="w-[150px] text-[#F8D8B1] mt-8 bg-[#794822] flex items-center justify-center h-8 rounded-md  hover:bg-[#b66f38]">
-                Valider
-              </button>
-            </form>
-          )}
         </section>
       );
     }

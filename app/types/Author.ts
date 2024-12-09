@@ -7,6 +7,7 @@ export type NewAuthor ={
 export type Author = {
     id: number
     name: string
+    userId: number
 }
 
 export const AuthorSchema = z.object({ 

@@ -22,7 +22,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { dancingScript } from "@/app/fonts/fonts";
 
 import Spinner from "@/components/Spinner";
-import BookshelfBtn from "@/components/Buttons/NavigateBtn";
+
 import NavigateBtn from "@/components/Buttons/NavigateBtn";
 
 export default function Home() {

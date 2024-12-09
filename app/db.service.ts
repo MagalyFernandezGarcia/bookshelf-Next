@@ -6,10 +6,10 @@ import { redirect } from "next/navigation";
 import { NewUser } from "./types/User";
 import { auth } from "@/auth";
 
-export const getAuthors = async () => prisma.author.findMany();
-export const getGenres = async () => prisma.genre.findMany();
+
+
 export const getFormats = async () => prisma.format.findMany();
-export const getSeries = async () => prisma.serie.findMany();
+
 
 export async function getBooks() {
   const session = await auth();
@@ -28,6 +28,74 @@ export async function getBooks() {
     },
   });
   return books;
+}
+
+export async function getAuthors(){
+  const session = await auth();
+  const userMail = session?.user?.email;
+
+  if (!userMail) {
+    throw new Error("Missing userId");
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { email: userMail },
+  });
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  const authors = await prisma.author.findMany({
+    where: {
+      userId: user?.id,
+    },
+  });
+  return authors;
+}
+export async function getGenres(){
+  const session = await auth();
+  const userMail = session?.user?.email;
+
+  if (!userMail) {
+    throw new Error("Missing userId");
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { email: userMail },
+  });
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  const genres = await prisma.genre.findMany({
+    where: {
+      userId: user?.id,
+    },
+  });
+  return genres;
+}
+
+export async function getSeries(){
+  const session = await auth();
+  const userMail = session?.user?.email;
+
+  if (!userMail) {
+    throw new Error("Missing userId");
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { email: userMail },
+  });
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  const series = await prisma.serie.findMany({
+    where: {
+      userId: user?.id,
+    },
+  });
+  return series;
 }
 
 export async function createBook(data: CreateBook) {
@@ -53,13 +121,13 @@ export async function createBook(data: CreateBook) {
     const foundAuthor = await prisma.author.upsert({
       where: { name: author },
       update: {},
-      create: { name: author },
+      create: { name: author, userId: user.id },
     });
 
     const foundGenre = await prisma.genre.upsert({
       where: { name: genre },
       update: {},
-      create: { name: genre },
+      create: { name: genre, userId: user.id },
     });
 
     const foundFormat = await prisma.format.upsert({
@@ -73,7 +141,7 @@ export async function createBook(data: CreateBook) {
       foundSerie = await prisma.serie.upsert({
         where: { name: serie },
         update: {},
-        create: { name: serie },
+        create: { name: serie, lend : false, userId: user.id },
       });
     }
    
@@ -175,6 +243,19 @@ export async function updateBook(data: CreateBook, id: number) {
   const { success, error, data: validatedBook } = BookSchema.safeParse(data);
 
   if (success) {
+    const session = await auth();
+    const userMail = session?.user?.email;
+  
+    if (!userMail) {
+      throw new Error("Missing userId");
+    }
+  
+    const user = await prisma.user.findUnique({
+      where: { email: userMail },
+    });
+    if (!user) {
+      throw new Error("User not found");
+    }
     const { author, genre, format,serie, ...bookData } = validatedBook;
 
     const foundAuthor = await prisma.author.upsert({
@@ -182,13 +263,13 @@ export async function updateBook(data: CreateBook, id: number) {
         name: author,
       },
       update: {},
-      create: { name: author },
+      create: { name: author, userId: user.id },
     });
 
     const foundGenre = await prisma.genre.upsert({
       where: { name: genre },
       update: {},
-      create: { name: genre },
+      create: { name: genre, userId: user.id },
     });
     const foundFormat = await prisma.format.upsert({
       where: { name: format },
@@ -200,7 +281,7 @@ export async function updateBook(data: CreateBook, id: number) {
       foundSerie = await prisma.serie.upsert({
         where: { name: serie },
         update: {},
-        create: { name: serie },
+        create: { name: serie, lend : false , userId: user.id },
       });
     }
 
@@ -214,7 +295,7 @@ export async function updateBook(data: CreateBook, id: number) {
         serieId: foundSerie?.id || null,
       },
     });
-    // redirect(`/bookshelf/${id}`);
+    
   } else {
     throw new Error("Validation error: " + JSON.stringify(error));
   }
@@ -224,7 +305,7 @@ export async function createUser(data: NewUser) {
   await prisma.user.create({ data });
 }
 
-export async function lendSerie(id: number, borrower: string, date: string) {
+export async function lendSerie(id: number, borrower: string, date: string, lend: boolean) {
    const bookFromSerie =await prisma.book.findMany({where:{serieId:id}})
    bookFromSerie.forEach(async (book) => {
      await prisma.book.update({
@@ -232,6 +313,12 @@ export async function lendSerie(id: number, borrower: string, date: string) {
        data: {
          borrower,
          date,
+       },
+     });
+     await prisma.serie.update({
+       where: { id: id },
+       data: {
+         lend
        },
      });
    })

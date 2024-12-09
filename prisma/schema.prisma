@@ -21,12 +21,17 @@ model User {
   password String
 
   books Book[]
+  author Author[]
+  genre Genre[]
+  serie Serie[]
 }
 
 model Author {
   id    Int    @id @default(autoincrement())
   name  String @unique
   books Book[]
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
 }
 
 model Book {
@@ -60,11 +65,16 @@ model Serie{
   id    Int    @id @default(autoincrement())
   name  String @unique
   books Book[]
+  lend  Boolean
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
 }
 model Genre {
   id    Int    @id @default(autoincrement())
   name  String @unique
   books Book[]
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
 }
 
 model Format {

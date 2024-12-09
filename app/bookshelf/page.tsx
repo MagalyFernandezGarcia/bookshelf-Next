@@ -16,7 +16,7 @@ import {
   searchBooks,
   searchSerie,
 } from "../db.service";
-import { Author, Book } from "@prisma/client";
+import { Author, Book, Format, Serie } from "@prisma/client";
 import GeneralChoice from "@/components/GeneralChoice";
 import Filter from "@/components/Filter";
 
@@ -46,8 +46,11 @@ const Page = async ({
   const sort = searchParams?.sort || "";
   let currentArray: Book[] = [];
   let authors: Author[] = [];
-  let serie : Author[] = [];
+  let serie : Serie[] = [];
   let searchArray: Book[] = [];
+  let format : Format[] = [];
+  
+  
   const selectedAuthor = searchParams.author
     ? parseInt(searchParams.author, 10)
     : undefined;
@@ -99,10 +102,10 @@ const Page = async ({
       authors = await getGenres();
       break;
     case "format":
-      authors = await getFormats();
+      format = await getFormats();
       break;
     case "serie":
-      authors = await getSeries();
+      serie = await getSeries();
       break
       
   }
@@ -156,6 +159,17 @@ const Page = async ({
         return <RatingChoice />;
       }
     } else {
+      if(format.length !== 0){
+        
+     
+        return <GeneralChoice format={format} sort={sort} />;
+
+      }
+      if(serie.length !== 0){
+   
+        return <GeneralChoice series={serie} sort={sort} />;
+
+      }
       if (
         sort !== "" &&
         !searchParams.author &&
@@ -165,11 +179,9 @@ const Page = async ({
       ) {
         return <GeneralChoice valueChoice={authors} sort={sort} />;
       }
-      if (selectedSerie) {
-        return <ListOfBooks currentArray={searchArray} serie/>;
-      }
+     
 
-      if (selectedAuthor || selectedGenre || selectedFormat ) {
+      if (selectedAuthor || selectedGenre || selectedFormat ||selectedSerie ) {
         return <ListOfBooks currentArray={searchArray} />;
       }
     }
@@ -179,6 +191,10 @@ const Page = async ({
  
 
   const modalIsVisible = await getVisibilityReclaimModal();
+  
+ 
+  
+  
 
   return (
     <>
