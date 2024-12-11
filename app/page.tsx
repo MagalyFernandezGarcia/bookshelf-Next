@@ -10,7 +10,7 @@ import Link from "next/link";
 import Image from "next/image";
 import check from "@/images/check-solid.svg";
 import eraser from "@/images/eraser-solid.svg";
-import arrow from "@/images/right-arrow.svg";
+
 import restCat from "@/images/restCat.png";
 import catBorder from "@/images/catBorder.png";
 
@@ -55,14 +55,13 @@ export default function Home() {
 	const [isLoading, setIsLoading] = useState(false);
 	const onSubmit: SubmitHandler<BookData> = async (data) => {
 		setIsLoading(true);
-		
+
 		if (data.borrower && !data.date) {
 			data.date = new Date().toISOString();
 		}
-		if(data.format === "kindle"){
-			data.date = ""
-			data.borrower = ""
-
+		if (data.format === "kindle") {
+			data.date = "";
+			data.borrower = "";
 		}
 
 		const { success, data: validatedBook } = BookSchema.safeParse(data);
@@ -75,7 +74,7 @@ export default function Home() {
 			} catch (error) {
 				setShowModal(true);
 				setError(true);
-			}finally{
+			} finally {
 				setIsLoading(false);
 			}
 		} else {
@@ -88,14 +87,16 @@ export default function Home() {
 		setShowModal(false);
 		setResetState((prev) => prev + 1);
 		setError(false);
-		
+
 		reset();
 	};
 
 	return (
 		<div className="flex flex-col items-center">
-			<NavigateBtn txt="Bibliothèque" location="right" href="/bookshelf"/>
-			<h1 className={`text-3xl mt-4 ${dancingScript.className} font-bold lg:mb-4`}>
+			<NavigateBtn txt="Bibliothèque" location="right" href="/bookshelf" />
+			<h1
+				className={`text-3xl mt-4 ${dancingScript.className} font-bold lg:mb-4`}
+			>
 				Ajouter un livre
 			</h1>
 			<form
@@ -197,8 +198,11 @@ export default function Home() {
 						className="w-[150px] h-24 bg-[#794822] flex items-center justify-center mb-6  hover:bg-[#b66f38]"
 						disabled={isLoading}
 					>
-						
-						{isLoading ? <Spinner size={40}/> : <Image src={check} width={40} height={40} alt="check" />}
+						{isLoading ? (
+							<Spinner size={40} />
+						) : (
+							<Image src={check} width={40} height={40} alt="check" />
+						)}
 					</button>
 				</div>
 			</form>
