@@ -306,22 +306,35 @@ export async function lendSerie(
 	date: string,
 	lend: boolean
 ) {
+	const session = await auth();
+	const userMail = session?.user?.email;
+
+	if (!userMail) {
+		throw new Error("Missing userId");
+	}
+
+	const user = await prisma.user.findUnique({
+		where: { email: userMail },
+	});
+	if (!user) {
+		throw new Error("User not found");
+	}
 	const bookFromSerie = await prisma.book.findMany({ where: { serieId: id } });
 
 	bookFromSerie.forEach(async (book) => {
 		await prisma.book.update({
-			where: { id: book.id },
+			where: { id: book.id, userId: user.id },
 			data: {
 				borrower,
 				date: date === "" ? null : date,
 			},
 		});
 		await prisma.serie.update({
-			where: { id: id },
+			where: { id: id, userId: user.id },
 			data: {
 				lend,
 			},
 		});
 	});
-	revalidatePath("/bookshelf?sort=serie");
+	revalidatePath("/bookshelf");
 }

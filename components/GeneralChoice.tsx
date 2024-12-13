@@ -42,7 +42,6 @@ const GeneralChoice = ({
 	};
 	const [isLoading, setIsLoading] = useState(false);
 	const [modal, setModal] = useState(0);
-	const router = useRouter();
 
 	if (valueChoice) {
 		return (
@@ -91,6 +90,7 @@ const GeneralChoice = ({
 			</>
 		);
 	}
+	console.log("in general choice", series);
 
 	if (series) {
 		return (
@@ -110,8 +110,6 @@ const GeneralChoice = ({
 											serie.id
 										);
 										console.log("Modal should not appear, modal state:", modal);
-
-										router.refresh();
 									} catch (error) {
 										console.log(error);
 									}

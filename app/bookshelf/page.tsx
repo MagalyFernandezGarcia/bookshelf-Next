@@ -108,6 +108,8 @@ const Page = async ({
 			break;
 	}
 
+	console.log("first appear", serie);
+
 	if (selectedAuthor) {
 		searchArray = selectedAuthor ? await byAuthor(selectedAuthor) : [];
 	}

@@ -41,7 +41,6 @@ const SerieModal = ({
 			console.log("key in modal", id);
 
 			onSetModal();
-			router.refresh();
 		} catch (error) {
 			console.log(error);
 		}
