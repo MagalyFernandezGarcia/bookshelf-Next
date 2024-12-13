@@ -101,20 +101,28 @@ const GeneralChoice = ({
 					<section className="flex flex-col gap-4 mt-8">
 						{series.map((serie) => {
 							function handleSwitch() {
+								console.log("Current lend value:", serie.lend);
 								if (serie.lend === true) {
 									try {
 										lendSerie(serie.id, "", "", false);
-										console.log("Revalidating path...");
+										console.log(
+											"lendSerie called to set lend to false for:",
+											serie.id
+										);
+										console.log("Modal should not appear, modal state:", modal);
+
 										router.refresh();
 									} catch (error) {
 										console.log(error);
 									}
 								} else {
+									console.log("lend is false, setting modal:", serie.id);
 									setModal(serie.id);
 								}
 							}
 							return (
 								<Fragment key={serie.id}>
+									<p>{serie.id}</p>
 									{modal !== 0 ? (
 										<SerieModal id={modal} onSetModal={() => setModal(0)} />
 									) : (

@@ -38,7 +38,8 @@ const SerieModal = ({
 		const date = new Date(data.date);
 		try {
 			lendSerie(id, data.borrower, date.toISOString(), true);
-			console.log("Revalidating path...");
+			console.log("key in modal", id);
+
 			onSetModal();
 			router.refresh();
 		} catch (error) {
