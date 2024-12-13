@@ -1,11 +1,16 @@
+import Image from "next/image";
+import roundPaws from "@/images/round.svg";
 
-
-const Spinner = ({size} : {size: number}) => {
-  
-  
-    return (
-        <div className="flex items-center justify-center py-6">
-          <svg
+const Spinner = ({ size }: { size: number }) => {
+	return (
+		<div className="flex items-center justify-center py-6">
+			<Image
+				src={roundPaws}
+				height={size}
+				alt="spinner"
+				className="animate-spin"
+			/>
+			{/* <svg
             xmlns="http://www.w3.org/2000/svg"
             width={size}
             height={size}
@@ -20,8 +25,9 @@ const Spinner = ({size} : {size: number}) => {
            
           >
             <path d="M21 12a9 9 0 1 1-6.219-8.56" />
-          </svg>
-        </div>)
-}
+          </svg> */}
+		</div>
+	);
+};
 
-export default Spinner
+export default Spinner;
