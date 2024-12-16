@@ -2,7 +2,6 @@
 import { revalidatePath } from "next/cache";
 import prisma from "./dbConfig/prisma";
 import { BookSchema, CreateBook } from "./types/Book";
-import { redirect } from "next/navigation";
 import { NewUser } from "./types/User";
 import { auth } from "@/auth";
 
@@ -169,21 +168,60 @@ export const deleteBook = async (id: number) => {
 };
 
 export const searchBooks = async (serachText: string) => {
+	const session = await auth();
+	const userMail = session?.user?.email;
+
+	if (!userMail) {
+		throw new Error("Missing userId");
+	}
+
+	const user = await prisma.user.findUnique({
+		where: { email: userMail },
+	});
+	if (!user) {
+		throw new Error("User not found");
+	}
 	const booksFound = await prisma.book.findMany({
-		where: { title: { contains: serachText } },
+		where: { title: { contains: serachText }, userId: user.id },
 	});
 	return booksFound;
 };
 
 export const searchAuthor = async (serachText: string) => {
+	const session = await auth();
+	const userMail = session?.user?.email;
+
+	if (!userMail) {
+		throw new Error("Missing userId");
+	}
+
+	const user = await prisma.user.findUnique({
+		where: { email: userMail },
+	});
+	if (!user) {
+		throw new Error("User not found");
+	}
 	const AuthorsFound = await prisma.author.findMany({
-		where: { name: { contains: serachText } },
+		where: { name: { contains: serachText }, userId: user.id },
 	});
 	return AuthorsFound;
 };
 export const searchSerie = async (serachText: string) => {
+	const session = await auth();
+	const userMail = session?.user?.email;
+
+	if (!userMail) {
+		throw new Error("Missing userId");
+	}
+
+	const user = await prisma.user.findUnique({
+		where: { email: userMail },
+	});
+	if (!user) {
+		throw new Error("User not found");
+	}
 	const serieFound = await prisma.serie.findMany({
-		where: { name: { contains: serachText } },
+		where: { name: { contains: serachText }, userId: user.id },
 	});
 	return serieFound;
 };
