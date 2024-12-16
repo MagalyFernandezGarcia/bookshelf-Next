@@ -1,26 +1,9 @@
 import SearchBar from "@/components/SearchBar";
-import Image from "next/image";
 
-import ListOfBooks from "@/components/ListOfBooks";
-import {
-  byAuthor,
-  byFormat,
-  byGenre,
-  bySerie,
-  getAuthors,
-  getBooks,
-  getFormats,
-  getGenres,
-  getSeries,
-  searchAuthor,
-  searchBooks,
-  searchSerie,
-} from "../db.service";
+import { getBooks } from "../db.service";
 
-import GeneralChoice from "@/components/GeneralChoice";
 import Filter from "@/components/Filter";
 
-import sitCat from "@/images/sitCat.png";
 import ReclaimModal from "@/components/Modals/ReclaimModal";
 import { getVisibilityReclaimModal } from "@/actions/modal.action";
 
@@ -59,7 +42,6 @@ const Page = async ({
 }) => {
   const filter = searchParams?.filter || "all";
   const sort = searchParams?.sort || "";
- 
 
   const selectedAuthor = searchParams.author
     ? parseInt(searchParams.author, 10)
@@ -81,8 +63,6 @@ const Page = async ({
 
   const allBooks = await getBooks();
 
-  
-
   const dateBorrow = allBooks.filter((book) => book.date);
   const reclaim = dateBorrow.filter((book) => {
     if (book.date) {
@@ -93,31 +73,28 @@ const Page = async ({
     return false;
   });
 
-  
-
   const modalIsVisible = await getVisibilityReclaimModal();
 
   const display = () => {
     if (searchBarValue) {
       return <SearchBarResult searchBarValue={searchBarValue} />;
     }
-    if(selectedAuthor){
-      return <AuthorChoosed authorChoosed={selectedAuthor} />
+    if (selectedAuthor) {
+      return <AuthorChoosed authorChoosed={selectedAuthor} />;
     }
-    if (selectedGenre){
-      return <GenreChoosed genreChoosed={selectedGenre} />
+    if (selectedGenre) {
+      return <GenreChoosed genreChoosed={selectedGenre} />;
     }
-    if (selectedFormat){
-      return <FormatChoosed formatChoosed={selectedFormat} />
+    if (selectedFormat) {
+      return <FormatChoosed formatChoosed={selectedFormat} />;
     }
-    if (selectedSerie){
-      return <SerieChoosed serieChoosed={selectedSerie} />
+    if (selectedSerie) {
+      return <SerieChoosed serieChoosed={selectedSerie} />;
     }
-    if (selectedRating){
-      return <RatingChoosed ratingChoosed={selectedRating} />
+    if (selectedRating) {
+      return <RatingChoosed ratingChoosed={selectedRating} />;
     }
-    
-    
+
     switch (sort) {
       case "author":
         return <Author />;
@@ -141,8 +118,6 @@ const Page = async ({
       case "all":
         return <Default />;
     }
-    
-
   };
 
   return (
@@ -166,30 +141,8 @@ const Page = async ({
       <Filter />
 
       <div className="relative">
-        
         {display()}
-        {/* {currentArray.length > 0 && (
-					<Image
-						src={sitCat}
-						alt="cat"
-						width={80}
-						height={80}
-						className="absolute right-10  top-[-40px] lg:right-20"
-					/>
-				)}
-				{display()}
-
-				{currentArray.length === 0 &&
-					searchArray.length === 0 &&
-					authors.length === 0 &&
-					serie.length === 0 && (
-						<section className="flex justify-center flex-col gap-12 items-center pt-24">
-							<p>Pas de résultat trouvé, voulez-vous ajouter un livre?</p>
-							<button className="bg-[#E4B781] text-lg rounded-sm p-2">
-								<Link href="/">Ajouter un livre</Link>
-							</button>
-						</section>
-					)} */}
+        
       </div>
     </>
   );

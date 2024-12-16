@@ -8,7 +8,9 @@ import Switch from "./Switch";
 import { lendSerie } from "@/app/db.service";
 
 import SerieModal from "./Modals/SerieModal";
-
+import sitCat from "@/images/sitCat.png";
+import Image from "next/image";
+import Link from "next/link";
 const GeneralChoice = ({
   valueChoice,
   sort,
@@ -66,6 +68,13 @@ const GeneralChoice = ({
           <Spinner size={40} />
         ) : (
           <section className="flex flex-col gap-4 mt-8">
+            <Image
+              src={sitCat}
+              alt="cat"
+              width={80}
+              height={80}
+              className="absolute right-10  top-[-40px] lg:right-20"
+            />
             {valueChoice.map((choice) => {
               return (
                 <p
@@ -90,6 +99,13 @@ const GeneralChoice = ({
           <Spinner size={40} />
         ) : (
           <section className="flex flex-col gap-4 mt-8">
+            <Image
+              src={sitCat}
+              alt="cat"
+              width={80}
+              height={80}
+              className="absolute right-10  top-[-40px] lg:right-20"
+            />
             {formats.map((format) => {
               return (
                 <p
@@ -114,10 +130,16 @@ const GeneralChoice = ({
           <Spinner size={40} />
         ) : (
           <section className="flex flex-col gap-4 mt-8">
+            <Image
+              src={sitCat}
+              alt="cat"
+              width={80}
+              height={80}
+              className="absolute right-10  top-[-40px] lg:right-20"
+            />
             {series.map((serie) => {
               return (
                 <Fragment key={serie.id}>
-                  
                   {modal !== 0 ? (
                     <SerieModal id={modal} onSetModal={() => setModal(0)} />
                   ) : (
@@ -139,6 +161,16 @@ const GeneralChoice = ({
       </>
     );
   }
+
+  if (!valueChoice && !formats && !series)
+    return (
+      <section className="flex justify-center flex-col gap-12 items-center pt-24">
+        <p>Pas de résultat trouvé, voulez-vous ajouter un livre?</p>
+        <button className="bg-[#E4B781] text-lg rounded-sm p-2">
+          <Link href="/">Ajouter un livre</Link>
+        </button>
+      </section>
+    );
 };
 
 export default GeneralChoice;

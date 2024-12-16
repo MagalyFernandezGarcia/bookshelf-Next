@@ -12,6 +12,7 @@ import redBook from "@/images/redBook.svg";
 import Spinner from "./Spinner";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
+import sitCat from "@/images/sitCat.png";
 
 
 const ListOfBooks = ({
@@ -32,6 +33,15 @@ const ListOfBooks = ({
     if (!isLoading) {
       return (
         <section className="flex flex-col gap-4 mt-8 lg:w-[600px]">
+          {currentArray .length > 0 && (
+            <Image
+						src={sitCat}
+						alt="cat"
+						width={80}
+						height={80}
+						className="absolute right-10  top-[-40px] lg:right-20"
+					/>
+          )}
           {currentArray
             .sort((a, b) => b.id - a.id)
             .map((book) => {
@@ -69,6 +79,13 @@ const ListOfBooks = ({
         </section>
       );
     }
+  }else{
+    return (<section className="flex justify-center flex-col gap-12 items-center pt-24">
+      <p>Pas de résultat trouvé, voulez-vous ajouter un livre?</p>
+      <button className="bg-[#E4B781] text-lg rounded-sm p-2">
+        <Link href="/">Ajouter un livre</Link>
+      </button>
+    </section>)
   }
 };
 
