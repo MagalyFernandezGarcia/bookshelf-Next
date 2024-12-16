@@ -40,6 +40,28 @@ const GeneralChoice = ({
 
 		replace(`${pathName}?${params.toString()}`);
 	};
+
+  const handleSwitch = (serie: any) => {
+    console.log("Current lend value:", serie.lend);
+
+
+    if (serie.lend === true) {
+      try {
+        lendSerie(serie.id, "", "", false);
+        console.log(
+          "lendSerie called to set lend to false for:",
+          serie.id
+        );
+        console.log("Modal should not appear, modal state:", modal);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      console.log("lend is false, setting modal:", serie.id);
+      setModal(serie.id);
+    }
+  }
+
 	const [isLoading, setIsLoading] = useState(false);
 	const [modal, setModal] = useState(0);
 
@@ -90,7 +112,6 @@ const GeneralChoice = ({
 			</>
 		);
 	}
-	console.log("in general choice", series);
 
 	if (series) {
 		return (
@@ -100,24 +121,6 @@ const GeneralChoice = ({
 				) : (
 					<section className="flex flex-col gap-4 mt-8">
 						{series.map((serie) => {
-							function handleSwitch() {
-								console.log("Current lend value:", serie.lend);
-								if (serie.lend === true) {
-									try {
-										lendSerie(serie.id, "", "", false);
-										console.log(
-											"lendSerie called to set lend to false for:",
-											serie.id
-										);
-										console.log("Modal should not appear, modal state:", modal);
-									} catch (error) {
-										console.log(error);
-									}
-								} else {
-									console.log("lend is false, setting modal:", serie.id);
-									setModal(serie.id);
-								}
-							}
 							return (
 								<Fragment key={serie.id}>
 									<p>{serie.id}</p>
@@ -127,7 +130,7 @@ const GeneralChoice = ({
 										<div className="flex items-center justify-between pl-4 pr-4  h-20 bg-[#E4B781] text-lg rounded-sm">
 											<p onClick={() => handleClick(serie.id)}>{serie.name}</p>
 											<div className="mb-12 ">
-												<Switch serie={serie} onSwitch={handleSwitch} />
+												<Switch serie={serie} onSwitch={() => handleSwitch(serie)} />
 											</div>
 										</div>
 									)}

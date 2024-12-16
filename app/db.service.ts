@@ -321,7 +321,7 @@ export async function lendSerie(
 	}
 	const bookFromSerie = await prisma.book.findMany({ where: { serieId: id } });
 
-	bookFromSerie.forEach(async (book) => {
+	for (const book of bookFromSerie) {
 		await prisma.book.update({
 			where: { id: book.id, userId: user.id },
 			data: {
@@ -335,6 +335,6 @@ export async function lendSerie(
 				lend,
 			},
 		});
-	});
-	revalidatePath("/bookshelf");
+	}
+  revalidatePath("/bookshelf");
 }

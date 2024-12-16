@@ -50,7 +50,7 @@ const Switch = ({
 					type="checkbox"
 					id="switch"
 					className="opacity-0 w-0 h-0"
-					defaultChecked={serie ? serie.lend : undefined}
+          checked={serie ? !!serie.lend : undefined}
 					{...(register ? register("returned") : {})}
 					onChange={
 						currentBook && serie ? update : serie ? onSwitch : undefined

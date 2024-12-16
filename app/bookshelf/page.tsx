@@ -46,7 +46,7 @@ const Page = async ({
 	const sort = searchParams?.sort || "";
 	let currentArray: Book[] = [];
 	let authors: Author[] = [];
-	let serie: Serie[] = [];
+  const serie: Serie[] = await getSeries();
 	let searchArray: Book[] = [];
 	let format: Format[] = [];
 
@@ -93,22 +93,20 @@ const Page = async ({
 			currentArray = allBooks;
 	}
 
-	switch (sort) {
-		case "author":
-			authors = await getAuthors();
-			break;
-		case "genre":
-			authors = await getGenres();
-			break;
-		case "format":
-			format = await getFormats();
-			break;
-		case "serie":
-			serie = await getSeries();
-			break;
-	}
-
-	console.log("first appear", serie);
+	// switch (sort) {
+	// 	case "author":
+	// 		authors = await getAuthors();
+	// 		break;
+	// 	case "genre":
+	// 		authors = await getGenres();
+	// 		break;
+	// 	case "format":
+	// 		format = await getFormats();
+	// 		break;
+	// 	case "serie":
+	// 		serie = await getSeries();
+	// 		break;
+	// }
 
 	if (selectedAuthor) {
 		searchArray = selectedAuthor ? await byAuthor(selectedAuthor) : [];
@@ -122,7 +120,7 @@ const Page = async ({
 	if (searchBarValue) {
 		currentArray = await searchBooks(searchBarValue);
 		authors = await searchAuthor(searchBarValue);
-		serie = await searchSerie(searchBarValue);
+		// serie = await searchSerie(searchBarValue);
 	}
 	if (selectedRating) {
 		currentArray = allBooks.filter((book) => book.rating === selectedRating);
