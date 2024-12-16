@@ -19,6 +19,7 @@ const Switch = ({
 }) => {
 	const router = useRouter();
 
+
 	function update() {
 		if (currentBook) {
 			try {
@@ -39,18 +40,15 @@ const Switch = ({
 	return (
 		<div className="flex flex-col mt-6">
 			<label
-				htmlFor="switch"
 				className="relative inline-block w-12 h-6 text-xs cursor-pointer"
 			>
 				<span className="absolute left-[12px]">
 					{serie ? "Prêté" : "Retour"}
 				</span>
-
 				<input
 					type="checkbox"
-					id="switch"
 					className="opacity-0 w-0 h-0"
-          checked={serie ? !!serie.lend : undefined}
+          			checked={serie ? !!serie.lend : undefined}
 					{...(register ? register("returned") : {})}
 					onChange={
 						currentBook && serie ? update : serie ? onSwitch : undefined

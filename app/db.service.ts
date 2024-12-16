@@ -91,6 +91,7 @@ export async function getSeries() {
 		where: {
 			userId: user?.id,
 		},
+		orderBy: { name: "asc" },
 	});
 	return series;
 }

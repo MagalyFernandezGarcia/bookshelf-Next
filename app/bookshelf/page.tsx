@@ -3,20 +3,20 @@ import Image from "next/image";
 
 import ListOfBooks from "@/components/ListOfBooks";
 import {
-	byAuthor,
-	byFormat,
-	byGenre,
-	bySerie,
-	getAuthors,
-	getBooks,
-	getFormats,
-	getGenres,
-	getSeries,
-	searchAuthor,
-	searchBooks,
-	searchSerie,
+  byAuthor,
+  byFormat,
+  byGenre,
+  bySerie,
+  getAuthors,
+  getBooks,
+  getFormats,
+  getGenres,
+  getSeries,
+  searchAuthor,
+  searchBooks,
+  searchSerie,
 } from "../db.service";
-import { Author, Book, Format, Serie } from "@prisma/client";
+
 import GeneralChoice from "@/components/GeneralChoice";
 import Filter from "@/components/Filter";
 
@@ -27,184 +27,148 @@ import { getVisibilityReclaimModal } from "@/actions/modal.action";
 import Link from "next/link";
 import SortBtn from "@/components/Buttons/SortBtn";
 import RatingChoice from "@/components/RatingChoice";
+import Default from "@/components/filterLogic/Default";
+import Present from "@/components/filterLogic/Present";
+import Absent from "@/components/filterLogic/Absent";
+import Lend from "@/components/filterLogic/Lend";
+import Author from "@/components/filterLogic/Author";
+import Genre from "@/components/filterLogic/Genre";
+import Format from "@/components/filterLogic/Format";
+import Serie from "@/components/filterLogic/Serie";
+import SearchBarResult from "@/components/filterLogic/SearchBarResult";
+
+import AuthorChoosed from "@/components/filterLogic/AuthorChoosed";
+import GenreChoosed from "@/components/filterLogic/GenreChoosed";
+import FormatChoosed from "@/components/filterLogic/FormatChoosed";
+import SerieChoosed from "@/components/filterLogic/SerieChoosed";
+import RatingChoosed from "@/components/filterLogic/RatingChoosed";
 
 const Page = async ({
-	searchParams,
+  searchParams,
 }: {
-	searchParams: {
-		filter: string;
-		author?: string;
-		genre?: string;
-		format?: string;
-		searchbar?: string;
-		sort?: string;
-		rating?: string;
-		serie?: string;
-	};
+  searchParams: {
+    filter: string;
+    author?: string;
+    genre?: string;
+    format?: string;
+    searchbar?: string;
+    sort?: string;
+    rating?: string;
+    serie?: string;
+  };
 }) => {
-	const filter = searchParams?.filter || "all";
-	const sort = searchParams?.sort || "";
-	let currentArray: Book[] = [];
-	let authors: Author[] = [];
-  const serie: Serie[] = await getSeries();
-	let searchArray: Book[] = [];
-	let format: Format[] = [];
+  const filter = searchParams?.filter || "all";
+  const sort = searchParams?.sort || "";
+ 
 
-	const selectedAuthor = searchParams.author
-		? parseInt(searchParams.author, 10)
-		: undefined;
-	const selectedGenre = searchParams.genre
-		? parseInt(searchParams.genre, 10)
-		: undefined;
-	const selectedFormat = searchParams.format
-		? parseInt(searchParams.format, 10)
-		: undefined;
-	const searchBarValue = searchParams.searchbar;
-	const selectedRating = searchParams.rating
-		? parseInt(searchParams.rating, 10)
-		: undefined;
+  const selectedAuthor = searchParams.author
+    ? parseInt(searchParams.author, 10)
+    : undefined;
+  const selectedGenre = searchParams.genre
+    ? parseInt(searchParams.genre, 10)
+    : undefined;
+  const selectedFormat = searchParams.format
+    ? parseInt(searchParams.format, 10)
+    : undefined;
+  const searchBarValue = searchParams.searchbar;
+  const selectedRating = searchParams.rating
+    ? parseInt(searchParams.rating, 10)
+    : undefined;
 
-	const selectedSerie = searchParams.serie
-		? parseInt(searchParams.serie, 10)
-		: undefined;
+  const selectedSerie = searchParams.serie
+    ? parseInt(searchParams.serie, 10)
+    : undefined;
 
-	const allBooks = await getBooks();
+  const allBooks = await getBooks();
 
-	switch (filter) {
-		case "present":
-			currentArray = allBooks.filter(
-				(book) => book.borrower === "" && book.returned === false
-			);
-			break;
-		case "absent":
-			currentArray = allBooks.filter(
-				(book) => book.borrower !== "" || book.returned === true
-			);
-			break;
+  
 
-		case "lend":
-			currentArray = allBooks.filter((book) => book.borrower !== "");
-			break;
-		case "":
-		case "all":
-			currentArray = allBooks;
-			break;
-		default:
-			currentArray = allBooks;
-	}
+  const dateBorrow = allBooks.filter((book) => book.date);
+  const reclaim = dateBorrow.filter((book) => {
+    if (book.date) {
+      const diffDate = new Date(book.date).getTime() - new Date().getTime();
+      const diffInMonths = Math.floor(diffDate / (1000 * 60 * 60 * 24 * 30));
+      return diffInMonths < -6;
+    }
+    return false;
+  });
 
-	// switch (sort) {
-	// 	case "author":
-	// 		authors = await getAuthors();
-	// 		break;
-	// 	case "genre":
-	// 		authors = await getGenres();
-	// 		break;
-	// 	case "format":
-	// 		format = await getFormats();
-	// 		break;
-	// 	case "serie":
-	// 		serie = await getSeries();
-	// 		break;
-	// }
+  
 
-	if (selectedAuthor) {
-		searchArray = selectedAuthor ? await byAuthor(selectedAuthor) : [];
-	}
-	if (selectedGenre) {
-		searchArray = selectedGenre ? await byGenre(selectedGenre) : [];
-	}
-	if (selectedFormat) {
-		searchArray = selectedFormat ? await byFormat(selectedFormat) : [];
-	}
-	if (searchBarValue) {
-		currentArray = await searchBooks(searchBarValue);
-		authors = await searchAuthor(searchBarValue);
-		// serie = await searchSerie(searchBarValue);
-	}
-	if (selectedRating) {
-		currentArray = allBooks.filter((book) => book.rating === selectedRating);
-	}
-	if (selectedSerie) {
-		searchArray = await bySerie(selectedSerie);
-	}
+  const modalIsVisible = await getVisibilityReclaimModal();
 
-	const dateBorrow = allBooks.filter((book) => book.date);
-	const reclaim = dateBorrow.filter((book) => {
-		if (book.date) {
-			const diffDate = new Date(book.date).getTime() - new Date().getTime();
-			const diffInMonths = Math.floor(diffDate / (1000 * 60 * 60 * 24 * 30));
-			return diffInMonths < -6;
-		}
-		return false;
-	});
+  const display = () => {
+    if (searchBarValue) {
+      return <SearchBarResult searchBarValue={searchBarValue} />;
+    }
+    if(selectedAuthor){
+      return <AuthorChoosed authorChoosed={selectedAuthor} />
+    }
+    if (selectedGenre){
+      return <GenreChoosed genreChoosed={selectedGenre} />
+    }
+    if (selectedFormat){
+      return <FormatChoosed formatChoosed={selectedFormat} />
+    }
+    if (selectedSerie){
+      return <SerieChoosed serieChoosed={selectedSerie} />
+    }
+    if (selectedRating){
+      return <RatingChoosed ratingChoosed={selectedRating} />
+    }
+    
+    
+    switch (sort) {
+      case "author":
+        return <Author />;
+      case "genre":
+        return <Genre />;
+      case "format":
+        return <Format />;
+      case "serie":
+        return <Serie />;
+      case "rating":
+        return <RatingChoice />;
+    }
+    switch (filter) {
+      case "present":
+        return <Present />;
+      case "absent":
+        return <Absent />;
+      case "lend":
+        return <Lend />;
+      case "":
+      case "all":
+        return <Default />;
+    }
+    
 
-	const display = () => {
-		if (searchBarValue) {
-			return (
-				<>
-					<ListOfBooks currentArray={currentArray} />
-					<GeneralChoice valueChoice={authors} sort={filter} />
-					<GeneralChoice valueChoice={serie} sort={filter} />
-				</>
-			);
-		}
+  };
 
-		if (sort === "rating") {
-			if (selectedRating) {
-				return <ListOfBooks currentArray={currentArray} />;
-			} else {
-				return <RatingChoice />;
-			}
-		} else {
-			if (format.length !== 0) {
-				return <GeneralChoice format={format} sort={sort} />;
-			}
-			if (serie.length !== 0) {
-				return <GeneralChoice series={serie} sort={sort} />;
-			}
-			if (
-				sort !== "" &&
-				!searchParams.author &&
-				!searchParams.genre &&
-				!searchParams.format &&
-				!searchParams.serie
-			) {
-				return <GeneralChoice valueChoice={authors} sort={sort} />;
-			}
+  return (
+    <>
+      {modalIsVisible && reclaim.length !== 0 && (
+        <ReclaimModal array={reclaim} />
+      )}
 
-			if (selectedAuthor || selectedGenre || selectedFormat || selectedSerie) {
-				return <ListOfBooks currentArray={searchArray} />;
-			}
-		}
+      <SearchBar />
+      <details className="mt-4">
+        <summary>Rechercher par :</summary>
+        <div className=" flex justify-center gap-4 mt-4 flex-wrap ">
+          <SortBtn value="author" />
+          <SortBtn value="genre" />
+          <SortBtn value="format" />
+          <SortBtn value="serie" />
+          <SortBtn value="rating" />
+        </div>
+      </details>
 
-		return <ListOfBooks currentArray={currentArray} />;
-	};
+      <Filter />
 
-	const modalIsVisible = await getVisibilityReclaimModal();
-
-	return (
-		<>
-			{modalIsVisible && reclaim.length !== 0 && (
-				<ReclaimModal array={reclaim} />
-			)}
-
-			<SearchBar />
-			<details className="mt-4">
-				<summary>Rechercher par :</summary>
-				<div className=" flex justify-center gap-4 mt-4 flex-wrap ">
-					<SortBtn value="author" />
-					<SortBtn value="genre" />
-					<SortBtn value="format" />
-					<SortBtn value="serie" />
-					<SortBtn value="rating" />
-				</div>
-			</details>
-
-			<Filter />
-
-			<div className="relative">
-				{currentArray.length > 0 && (
+      <div className="relative">
+        
+        {display()}
+        {/* {currentArray.length > 0 && (
 					<Image
 						src={sitCat}
 						alt="cat"
@@ -225,10 +189,10 @@ const Page = async ({
 								<Link href="/">Ajouter un livre</Link>
 							</button>
 						</section>
-					)}
-			</div>
-		</>
-	);
+					)} */}
+      </div>
+    </>
+  );
 };
 
 export default Page;
