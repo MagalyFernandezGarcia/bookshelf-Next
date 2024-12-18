@@ -16,9 +16,11 @@ const Account = () => {
   });
 
   const onSubmit: SubmitHandler<NewUser> = async (data) => {
-    data.password = await bcrypt.hash(data.password, 10);
+
     try {
-      await createUser(data);
+      await createUser({ ...data, password: await bcrypt.hash(data.password, 10) });
+      
+      
       setShowModal(true);
       
     } catch (error) {

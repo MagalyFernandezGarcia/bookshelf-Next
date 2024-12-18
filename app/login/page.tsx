@@ -42,7 +42,7 @@ export default function Login() {
 
         {errorMessage && <p className="text-red-600 mt-4">{errorMessage}</p>}
         <LoginButton/>
-        {/* <button type="submit" className="mt-12 bg-[#794822] p-4 rounded-lg text-[#F8D8B1]">S'identifier</button> */}
+        
         <Link href="/account" className="mt-4">Créer un compte</Link>
       </form>
       </div>

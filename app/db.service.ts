@@ -206,6 +206,7 @@ export const updateReturn = async (id: number) =>
       borrower: "",
       date: null,
     },
+    
   });
 
 export async function updateBook(data: CreateBook, id: number) {
@@ -251,6 +252,7 @@ export async function updateBook(data: CreateBook, id: number) {
       serieId: foundSerie?.id || null,
     },
   });
+  revalidatePath("/bookshelf/"[id]);
 }
 
 export async function createUser(data: NewUser) {
