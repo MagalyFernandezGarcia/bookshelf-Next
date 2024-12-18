@@ -2,9 +2,10 @@
 
 import { BookData } from "@/app/types/Book";
 import { UseFormRegister } from "react-hook-form";
-import { Book, Serie } from "@prisma/client";
+import { Book } from "@prisma/client";
 import { updateReturn } from "@/app/db.service";
 import { useRouter } from "next/navigation";
+import { Serie } from "@/app/types/Serie";
 
 const Switch = ({
 	register,
@@ -48,7 +49,7 @@ const Switch = ({
 				<input
 					type="checkbox"
 					className="opacity-0 w-0 h-0"
-          			checked={serie ? !!serie.lend : undefined}
+          			checked={serie ? !!serie.isLent : undefined}
 					{...(register ? register("returned") : {})}
 					onChange={
 						currentBook && serie ? update : serie ? onSwitch : undefined

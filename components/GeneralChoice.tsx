@@ -1,6 +1,6 @@
 "use client";
 
-import { Author, Format, Serie } from "@prisma/client";
+import { Author, Format } from "@prisma/client";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { Fragment, useState } from "react";
 import Spinner from "./Spinner";
@@ -11,6 +11,7 @@ import SerieModal from "./Modals/SerieModal";
 import sitCat from "@/images/sitCat.png";
 import Image from "next/image";
 import Link from "next/link";
+import { Serie } from "@/app/types/Serie";
 const GeneralChoice = ({
   valueChoice,
   sort,
@@ -44,16 +45,9 @@ const GeneralChoice = ({
   };
 
   const handleSwitch = (serie: Serie) => {
-    if (serie.lend === true) {
-      try {
-        lendSerie(serie.id, "", "", false);
-        console.log("lendSerie called to set lend to false for:", serie.id);
-        console.log("Modal should not appear, modal state:", modal);
-      } catch (error) {
-        console.log(error);
-      }
+    if (serie.isLent === true) {
+      lendSerie(serie.id, "", "");
     } else {
-      console.log("lend is false, setting modal:", serie.id);
       setModal(serie.id);
     }
   };

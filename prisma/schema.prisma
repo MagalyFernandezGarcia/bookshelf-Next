@@ -65,7 +65,6 @@ model Serie{
   id    Int    @id @default(autoincrement())
   name  String @unique
   books Book[]
-  lend  Boolean
   user   User @relation(fields: [userId], references: [id])
   userId Int
 }
