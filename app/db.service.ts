@@ -65,7 +65,7 @@ export async function getSeries() {
 	  include: {
 		books: {
 		  where: {
-			borrower: "", // Only include books with an empty borrower
+			borrower: "", 
 		  },
 		},
 	  },
