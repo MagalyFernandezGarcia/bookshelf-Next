@@ -63,7 +63,11 @@ export async function getSeries() {
 		userId: user?.id,
 	  },
 	  include: {
-		books: true, // prisma va chercher tous les livres liés à la série
+		books: {
+		  where: {
+			borrower: "", // Only include books with an empty borrower
+		  },
+		},
 	  },
 	  orderBy: { name: "asc" },
 	});
@@ -71,7 +75,7 @@ export async function getSeries() {
 	
 	const isLent = series.map((serie) => ({
 	  ...serie,
-	  isLent: serie.books.some((book) => book.borrower !== ""), 
+	  isLent: serie.books.length === 0, 
 	}));
   
 	return isLent;

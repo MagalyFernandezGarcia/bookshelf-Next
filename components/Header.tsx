@@ -39,9 +39,9 @@ const Header = async ({ title = "Bookshelf" }: { title: string }) => {
         />
       </Link>
 
-      <h1 className={`${dancingScript.className} text-4xl font-bold ml-12`}>
+      <Link href="/bookshelf"><h1 className={`${dancingScript.className} text-4xl font-bold ml-12`}>
         {title}
-      </h1>
+      </h1></Link>
       <form action={logout}>
         <button
           type="submit"

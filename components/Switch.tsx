@@ -52,7 +52,7 @@ const Switch = ({
           			checked={serie ? !!serie.isLent : undefined}
 					{...(register ? register("returned") : {})}
 					onChange={
-						currentBook && serie ? update : serie ? onSwitch : undefined
+						currentBook  ? update : serie ? onSwitch : undefined
 					}
 				/>
 
