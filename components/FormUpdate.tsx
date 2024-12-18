@@ -50,29 +50,26 @@ const FormUpdate = ({
 
   const { replace } = useRouter();
 
-  const [resetState, setResetState] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [toggleFillArray, setToggleFillArray] = useState<boolean[]>(
+    Array(5)
+      .fill(false)
+      .map((_, index) => index < currentBook.rating)
+  );
+  const [format, setFormat] = useState(currentBook.format.name);
   const onSubmit: SubmitHandler<BookData> = async (data) => {
     setIsLoading(true);
 
-    const { success, data: validatedBook } = BookSchema.safeParse({
+    const validatedBook = BookSchema.parse({
       ...data,
       date: data.borrower && !data.date ? new Date().toISOString() : data.date,
     });
 
-    if (success) {
-      try {
-        await updateBook(validatedBook, currentBook.id);
-        setResetState(+1);
-        replace(`/bookshelf/${currentBook.id}`);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setIsLoading(false);
-      }
-    } else {
-      console.log("db issues");
-    }
+    await updateBook(validatedBook, currentBook.id);
+
+    replace(`/bookshelf/${currentBook.id}`);
+
+    setIsLoading(false);
   };
 
   if (isLoading) return <Spinner size={40} />;
@@ -119,8 +116,8 @@ const FormUpdate = ({
           </section>
           <HeartVote
             onSetValue={setValue}
-            onReset={resetState}
-            rating={currentBook.rating}
+            heartArray={toggleFillArray}
+            onToggle={setToggleFillArray}
           />
           {errors.rating && (
             <p className="text-xs text-red-500">{errors.rating.message}</p>
@@ -146,9 +143,10 @@ const FormUpdate = ({
           </div>
           <FormatChoice
             register={register}
-            onReset={resetState}
             error={errors}
-            currentFormat={currentBook.format.name}
+            format={format}
+            onSetFormat={setFormat}
+            onSetValue={setValue}
             currentDate={currentBook.date}
           />
           <section className="flex justify-between mt-12 ">

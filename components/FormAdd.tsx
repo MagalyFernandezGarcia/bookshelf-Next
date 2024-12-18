@@ -19,6 +19,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Spinner from "@/components/Spinner";
 import { BookData, BookSchema } from "@/app/types/Book";
 import { createBook } from "@/app/db.service";
+import { set } from "zod";
 
 const FormAdd = () => {
   const {
@@ -44,10 +45,16 @@ const FormAdd = () => {
     resolver: zodResolver(BookSchema),
   });
 
-  const [resetState, setResetState] = useState(0);
+ 
   const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [toggleFillArray, setToggleFillArray] = useState<boolean[]>(
+    Array(5)
+      .fill(false)
+      .map((_, index) => index < 3)
+  );
+  const [format, setFormat] = useState("");
   const onSubmit: SubmitHandler<BookData> = async (data) => {
     setIsLoading(true);
 
@@ -66,6 +73,12 @@ const FormAdd = () => {
         await createBook(validatedBook);
 
         setShowModal(true);
+        setToggleFillArray(
+          Array(5)
+            .fill(false)
+            .map((_, index) => index < 3)
+        );
+        setFormat("");
       } catch (error) {
         setShowModal(true);
         setError(true);
@@ -80,7 +93,6 @@ const FormAdd = () => {
 
   const handleModal = () => {
     setShowModal(false);
-    setResetState((prev) => prev + 1);
     setError(false);
 
     reset();
@@ -162,18 +174,28 @@ const FormAdd = () => {
         </div>
       </div>
       <div>
-        <HeartVote onSetValue={setValue} onReset={resetState} rating={3} />
+        <HeartVote
+          onSetValue={setValue}
+          heartArray={toggleFillArray}
+          onToggle={setToggleFillArray}
+        />
         {errors.rating && (
           <p className="text-xs text-red-500">{errors.rating.message}</p>
         )}
       </div>
       <Switch register={register} />
-      <FormatChoice register={register} onReset={resetState} error={errors} />
+
+      <FormatChoice
+        register={register}
+        error={errors}
+        onSetValue={setValue}
+        format={format}
+        onSetFormat={setFormat}
+      />
       <div className="flex mt-6 gap-5  lg:mt-24 lg:justify-center">
         <button
           type="reset"
           className="w-[150px] h-24 bg-[#E8CAA7] flex items-center justify-center mb-6  hover:bg-[#ecd3b4]"
-          onClick={() => setResetState((prev) => prev + 1)}
           disabled={isLoading}
         >
           <Image src={eraser} width={40} height={40} alt="eraser" />

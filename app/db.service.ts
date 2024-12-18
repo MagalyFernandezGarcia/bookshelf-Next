@@ -252,7 +252,7 @@ export async function updateBook(data: CreateBook, id: number) {
       serieId: foundSerie?.id || null,
     },
   });
-  revalidatePath("/bookshelf/"[id]);
+  revalidatePath(`/bookshelf${id}`);
 }
 
 export async function createUser(data: NewUser) {
