@@ -7,7 +7,7 @@ import Link from "next/link";
 import DeleteBtn from "./Buttons/DeleteBtn";
 
 import greenBook from "@/images/greenBook.svg";
-import redBook from "@/images/redBook.svg";
+import redBook from "@/images/redBook.svg"
 
 import Spinner from "./Spinner";
 import { useSearchParams } from "next/navigation";
