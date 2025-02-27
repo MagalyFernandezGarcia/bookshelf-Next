@@ -10,6 +10,7 @@ const FormatChoice = ({
   onSetValue,
   format,
   onSetFormat,
+  updateForm,
 }: {
   register: UseFormRegister<BookData>;
   error: FieldErrors<BookData>;
@@ -17,6 +18,7 @@ const FormatChoice = ({
   onSetValue: UseFormSetValue<BookData>;
   format: string;
   onSetFormat: Dispatch<SetStateAction<string>>;
+  updateForm: boolean;
 }) => {
   const changeFormat = (format: string) => {
     onSetFormat(format);
@@ -39,15 +41,21 @@ const FormatChoice = ({
             {...register("format")}
           />
           <span className=" relative w-4 h-4 border-2 border-[#311C0D] bg-[#E4B781] rounded-full flex justify-center mr-2 peer-checked:bg-[#E4B781] ">
-            {format === "kindle" && (
+            {format === "kindle" && !updateForm ? (
               <span
                 className={
                   format
-                    ? "w-2 h-2 bg-[#311C0D] rounded-full absolute  top-[2px] "
+                    ? "w-2 h-2 bg-[#311C0D] rounded-full absolute  top-[2px] right-[26px] "
                     : "w-2 h-2 bg-[#311C0D] rounded-full absolute right-[26px] top-[2px] "
                 }
               ></span>
-            )}
+            ):format === "kindle" && updateForm&&<span
+            className={
+              format
+                ? "w-2 h-2 bg-[#311C0D] rounded-full absolute  top-[2px]  "
+                : "w-2 h-2 bg-[#311C0D] rounded-full absolute right-[26px] top-[2px] "
+            }
+          ></span>}
           </span>
           Kindle
         </label>
@@ -65,15 +73,21 @@ const FormatChoice = ({
             {...register("format")}
           />
           <span className=" relative w-4 h-4 border-2 border-[#311C0D] bg-[#E4B781] rounded-full flex justify-center mr-2 peer-checked:bg-[#E4B781] ">
-            {format === "paper" && (
+            {format === "paper" && !updateForm ? (
               <span
                 className={
                   format
-                    ? "w-2 h-2 bg-[#311C0D] rounded-full absolute  top-[2px] "
+                    ? "w-2 h-2 bg-[#311C0D] rounded-full absolute  top-[2px] right-[26px] "
                     : "w-2 h-2 bg-[#311C0D] rounded-full absolute right-[26px] top-[2px] "
                 }
               ></span>
-            )}
+            ) : format === "paper" && updateForm && <span
+            className={
+              format
+                ? "w-2 h-2 bg-[#311C0D] rounded-full absolute  top-[2px]  "
+                : "w-2 h-2 bg-[#311C0D] rounded-full absolute right-[26px] top-[2px] "
+            }
+          ></span>}
           </span>
           Papier
         </label>

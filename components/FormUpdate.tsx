@@ -148,6 +148,7 @@ const FormUpdate = ({
             onSetFormat={setFormat}
             onSetValue={setValue}
             currentDate={currentBook.date}
+            updateForm={true}
           />
           <section className="flex justify-between mt-12 ">
             <button

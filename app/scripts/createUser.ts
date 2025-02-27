@@ -1,24 +1,9 @@
-import { PrismaClient } from "@prisma/client";
+import { createBook } from "../db.service"
+import { CreateBook } from "../types/Book"
+import books from '../../../dataBooks.json'
 
-const prisma = new PrismaClient();
-
-async function main() {
-	const user = await prisma.user.create({
-		data: {
-			email: "fernandezgarciamagaly@gmail.com",
-			password: "test",
-			name: "Magaly",
-		},
-	});
-
-	console.log("User created:", user);
+export const addBook = async () => {
+	for(const book of books) {
+		await createBook(book)
+	}
 }
-
-main()
-	.catch((e) => {
-		console.error(e);
-		process.exit(1);
-	})
-	.finally(async () => {
-		await prisma.$disconnect();
-	});
