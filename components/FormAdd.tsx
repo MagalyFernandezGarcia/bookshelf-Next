@@ -20,7 +20,7 @@ import Spinner from "@/components/Spinner";
 import { BookData, BookSchema } from "@/app/types/Book";
 import { createBook } from "@/app/db.service";
 
-import { addBook } from "@/app/scripts/createUser";
+// import { addBook } from "@/app/scripts/createUser";
 
 const FormAdd = () => {
   const {
@@ -101,7 +101,7 @@ const FormAdd = () => {
 
   return (
     <form className="flex flex-col  relative" onSubmit={handleSubmit(onSubmit)}>
-      <button type="button" onClick={() => addBook()}>Import books</button>
+      {/* <button type="button" onClick={() => addBook()}>Import books</button> */}
       {showModal ? (
         <Modal
           modalContent={!error ? "Livre ajouté à la bibliothèque" : "oups"}
